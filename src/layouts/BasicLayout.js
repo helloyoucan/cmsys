@@ -16,7 +16,7 @@ import classNames from 'classnames';
 import {ContainerQuery} from 'react-container-query';
 
 import styles from './BasicLayout.less';
-
+import logo from '../assets/logo.png';
 const {Header, Sider, Content} = Layout;
 const {SubMenu} = Menu;
 
@@ -74,7 +74,6 @@ class BasicLayout extends React.PureComponent {
      type: 'user/fetchCurrent',
      });*/
     if (!this.props.isLogin) {//未登录则跳到登录页面
-      console.log(this.props.isLogin)
       this.props.dispatch({
         type: 'user/logout',
       });
@@ -187,7 +186,7 @@ class BasicLayout extends React.PureComponent {
   getPageTitle() {
     const {location, getRouteData} = this.props;
     const {pathname} = location;
-    let title = 'Ant Design Pro';
+    let title = '社团管理系统';
     getRouteData('BasicLayout').forEach((item) => {
       if (item.path === pathname) {
         title = `${item.name}`;
@@ -277,6 +276,19 @@ class BasicLayout extends React.PureComponent {
       openKeys: this.state.openKeys,
     };
 
+//控制权限
+    const PrivateRoute = ({component: Component, ...rest}) => (
+      <Route {...rest} render={props => (
+        isLogin ? (
+          <Component {...props}/>
+        ) : (
+          <Redirect to={{
+            pathname: '/user/login',
+            state: {from: props.location}
+          }}/>
+        )
+      )}/>
+    )
     const layout = (
       <Layout>
         <Sider
@@ -290,7 +302,7 @@ class BasicLayout extends React.PureComponent {
         >
           <div className={styles.logo}>
             <Link to="/">
-              <img src="https://gw.alipayobjects.com/zos/rmsportal/iwWyPinUoseUxIAeElSx.svg" alt="logo"/>
+              <img src={logo} alt="logo"/>
               <h1>社团管理系统</h1>
             </Link>
           </div>
@@ -365,15 +377,16 @@ class BasicLayout extends React.PureComponent {
           <Content style={{margin: '24px 24px 0', height: '100%'}}>
             <Switch>
               {
-                getRouteData('BasicLayout').map(item =>
-                  (
-                    <Route
-                      exact={item.exact}
-                      key={item.path}
-                      path={item.path}
-                      component={item.component}
-                    />
-                  )
+                getRouteData('BasicLayout').map(item => {
+                    return (
+                      <PrivateRoute
+                        exact={item.exact}
+                        key={item.path}
+                        path={item.path}
+                        component={item.component}
+                      />
+                    )
+                  }
                 )
               }
               {

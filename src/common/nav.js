@@ -1,0 +1,177 @@
+import dynamic from 'dva/dynamic';
+
+// wrapper of dynamic
+const dynamicWrapper = (app, models, component) => dynamic({
+  app,
+  models: () => models.map(m => import(`../models/${m}.js`)),
+  component,
+});
+
+// nav data
+export const getNavData = app => [
+    {
+      component: dynamicWrapper(app, ['user'], () => import('../layouts/BasicLayout')),
+      layout: 'BasicLayout',
+      path: '/',
+      children: [
+        {
+          name: '首页',
+          path: 'home',
+          icon: 'home',
+          insert_man: 'admin',//权限控制
+          component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+        }
+        ,
+        {
+          name: '前台管理',
+          path: 'frontDeskManagement',
+          icon: 'ie',
+          children: [
+            {
+              name: '页面管理',
+              path: 'page',
+              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+            },
+          ]
+        },
+        {
+          name: '社类别管理',
+          path: 'clubClassManagement',
+          icon: 'usergroup-add',
+          component: dynamicWrapper(app, [], () => import('../routes/clubClass/clubClass')),
+        },
+        {
+          name: '社团管理',
+          path: 'clubManagement',
+          icon: 'team',
+          children: [
+            {
+              name: '信息管理',
+              path: 'info',
+              children: [
+                {
+                  name: '信息列表',
+                  path: 'list',
+                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+                },
+                {
+                  name: '注销管理',
+                  path: 'logout',
+                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+                },
+              ]
+            },
+            {
+              name: '干部管理',
+              path: 'cadres',
+              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+            },
+            {
+              name: '会员管理',
+              path: 'member',
+              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+            },
+            {
+              name: '社团审批',
+              path: 'clubApproval',
+              children: [
+                {
+                  name: '年审',
+                  path: 'yearbook',
+                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+                },
+                {
+                  name: '成立',
+                  path: 'setUp',
+                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+                },
+              ]
+            },
+            {
+              name: '活动管理',
+              path: 'activity',
+              children: [
+                {
+                  name: '活动预告',
+                  path: 'foretell',
+                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+                },
+                {
+                  name: '活动快讯',
+                  path: 'express',
+                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+                },
+                {
+                  name: '活动审批',
+                  path: 'approval',
+                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+                },
+              ]
+            },
+          ]
+        },
+        {
+          name: '社联及社团干部管理',
+          path: 'socialUnionAndClubCadresManagement',
+          icon: 'solution',
+          children: [
+            {
+              name: '基本信息',
+              path: 'basicInfo',
+              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+            },
+            {
+              name: '人员管理',
+              path: 'personnel',
+              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+            },
+            {
+              name: '部门管理',
+              path: 'department',
+              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+            },
+            {
+              name: '资料下载管理',
+              path: 'dataDownload',
+              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+            },
+          ]
+        },
+        {
+          name: '账户管理',
+          path: 'userManagement',
+          icon: 'user',
+          component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+        },
+        {
+          name: '数据管理',
+          path: 'dataManagement',
+          icon: 'database',
+          component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+        },
+        {
+          name: '查询表格',
+          path: 'table-list',
+          component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
+        },
+      ],
+    },
+    {
+      component: dynamicWrapper(app, [], () => import('../layouts/UserLayout')),
+      path: '/user',
+      layout: 'UserLayout',
+      children: [
+        {
+          path: 'user',
+          children: [
+            {
+              path: 'login',
+              component: dynamicWrapper(app, ['user'], () => import('../routes/User/Login')),
+            },
+          ],
+        },
+      ],
+    },
+  ]
+;
+
