@@ -8,21 +8,8 @@ export default {
     list: [],
     loading: false,
     loginBtnSubmiting: false,
-    isLogin: false,
     actionMsg: '',
-    currentUser: {
-      // "ret": true,
-      // "msg": "登录成功",
-      // "data": {
-      //   "id": 1,
-      //   "username": "admin",
-      //   "status": 1,
-      //   "value": "超级管理员",
-      //   "insert_time": 1513064417000,
-      //   "category_id": "chaojiguanliyuan",
-      //   "insert_man": "admin"
-      // }
-    },
+    currentUser: window.sessionStorage ? JSON.parse(sessionStorage.getItem('currentUser')) : {},
   },
 
   effects: {
@@ -32,17 +19,23 @@ export default {
         payload: true,
       });
       const response = yield call(login, payload);
-      yield put({
-        type: 'saveCurrentUser',
-        payload: response,
-      });
+
+      if (response.ret) {
+        yield put({
+          type: 'saveCurrentUser',
+          payload: response,
+        });
+        if (window.sessionStorage) {
+          sessionStorage.setItem('currentUser', JSON.stringify(response));
+        }
+        yield put(routerRedux.push('/'));
+      } else {
+
+      }
       yield put({
         type: 'changeLoginBtnSubmiting',
         payload: false,
       });
-      if (response.ret) {
-        yield put(routerRedux.push('/'));
-      }
     },
     *logout(_, {call, put}){
       const response = yield call(logout);
@@ -52,41 +45,15 @@ export default {
           type: 'clearCurrentUser',
           payload: {},
         });
+        if (window.sessionStorage) {
+          sessionStorage.removeItem('currentUser');
+        }
       } else {
         yield put({
           type: 'clearCurrentUser',
           payload: response.msg,
         });
       }
-    },
-    *fetch(_, {call, put}) {
-      yield put({
-        type: 'changeLoading',
-        payload: true,
-      });
-      const response = yield call(queryUsers);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      yield put({
-        type: 'changeLoading',
-        payload: false,
-      });
-    },
-    *fetchCurrent(_, {call, put}) {
-      const response = yield call(queryCurrent);
-      yield put({
-        type: 'saveCurrentUser',
-        payload: response.data,
-      });
-    },
-    *clearCurrent(_, {call, put}) {
-      const response = yield call(queryCurrent);
-      yield put({
-        type: 'clearCurrentUser',
-        payload: {},
-      });
     },
   },
 
@@ -97,40 +64,17 @@ export default {
         loginBtnSubmiting: payload
       };
     },
-    save(state, action) {
+    saveCurrentUser(state, {payload}) {
       return {
         ...state,
-        list: action.payload,
-      };
-    },
-    changeLoading(state, action) {
-      return {
-        ...state,
-        loading: action.payload,
-      };
-    },
-    saveCurrentUser(state, action) {
-      return {
-        ...state,
-        isLogin:true,
-        currentUser: action.payload,
+        currentUser: payload,
       };
     },
     clearCurrentUser(state, {payload}) {
       return {
         ...state,
         currentUser: {},
-        isLogin:false,
         actionMsg: payload.msg
-      };
-    },
-    changeNotifyCount(state, action) {
-      return {
-        ...state,
-        currentUser: {
-          ...state.currentUser,
-          notifyCount: action.payload,
-        },
       };
     },
   },

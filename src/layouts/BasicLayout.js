@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
-import {routerRedux} from 'dva/router';
 import {connect} from 'dva';
 import {Link, Route, Redirect, Switch} from 'dva/router';
 import {Layout, Menu, Icon, Avatar, Dropdown, Tag, message, Spin} from 'antd';
@@ -67,17 +66,6 @@ class BasicLayout extends React.PureComponent {
       breadcrumbNameMap[item.path] = item.name;
     });
     return {location, breadcrumbNameMap};
-  }
-
-  componentDidMount() {
-    /*this.props.dispatch({
-     type: 'user/fetchCurrent',
-     });*/
-    if (!this.props.isLogin) {//未登录则跳到登录页面
-      this.props.dispatch({
-        type: 'user/logout',
-      });
-    }
   }
 
   componentWillUnmount() {
@@ -260,7 +248,7 @@ class BasicLayout extends React.PureComponent {
   }
 
   render() {
-    const {currentUser, isLogin, collapsed, fetchingNotices, getRouteData} = this.props;
+    const {currentUser, collapsed, fetchingNotices, getRouteData} = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
         <Menu.Item disabled><Icon type="user"/>个人中心</Menu.Item>
@@ -276,10 +264,10 @@ class BasicLayout extends React.PureComponent {
       openKeys: this.state.openKeys,
     };
 
-//控制权限
+    //控制权限
     const PrivateRoute = ({component: Component, ...rest}) => (
       <Route {...rest} render={props => (
-        isLogin ? (
+        currentUser.ret ? (
           <Component {...props}/>
         ) : (
           <Redirect to={{
@@ -389,12 +377,7 @@ class BasicLayout extends React.PureComponent {
                   }
                 )
               }
-              {
-                isLogin ?
-                  <Redirect exact from="/" to="/home"/>
-                  :
-                  <Redirect exact from="/" to="/user/login"/>
-              }
+              <Redirect exact from="/" to="/home"/>
             </Switch>
             <GlobalFooter
               links={[{
@@ -429,7 +412,6 @@ class BasicLayout extends React.PureComponent {
 
 export default connect(state => ({
   currentUser: state.user.currentUser,
-  isLogin: state.user.isLogin,
   collapsed: state.global.collapsed,
   fetchingNotices: state.global.fetchingNotices,
   notices: state.global.notices,
