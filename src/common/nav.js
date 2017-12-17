@@ -10,7 +10,7 @@ const dynamicWrapper = (app, models, component) => dynamic({
 // nav data
 export const getNavData = app => [
     {
-      component: dynamicWrapper(app, ['user'], () => import('../layouts/BasicLayout')),
+      component: dynamicWrapper(app, ['login'], () => import('../layouts/BasicLayout')),
       layout: 'BasicLayout',
       path: '/',
       children: [
@@ -38,7 +38,7 @@ export const getNavData = app => [
           name: '社类别管理',
           path: 'clubClassManagement',
           icon: 'usergroup-add',
-          component: dynamicWrapper(app, [], () => import('../routes/clubClass/clubClass')),
+          component: dynamicWrapper(app, [], () => import('../routes/ClubSpecies/ClubSpecies')),
         },
         {
           name: '社团管理',
@@ -94,7 +94,7 @@ export const getNavData = app => [
                 {
                   name: '活动预告',
                   path: 'foretell',
-                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+                  component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
                 },
                 {
                   name: '活动快讯',
@@ -138,10 +138,10 @@ export const getNavData = app => [
           ]
         },
         {
-          name: '账户管理',
+          name: '用户管理',
           path: 'userManagement',
           icon: 'user',
-          component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+          component: dynamicWrapper(app, [], () => import('../routes/User/User')),
         },
         {
           name: '数据管理',
@@ -166,7 +166,7 @@ export const getNavData = app => [
           children: [
             {
               path: 'login',
-              component: dynamicWrapper(app, ['user'], () => import('../routes/User/Login')),
+              component: dynamicWrapper(app, ['login'], () => import('../routes/User/Login')),
             },
           ],
         },

@@ -1,65 +1,78 @@
+import {login, logout} from '../services/login';
 import {routerRedux} from 'dva/router';
-import {fakeAccountLogin} from '../services/api';
-import {login} from '../services/login';
 export default {
   namespace: 'login',
+
   state: {
-    data: {
-      // "ret": true,
-      // "msg": "登录成功",
-      // "data": {
-      //   "id": 1,
-      //   "username": "admin",
-      //   "status": 1,
-      //   "value": "超级管理员",
-      //   "insert_time": 1513064417000,
-      //   "category_id": "chaojiguanliyuan",
-      //   "insert_man": "admin"
-      // }
-    }
+    loginBtnSubmiting: false,
+    actionMsg: '',
+    currentUser: window.sessionStorage ? JSON.parse(sessionStorage.getItem('currentUser')) : {},
   },
 
   effects: {
-    *login({payload}, {call, put}) {
-      //yield put(routerRedux.push('/'));
+    *login({payload}, {call, put}){
       yield put({
-        type: 'changeSubmitting',
+        type: 'changeLoginBtnSubmiting',
         payload: true,
       });
-      const response = yield call(login, payload);//这里的login是前面import的services的login,payload为传递过去的参数
-      yield put({
-        type: 'saveUserInfo',
-        payload: {
-          data: response,
-          submitting: true,
-        },
-      });
-      // Login successfully
+      const response = yield call(login, payload);
+
       if (response.ret) {
+        yield put({
+          type: 'saveCurrentUser',
+          payload: response,
+        });
+        if (window.sessionStorage) {
+          sessionStorage.setItem('currentUser', JSON.stringify(response));
+        }
         yield put(routerRedux.push('/'));
+      } else {
+
       }
-    },
-    *logout(_, {put}) {
       yield put({
-        type: 'saveUserInfo',
-        payload: {
-          submitting: false,
-          data: {},
-        },
+        type: 'changeLoginBtnSubmiting',
+        payload: false,
       });
+    },
+    *logout(_, {call, put}){
+      const response = yield call(logout);
       if (response.ret) {
         yield put(routerRedux.push('/user/login'));
+        yield put({
+          type: 'clearCurrentUser',
+          payload: {},
+        });
+        if (window.sessionStorage) {
+          sessionStorage.removeItem('currentUser');
+        }
+      } else {
+        yield put({
+          type: 'clearCurrentUser',
+          payload: response.msg,
+        });
       }
     },
   },
 
   reducers: {
-    saveUserInfo(state, {payload}){
+    changeLoginBtnSubmiting(state, {payload}){
       return {
         ...state,
-        data: payload.data,
-        submitting: payload.submitting
-      }
-    }
+        loginBtnSubmiting: payload
+      };
+    },
+    saveCurrentUser(state, {payload}) {
+      return {
+        ...state,
+        currentUser: payload,
+      };
+    },
+    clearCurrentUser(state, {payload}) {
+      return {
+        ...state,
+        currentUser: {},
+        actionMsg: payload.msg
+      };
+    },
   },
 };

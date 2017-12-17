@@ -81,7 +81,7 @@ class BasicLayout extends React.PureComponent {
   onMenuClick = ({key}) => {
     if (key === 'logout') {
       this.props.dispatch({
-        type: 'user/logout',
+        type: 'login/logout',
       });
     }
   }
@@ -259,23 +259,21 @@ class BasicLayout extends React.PureComponent {
     );
     const noticeData = this.getNoticeData();
 
-    // Don't show popup menu when it is been collapsed
-    const menuProps = collapsed ? {} : {
-      openKeys: this.state.openKeys,
-    };
-
-    //控制权限
-    const PrivateRoute = ({component: Component, ...rest}) => (
-      <Route {...rest} render={props => (
-        currentUser.ret ? (
-          <Component {...props}/>
-        ) : (
-          <Redirect to={{
-            pathname: '/user/login',
-            state: {from: props.location}
-          }}/>
+    //控制路由权限
+    const PrivateRoute = ({component: Component,insert_man:insert_man, ...rest}) => (
+      <Route {...rest} render={props => {
+        // console.log(insert_man)//权限控制
+        return (
+          !!currentUser && currentUser.ret ? (
+            <Component {...props}/>
+          ) : (
+            <Redirect to={{
+              pathname: '/user/login',
+              state: {from: props.location}
+            }}/>
+          )
         )
-      )}/>
+      }}/>
     )
     const layout = (
       <Layout>
@@ -353,7 +351,7 @@ class BasicLayout extends React.PureComponent {
                   emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
                 />
               </NoticeIcon>
-              {currentUser.ret ? (
+              {!!currentUser && currentUser.ret ? (
                 <Dropdown overlay={menu}>
                   <span className={`${styles.action} ${styles.account}`}>
                     {currentUser.data.value}
@@ -368,6 +366,7 @@ class BasicLayout extends React.PureComponent {
                 getRouteData('BasicLayout').map(item => {
                     return (
                       <PrivateRoute
+                        insert_man={item.insert_man}
                         exact={item.exact}
                         key={item.path}
                         path={item.path}
@@ -411,7 +410,7 @@ class BasicLayout extends React.PureComponent {
 }
 
 export default connect(state => ({
-  currentUser: state.user.currentUser,
+  currentUser: state.login.currentUser,
   collapsed: state.global.collapsed,
   fetchingNotices: state.global.fetchingNotices,
   notices: state.global.notices,

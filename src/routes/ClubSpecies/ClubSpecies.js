@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 
 import {Button} from 'antd';
 
-import styles from './clubClass.less';
-import TableList from './tableList';
+import styles from './ClubSpecies.less';
+import TableList from './TableList';
+import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 export default class clubClass extends PureComponent {
   static defaultProps = {};
 
@@ -14,7 +15,9 @@ export default class clubClass extends PureComponent {
   render() {
     return (
       <div className={styles.component}>
-        <TableList/>
+        <PageHeaderLayout>
+          <TableList/>
+        </PageHeaderLayout>
       </div>
     );
   }

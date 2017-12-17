@@ -8,7 +8,7 @@ const FormItem = Form.Item;
 const {TabPane} = Tabs;
 
 @connect(state => ({
-  login: state.user,
+  login: state.login,
 }))
 @Form.create()
 export default class Login extends Component {
@@ -43,7 +43,7 @@ export default class Login extends Component {
       (err, values) => {
         if (!err) {
           this.props.dispatch({
-            type: 'user/login',
+            type: 'login/login',
             payload: {
               ...values,
               type: this.state.type,
