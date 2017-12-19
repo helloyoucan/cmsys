@@ -22,7 +22,6 @@ import StandardTable from '../../components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import FormList from './FormList';
 import ModalList from './ModalList';
-import styles from './TableList.less';
 import moment from 'moment';
 const FormItem = Form.Item;
 const {Option} = Select;
@@ -197,15 +196,15 @@ export default class TableList extends PureComponent {
     return (
       <PageHeaderLayout>
         <Card bordered={false}>
-          <div className={styles.tableList}>
-            <div className={styles.tableListForm}>
+          <div className="tableList">
+            <div className="tableListForm">
               <FormList
                 setFormValues={this.handleSetFormValues.bind(this)}
                 formReset={this.handleFormReset.bind(this)}
                 dispatch={this.props.dispatch}
               />
             </div>
-            <div className={styles.tableListOperator}>
+            <div className="tableListOperator">
               <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>新建</Button>
               {
                 selectedRows.length > 0 && (

@@ -4,6 +4,7 @@ import {imgMap} from './mock/utils';
 import {getNotices} from './mock/notices';
 import {delay} from 'roadhog-api-doc';
 import {login, logout} from './mock/login';
+import User from './mock/user';
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
 
@@ -12,6 +13,14 @@ const proxy = {
   'POST /login': login,
   // 'GET /api/currentUser': login,
   'GET /logout': logout,
+  //用户管理
+
+  'POST /sys/user/save': User.addUser,
+  'GET /sys/user/enable': User.enableUser,
+  'POST /sys/user/disable': User.disableUser,
+  'POST /sys/user/update': User.updateUser,
+  'GET /sys/user/page': User.queryUserList,
+  'GET /sys/user/getOne': User.getOneUser,
   // 支持值为 Object 和 Array
   // 'GET /api/currentUser': {
   //   $desc: "获取当前用户接口",

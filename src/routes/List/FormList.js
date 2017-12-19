@@ -18,7 +18,6 @@ import {
   Badge,
   Divider
 } from 'antd';
-import styles from './FormList.less';
 const FormItem = Form.Item;
 const {Option} = Select;
 @Form.create()
@@ -48,11 +47,6 @@ export default class FormList extends PureComponent {
   }
 
 
-  handleSelectRows = (rows) => {
-    this.setState({
-      selectedRows: rows,
-    });
-  }
 
   handleSearch = (e) => {
     e.preventDefault();
@@ -98,7 +92,7 @@ export default class FormList extends PureComponent {
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <span className={styles.submitButtons}>
+            <span className="submitButtons">
               <Button type="primary" htmlType="submit">查询</Button>
               <Button style={{marginLeft: 8}} onClick={this.handleFormReset}>重置</Button>
               <a style={{marginLeft: 8}} onClick={this.toggleForm}>

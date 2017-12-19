@@ -1,4 +1,5 @@
 @import "~antd/lib/style/themes/default.less";
+@import "../utils/utils.less";
 
 .header {
   padding: 0 12px 0 0;
@@ -110,4 +111,45 @@
   box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
   position: relative;
   z-index: 10;
+}
+
+:global(.tableList) {
+  :global(.tableListOperator) {
+    margin-bottom: 16px;
+    :global(button) {
+      margin-right: 8px;
+    }
+  }
+}
+
+:global(.tableListForm) {
+  :global(.ant-form-item) {
+    margin-bottom: 24px;
+    margin-right: 0;
+    display: flex;
+    > :global(.ant-form-item-label) {
+      width: auto;
+      line-height: 32px;
+      padding-right: 8px;
+    }
+  }
+  :global(.ant-form-item-control-wrapper) {
+    flex: 1;
+  }
+  :global(.submitButtons) {
+    white-space: nowrap;
+    margin-bottom: 24px;
+  }
+}
+
+@media screen and (max-width: @screen-lg) {
+  .tableListForm :global(.ant-form-item) {
+    margin-right: 24px;
+  }
+}
+
+@media screen and (max-width: @screen-md) {
+  .tableListForm :global(.ant-form-item) {
+    margin-right: 8px;
+  }
 }

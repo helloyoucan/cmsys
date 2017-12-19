@@ -41,25 +41,26 @@ class StandardTable extends PureComponent {
 
   render() {
     const {selectedRowKeys, totalCallNo} = this.state;
-    const {data: {list, pagination}, loading,columns} = this.props;
-
+    const {data: {list, pagination}, loading, columns, isSelect} = this.props;
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
+      current: pagination.currentPage,
+      showTotal: (total, range) => (`第 ${range[0]} -  ${range[1]} 条 共 ${total} 条`),
       ...pagination,
     };
-
+    // console.log(paginationProps)
     const rowSelection = {
       selectedRowKeys,
       onChange: this.handleRowSelectChange,
-      getCheckboxProps: record => ({
-        disabled: record.disabled,
-      }),
+      // getCheckboxProps: record => ({
+      //   disabled: record.disabled,
+      // }),
     };
 
     return (
       <div className={styles.standardTable}>
-        <div className={styles.tableAlert}>
+        {isSelect ? (<div className={styles.tableAlert}>
           <Alert
             message={(
               <div>
@@ -71,11 +72,12 @@ class StandardTable extends PureComponent {
             type="info"
             showIcon
           />
-        </div>
-        <Table
+        </div>) : ''}
+
+        < Table
           loading={loading}
-          rowKey={record => record.key}
-          rowSelection={rowSelection}
+          rowKey={record => record.id}
+          rowSelection={isSelect ? rowSelection : null}
           dataSource={list}
           columns={columns}
           pagination={paginationProps}

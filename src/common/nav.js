@@ -141,7 +141,7 @@ export const getNavData = app => [
           name: '用户管理',
           path: 'userManagement',
           icon: 'user',
-          component: dynamicWrapper(app, [], () => import('../routes/User/User')),
+          component: dynamicWrapper(app, ['user'], () => import('../routes/User/UserList')),
         },
         {
           name: '数据管理',

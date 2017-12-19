@@ -1,19 +1,79 @@
-import {login, logout} from '../services/user';
-import {routerRedux} from 'dva/router';
+import {queryUserList} from '../services/user';
+
 export default {
   namespace: 'user',
-
-  state: {},
+  state: {
+    data: {
+      list: [],
+      pagination: {},
+    },
+    loading: true,
+  },
 
   effects: {
-    *login({payload}, {call, put}){
+    *queryUserList({payload}, {call, put}) {
+      yield put({
+        type: 'changeLoading',
+        payload: true,
+      });
+      const response = yield call(queryUserList, payload);
+      yield put({
+        type: 'queryUserListReducers',
+        payload: response.data,
+      });
+      yield put({
+        type: 'changeLoading',
+        payload: false,
+      });
     },
-    *logout(_, {call, put}){
+    *add({payload, callback}, {call, put}) {
+      yield put({
+        type: 'changeLoading',
+        payload: true,
+      });
+      const response = yield call(addRule, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+      yield put({
+        type: 'changeLoading',
+        payload: false,
+      });
+
+      if (callback) callback();
+    },
+    *remove({payload, callback}, {call, put}) {
+      yield put({
+        type: 'changeLoading',
+        payload: true,
+      });
+      const response = yield call(removeRule, payload);
+      yield put({
+        type: 'save',
+        payload: response,
+      });
+      yield put({
+        type: 'changeLoading',
+        payload: false,
+      });
+
+      if (callback) callback();
     },
   },
 
   reducers: {
-    changeLoginBtnSubmiting(state, {payload}){
+    queryUserListReducers(state, {payload}) {
+      return {
+        ...state,
+        data: payload,
+      };
+    },
+    changeLoading(state, {payload}) {
+      return {
+        ...state,
+        loading: payload,
+      };
     },
   },
 };
