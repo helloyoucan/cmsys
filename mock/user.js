@@ -65,11 +65,14 @@ export function queryUserList(req, res, u) {
     list.push({
       "id": i,
       "username": "admin" + i,
-      "status": i % 2,
-      "value": "超级管理员",
+      "category_name": "超级管理员" + i,
+      "lastupd_time": 1513752834000,
+      "status": 1,
+      "ass_id": '所属社团id' + i,
+      "lastupd_man": "admin" + i,
       "insert_time": 1513064417000,
       "category_id": "chaojiguanliyuan",
-      "insert_man": "admin"
+      "insert_man": "admin" + i
     })
   }
   res.send(

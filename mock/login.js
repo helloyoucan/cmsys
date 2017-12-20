@@ -3,14 +3,17 @@
  */
 export function login(req, res) {
   const {password, userName} = req.body;
-  res.send({
+  res.send(
+    {
       "ret": true,
       "msg": "登录成功",
       "data": {
         "id": 1,
         "username": userName,
+        "category_name": "超级管理员",
+        "lastupd_time": 1513752834000,
         "status": 1,
-        "value": "超级管理员",
+        "lastupd_man": "admin",
         "insert_time": 1513064417000,
         "category_id": "chaojiguanliyuan",
         "insert_man": "admin"

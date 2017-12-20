@@ -27,14 +27,20 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
 @connect(state => ({
   user: state.user,
+  dictionary: state.dictionary
 }))
 export default class UserList extends PureComponent {
   state = {
     addInputValue: '',
     modalVisible: false,
+    modalData: {
+      key: '',
+      id: '',
+    },
     expandForm: false,
     selectedRows: [],
     formValues: {},
+
   };
 
   componentDidMount() {
@@ -64,13 +70,47 @@ export default class UserList extends PureComponent {
     });
   }
 
-
-  handleModalVisible = (flag) => {
-    this.setState({
-      modalVisible: !!flag,
-    });
+  handelModal(key, id) {
+    switch (key) {
+      case 'read':
+        this.setState({
+          modalVisible: true,
+          modalData: {
+            key,
+            id
+          }
+        });
+        break;
+      case 'add':
+        this.setState({
+          modalVisible: true,
+          modalData: {
+            key,
+            id: ''
+          }
+        });
+        break;
+      case 'edit':
+        this.setState({
+          modalVisible: true,
+          modalData: {
+            key,
+            id
+          }
+        });
+        break;
+      default:
+        return;
+    }
   }
-  handelDelete = (e) => {
+
+  handleModalVisible() {
+    this.setState({
+      modalVisible: false
+    })
+  }
+
+  handelEdit = (e) => {
     const {dispatch} = this.props;
     const {selectedRows} = this.state;
     if (!selectedRows) return;
@@ -101,7 +141,7 @@ export default class UserList extends PureComponent {
     dispatch({
       type: 'user/queryUserList',
       payload: {
-        categoryId: value,
+        categoryId: value.categoryId,
         pageNo: 1,
         pageSize: 10
       }
@@ -115,7 +155,7 @@ export default class UserList extends PureComponent {
   }
 
   render() {
-    const {user: {loading: userLoading, data}} = this.props;
+    const {user: {loading: userLoading, data}, dictionary: {category}} = this.props;
     const {selectedRows} = this.state;
     const columns = [
       {
@@ -128,35 +168,41 @@ export default class UserList extends PureComponent {
         render: val => (val == 1 ? '启用' : '禁用')
       },
       {
-        title: '用户类别',
-        dataIndex: 'value',
-      },
-      {
-        title: '添加时间',
-        dataIndex: 'insert_time',
-        render: val => <span>{moment(val).format('YYYY-MM-DD')}</span>,
-      },
-      {
-        title: '用户类别',
-        dataIndex: 'category_id',
+        title: '用户类型',
+        dataIndex: 'category_name',
         render(val) {
           return val;
         },
       },
       {
-        title: '添加人',
-        dataIndex: 'insert_man',
+        title: '所属社团',
+        dataIndex: 'ass_id',
+        render(val) {
+          return val;
+        },
+      },
+      {
+        title: '最后修改时间',
+        dataIndex: 'lastupd_time',
+        render(val) {
+          return val;
+        },
+      },
+      {
+        title: '最后修改人',
+        dataIndex: 'lastupd_man',
         render(val) {
           return val;
         },
       },
       {
         title: '操作',
-        render: () => (
+        dataIndex: 'id',
+        render: (val) => (
           <div>
-            <a href="#">查看详细</a>
+            <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
             <Divider type="vertical"/>
-            <a href="#">修改</a>
+            <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
           </div>
         ),
       },
@@ -170,10 +216,11 @@ export default class UserList extends PureComponent {
                 handleSearch={this.handleSearch.bind(this)}
                 formReset={this.handleFormReset.bind(this)}
                 dispatch={this.props.dispatch}
+                category={category}
               />
             </div>
             <div className="tableListOperator">
-              <Button icon="plus" type="primary" onClick={() => this.handleModalVisible(true)}>新建</Button>
+              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add')}>新建</Button>
               {
                 // selectedRows.length > 0 && (
                 //   <span>
@@ -194,8 +241,10 @@ export default class UserList extends PureComponent {
           </div>
         </Card>
         <ModalList modalVisible={this.state.modalVisible}
+                   category={category}
+                   data={this.state.modalData}
                    dispatch={this.props.dispatch}
-                   handleModalVisible={this.handleModalVisible}/>
+                   handleModalVisible={this.handleModalVisible.bind(this)}/>
       </PageHeaderLayout>
     );
   }

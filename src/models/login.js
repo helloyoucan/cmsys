@@ -16,11 +16,10 @@ export default {
         payload: true,
       });
       const response = yield call(login, payload);
-
       if (response.ret) {
         yield put({
           type: 'saveCurrentUser',
-          payload: response,
+          payload: response.data,
         });
         if (window.sessionStorage) {
           sessionStorage.setItem('currentUser', JSON.stringify(response));

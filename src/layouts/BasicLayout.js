@@ -260,11 +260,11 @@ class BasicLayout extends React.PureComponent {
     const noticeData = this.getNoticeData();
 
     //控制路由权限
-    const PrivateRoute = ({component: Component,insert_man:insert_man, ...rest}) => (
+    const PrivateRoute = ({component: Component, insert_man: insert_man, ...rest}) => (
       <Route {...rest} render={props => {
         // console.log(insert_man)//权限控制
         return (
-          !!currentUser && currentUser.ret ? (
+          currentUser != null ? (
             <Component {...props}/>
           ) : (
             <Redirect to={{
@@ -351,10 +351,10 @@ class BasicLayout extends React.PureComponent {
                   emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
                 />
               </NoticeIcon>
-              {!!currentUser && currentUser.ret ? (
+              {currentUser != null ? (
                 <Dropdown overlay={menu}>
                   <span className={`${styles.action} ${styles.account}`}>
-                    {currentUser.data.value}
+                    {currentUser.username}
                   </span>
                 </Dropdown>
               ) : <Spin size="small" style={{marginLeft: 8}}/>}

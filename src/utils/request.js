@@ -1,5 +1,5 @@
 import fetch from 'dva/fetch';
-import { notification } from 'antd';
+import {notification} from 'antd';
 
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
@@ -25,7 +25,7 @@ export default function request(url, options) {
   const defaultOptions = {
     credentials: 'include',
   };
-  const newOptions = { ...defaultOptions, ...options };
+  const newOptions = {...defaultOptions, ...options};
   if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
     newOptions.headers = {
       Accept: 'application/json',
@@ -37,7 +37,24 @@ export default function request(url, options) {
 
   return fetch(url, newOptions)
     .then(checkStatus)
-    .then(response => response.json())
+    .then(response => (response.json()))
+    .then(function (data) {
+      let results = data;
+      if (results.ret) {
+        if (results.data == null) {
+          notification.success({
+            message: "提示",
+            description: results.msg,
+          });
+        }
+      } else {
+        notification.error({
+          message: "提示",
+          description: results.msg,
+        });
+      }
+      return results;
+    })
     .catch((error) => {
       if (error.code) {
         notification.error({

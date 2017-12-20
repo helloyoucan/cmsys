@@ -1,4 +1,4 @@
-import {queryUserList} from '../services/user';
+import {queryUserList, queryCategory} from '../services/user';
 
 export default {
   namespace: 'user',
@@ -8,9 +8,17 @@ export default {
       pagination: {},
     },
     loading: true,
+    category: [],
   },
 
   effects: {
+    *getCategory({payload}, {call, put}){
+      const response = yield call(queryCategory, payload);
+      yield put({
+        type: 'queryCategoryReducers',
+        payload: response.data,
+      });
+    },
     *queryUserList({payload}, {call, put}) {
       yield put({
         type: 'changeLoading',
@@ -73,6 +81,12 @@ export default {
       return {
         ...state,
         loading: payload,
+      };
+    },
+    queryCategoryReducers(state, {payload}) {
+      return {
+        ...state,
+        category: payload,
       };
     },
   },

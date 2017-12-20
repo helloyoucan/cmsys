@@ -121,35 +121,3 @@
     }
   }
 }
-
-:global(.tableListForm) {
-  :global(.ant-form-item) {
-    margin-bottom: 24px;
-    margin-right: 0;
-    display: flex;
-    > :global(.ant-form-item-label) {
-      width: auto;
-      line-height: 32px;
-      padding-right: 8px;
-    }
-  }
-  :global(.ant-form-item-control-wrapper) {
-    flex: 1;
-  }
-  :global(.submitButtons) {
-    white-space: nowrap;
-    margin-bottom: 24px;
-  }
-}
-
-@media screen and (max-width: @screen-lg) {
-  .tableListForm :global(.ant-form-item) {
-    margin-right: 24px;
-  }
-}
-
-@media screen and (max-width: @screen-md) {
-  .tableListForm :global(.ant-form-item) {
-    margin-right: 8px;
-  }
-}

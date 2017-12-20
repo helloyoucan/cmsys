@@ -62,3 +62,4 @@ export async function queryUserList(params) {
 export async function getOneUser(params) {
   return request(`/sys/user/getOne?id=${params.id}`);
 }
+
