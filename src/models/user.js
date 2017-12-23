@@ -1,4 +1,4 @@
-import {queryUserList, queryCategory} from '../services/user';
+import {queryUserList, addUser, getOneUser, updateUser} from '../services/user';
 
 export default {
   namespace: 'user',
@@ -8,6 +8,7 @@ export default {
       pagination: {},
     },
     loading: true,
+    modalLoading: true,
     category: [],
   },
 
@@ -34,22 +35,18 @@ export default {
         payload: false,
       });
     },
-    *add({payload, callback}, {call, put}) {
-      yield put({
-        type: 'changeLoading',
-        payload: true,
-      });
-      const response = yield call(addRule, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      yield put({
-        type: 'changeLoading',
-        payload: false,
-      });
+    *addUser({payload, callback}, {call}) {
+      const response = yield call(addUser, payload);
+      if (callback) callback(response);
+    },
+    *getOneUser({payload, callback}, {call}) {
+      const response = yield call(getOneUser, payload);
+      if (callback) callback(response);
+    },
 
-      if (callback) callback();
+    *updateUser({payload, callback}, {call}) {
+      const response = yield call(updateUser, payload);
+      if (callback) callback(response);
     },
     *remove({payload, callback}, {call, put}) {
       yield put({

@@ -10,13 +10,13 @@ export function login(req, res) {
       "data": {
         "id": 1,
         "username": userName,
-        "category_name": "超级管理员",
-        "lastupd_time": 1513752834000,
+        "categoryName": "超级管理员",
+        "lastupdTime": 1513752834000,
         "status": 1,
-        "lastupd_man": "admin",
-        "insert_time": 1513064417000,
-        "category_id": "chaojiguanliyuan",
-        "insert_man": "admin"
+        "lastupdMan": "admin",
+        "insertTime": 1513064417000,
+        "categoryId": "chaojiguanliyuan",
+        "insertMan": "admin"
       }
     }
   );

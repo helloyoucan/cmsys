@@ -23,7 +23,6 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import FormList from './FormList';
 import ModalList from './ModalList';
 import moment from 'moment';
-const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',');
 
 @connect(state => ({
   user: state.user,
@@ -33,9 +32,11 @@ export default class UserList extends PureComponent {
   state = {
     addInputValue: '',
     modalVisible: false,
+    modalLoading: false,
     modalData: {
       key: '',
       id: '',
+      data: {}
     },
     expandForm: false,
     selectedRows: [],
@@ -45,6 +46,9 @@ export default class UserList extends PureComponent {
 
   componentDidMount() {
     const {dispatch} = this.props;
+    dispatch({
+      type: 'dictionary/getCategory'
+    });
     dispatch({
       type: 'user/queryUserList',
       payload: {
@@ -72,15 +76,6 @@ export default class UserList extends PureComponent {
 
   handelModal(key, id) {
     switch (key) {
-      case 'read':
-        this.setState({
-          modalVisible: true,
-          modalData: {
-            key,
-            id
-          }
-        });
-        break;
       case 'add':
         this.setState({
           modalVisible: true,
@@ -90,14 +85,36 @@ export default class UserList extends PureComponent {
           }
         });
         break;
+      case 'read':
       case 'edit':
         this.setState({
           modalVisible: true,
+          modalLoading: true,
           modalData: {
             key,
-            id
           }
         });
+        this.props.dispatch({
+          type: 'user/getOneUser',
+          payload: {
+            id
+          },
+          callback: (res) => {
+            if (res.ret) {
+              var old = this.state.modalData;
+              this.setState({
+                modalData: {
+                  ...old,
+                  data: res.data,
+                },
+                modalLoading: false,
+              });
+            } else if (res.msg) {
+              message.error(res.msg);
+            }
+          }
+        });
+
         break;
       default:
         return;
@@ -110,22 +127,6 @@ export default class UserList extends PureComponent {
     })
   }
 
-  handelEdit = (e) => {
-    const {dispatch} = this.props;
-    const {selectedRows} = this.state;
-    if (!selectedRows) return;
-    dispatch({
-      type: 'rule/remove',
-      payload: {
-        id: selectedRows.map(row => row.id).join(','),
-      },
-      callback: () => {
-        this.setState({
-          selectedRows: [],
-        });
-      },
-    });
-  }
 
   handleSelectRows = (rows) => {
     this.setState({
@@ -156,6 +157,10 @@ export default class UserList extends PureComponent {
 
   render() {
     const {user: {loading: userLoading, data}, dictionary: {category}} = this.props;
+    let category_obj = {};
+    category.forEach((item) => {
+      category_obj[item.pmname] = item.pmvalue;
+    });
     const {selectedRows} = this.state;
     const columns = [
       {
@@ -169,28 +174,28 @@ export default class UserList extends PureComponent {
       },
       {
         title: '用户类型',
-        dataIndex: 'category_name',
+        dataIndex: 'categoryId',
         render(val) {
-          return val;
+          return category_obj[val];
         },
       },
       {
         title: '所属社团',
-        dataIndex: 'ass_id',
+        dataIndex: 'assId',
         render(val) {
-          return val;
+          return val == -1 ? '' : val;
         },
       },
       {
         title: '最后修改时间',
-        dataIndex: 'lastupd_time',
+        dataIndex: 'lastupdTime',
         render(val) {
-          return val;
+          return <span>{moment(val).format('YYYY-MM-DD')}</span>;
         },
       },
       {
         title: '最后修改人',
-        dataIndex: 'lastupd_man',
+        dataIndex: 'lastupdMan',
         render(val) {
           return val;
         },
@@ -241,10 +246,13 @@ export default class UserList extends PureComponent {
           </div>
         </Card>
         <ModalList modalVisible={this.state.modalVisible}
+                   modalLoading={this.state.modalLoading}
                    category={category}
                    data={this.state.modalData}
                    dispatch={this.props.dispatch}
-                   handleModalVisible={this.handleModalVisible.bind(this)}/>
+                   handleModalVisible={this.handleModalVisible.bind(this)}
+                   categoryObj={category_obj}/>
+
       </PageHeaderLayout>
     );
   }

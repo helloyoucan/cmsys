@@ -22,7 +22,7 @@ export default {
           payload: response.data,
         });
         if (window.sessionStorage) {
-          sessionStorage.setItem('currentUser', JSON.stringify(response));
+          sessionStorage.setItem('currentUser', JSON.stringify(response.data));
         }
         yield put(routerRedux.push('/'));
       } else {

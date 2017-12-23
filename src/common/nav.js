@@ -35,7 +35,7 @@ export const getNavData = app => [
           ]
         },
         {
-          name: '社类别管理',
+          name: '社团类别管理',
           path: 'clubClassManagement',
           icon: 'usergroup-add',
           component: dynamicWrapper(app, [], () => import('../routes/ClubSpecies/ClubSpecies')),

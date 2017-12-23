@@ -62,18 +62,18 @@ export function queryUserList(req, res, u) {
   const params = getUrlParams(url);
   let list = new Array();
   for (let i = (params.pageNo - 1) * params.pageSize; i < params.pageNo * params.pageSize; i++) {
-    list.push({
-      "id": i,
-      "username": "admin" + i,
-      "category_name": "超级管理员" + i,
-      "lastupd_time": 1513752834000,
-      "status": 1,
-      "ass_id": '所属社团id' + i,
-      "lastupd_man": "admin" + i,
-      "insert_time": 1513064417000,
-      "category_id": "chaojiguanliyuan",
-      "insert_man": "admin" + i
-    })
+    list.push(
+      {
+        "id": i,
+        "username": "admin" + i,
+        "lastupdTime": 1513827722000,
+        "insertTime": 1513064417000,
+        "status": 1,
+        "categoryId": "chaojiguanliyuan",
+        "assId": -1,
+        "lastupdMan": "admin",
+        "insertMan": "admin"
+      });
   }
   res.send(
     {
@@ -103,14 +103,14 @@ export function getOneUser(req, res) {
       "ret": true, "msg": "获取用户信息成功",
       "data": {
         "id": 2,
-        "username": "tuanweiguanliyuan2",
-        "lastupd_time": 1513091336000,
+        "username": "admin",
+        "lastupdTime": 1513827722000,
+        "insertTime": 1513064417000,
         "status": 1,
-        "lastupd_man": "admin",
-        "value": "团委管理员",
-        "insert_time": 1513072188000,
-        "category_id": "tuanweiguanliyuan",
-        "insert_man": "admin"
+        "categoryId": "chaojiguanliyuan",
+        "assId": -1,
+        "lastupdMan": "admin",
+        "insertMan": "admin"
       }
     }
   );

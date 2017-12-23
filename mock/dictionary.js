@@ -1,34 +1,92 @@
-export function queryCategory(req, res) {
+import {getUrlParams} from './utils';
+export function queryCategory(req, res, u) {
+  let url = u;
+  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
+    url = req.url; // eslint-disable-line
+  }
+  const params = getUrlParams(url);
+  let data = [];
+  switch (params.type) {
+    case "ASSOCIATION_CATEGORY":
+      break;
+    case "COLLEGE_NAME":
+      break;
+    case "SEX":
+      break;
+    case "TWEETS_CATEGORY":
+      break;
+    case "USER_CATEGORY":
+      data = [
+        {
+          "pmappname": "USER_CATEGORY",
+          "pmname": "chaojiguanliyuan",
+          "pmvalue": "超级管理员",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061391000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        },
+        {
+          "pmappname": "USER_CATEGORY",
+          "pmname": "shelianguanliyuan",
+          "pmvalue": "社联管理员",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061444000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        },
+        {
+          "pmappname": "USER_CATEGORY",
+          "pmname": "shetuanguanliyuan",
+          "pmvalue": "社团管理员",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061465000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        },
+        {
+          "pmappname": "USER_CATEGORY",
+          "pmname": "tuanweiguanliyuan",
+          "pmvalue": "团委管理员",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061420000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        }
+      ]
+      break;
+    default:
+      break;
+  }
   res.send(
     {
       "ret": true,
       "msg": "获取字典数据成功",
-      "data": [
-        {
-          "id": "chaojiguanliyuan",
-          "type": "USER_CATEGORY",
-          "value": "超级管理员",
-          "insertDate": 1513061391000
-        },
-        {
-          "id": "tuanweiguanliyuan",
-          "type": "USER_CATEGORY",
-          "value": "团委管理员",
-          "insertDate": 1513061420000
-        },
-        {
-          "id": "shelianguanliyuan",
-          "type": "USER_CATEGORY",
-          "value": "社联管理员",
-          "insertDate": 1513061444000
-        },
-        {
-          "id": "shetuanguanliyuan",
-          "type": "USER_CATEGORY",
-          "value": "社团管理员",
-          "insertDate": 1513061465000
-        }
-      ]
+      "data": data
     }
   );
   /*res.send(

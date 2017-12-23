@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
 import {connect} from 'dva';
 import {Link, Route, Redirect, Switch} from 'dva/router';
-import {Layout, Menu, Icon, Avatar, Dropdown, Tag, message, Spin} from 'antd';
+import {Layout, Menu, Icon, Avatar, Dropdown, Tag, message, Spin, Divider} from 'antd';
 
 import HeaderSearch from 'ant-design-pro/lib/HeaderSearch';
 import NoticeIcon from 'ant-design-pro/lib/NoticeIcon';
@@ -264,7 +264,7 @@ class BasicLayout extends React.PureComponent {
       <Route {...rest} render={props => {
         // console.log(insert_man)//权限控制
         return (
-          currentUser != null ? (
+          !!currentUser && currentUser.id ? (
             <Component {...props}/>
           ) : (
             <Redirect to={{
@@ -351,10 +351,13 @@ class BasicLayout extends React.PureComponent {
                   emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
                 />
               </NoticeIcon>
-              {currentUser != null ? (
+              {!!currentUser && currentUser.id? (
                 <Dropdown overlay={menu}>
                   <span className={`${styles.action} ${styles.account}`}>
-                    {currentUser.username}
+                    {currentUser.categoryName }
+                    <Divider type="vertical"/>
+                    { currentUser.username}
+                    <Icon type="down"/>
                   </span>
                 </Dropdown>
               ) : <Spin size="small" style={{marginLeft: 8}}/>}
