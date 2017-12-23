@@ -121,9 +121,9 @@ export const getNavData = app => [
               component: dynamicWrapper(app, [], () => import('../routes/new/test')),
             },
             {
-              name: '人员管理',
-              path: 'personnel',
-              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+              name: '社联干部管理',
+              path: 'socialServices',
+              component: dynamicWrapper(app, ['SocialServices'], () => import('../routes/SocialServices/SocialServicesTable')),
             },
             {
               name: '部门管理',
@@ -141,7 +141,7 @@ export const getNavData = app => [
           name: '用户管理',
           path: 'userManagement',
           icon: 'user',
-          component: dynamicWrapper(app, ['user','dictionary'], () => import('../routes/User/UserList')),
+          component: dynamicWrapper(app, ['user', 'dictionary'], () => import('../routes/User/UserList')),
         },
         {
           name: '数据管理',

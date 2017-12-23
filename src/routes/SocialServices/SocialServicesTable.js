@@ -4,20 +4,19 @@ import {
   Card,
   Button,
   message,
-  Divider,
-  Switch
+  Divider
 } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import FormList from './FormList';
-import ModalList from './ModalList';
+import SocialServicesForm from './SocialServicesForm';
+import SocialServicesModal from './SocialServicesModal';
 import moment from 'moment';
 
 @connect(state => ({
   user: state.user,
   dictionary: state.dictionary
 }))
-export default class UserList extends PureComponent {
+export default class SocialServicesTable extends PureComponent {
   state = {
     addInputValue: '',
     modalVisible: false,
@@ -30,8 +29,6 @@ export default class UserList extends PureComponent {
     expandForm: false,
     selectedRows: [],
     formValues: {},
-    SwitchLoadingId: ''
-
 
   };
 
@@ -146,29 +143,6 @@ export default class UserList extends PureComponent {
     });
   }
 
-  handleChangeStatus(val, id, changeLoading) {
-    /* console.log("checked:" + checked)
-     console.log("val" + val)
-     console.log("data" + data)
-     console.log("index" + index)*/
-    const {dispatch} = this.props;
-    let type = val == 0 ? 'user/enableOneUser' : 'user/disableOneUser';
-    this.setState({
-      SwitchLoadingId: id,
-    });
-    dispatch({
-      type: type,
-      payload: {
-        id: id
-      },
-      callback: () => {
-        this.setState({
-          SwitchLoadingId: '',
-        });
-      }
-    });
-  }
-
   render() {
     const {user: {loading: userLoading, data}, dictionary: {category}} = this.props;
     let category_obj = {};
@@ -184,17 +158,7 @@ export default class UserList extends PureComponent {
       {
         title: '状态',
         dataIndex: 'status',
-        render: (val, record) => {
-          return (
-            <Switch
-              loading={record.id === this.state.SwitchLoadingId}
-              checked={val == 1}
-              checkedChildren="启用"
-              unCheckedChildren="禁用"
-              onChange={this.handleChangeStatus.bind(this, val, record.id)}
-            />
-          );
-        },
+        render: val => (val == 1 ? '启用' : '禁用')
       },
       {
         title: '用户类型',
@@ -241,7 +205,7 @@ export default class UserList extends PureComponent {
         <Card bordered={false}>
           <div className="tableList">
             <div className="tableListForm">
-              <FormList
+              <SocialServicesForm
                 handleSearch={this.handleSearch.bind(this)}
                 formReset={this.handleFormReset.bind(this)}
                 dispatch={this.props.dispatch}
@@ -269,13 +233,14 @@ export default class UserList extends PureComponent {
             />
           </div>
         </Card>
-        <ModalList modalVisible={this.state.modalVisible}
-                   modalLoading={this.state.modalLoading}
-                   category={category}
-                   data={this.state.modalData}
-                   dispatch={this.props.dispatch}
-                   handleModalVisible={this.handleModalVisible.bind(this)}
-                   categoryObj={category_obj}/>
+        <SocialServicesModal
+          modalVisible={this.state.modalVisible}
+          modalLoading={this.state.modalLoading}
+          category={category}
+          data={this.state.modalData}
+          dispatch={this.props.dispatch}
+          handleModalVisible={this.handleModalVisible.bind(this)}
+          categoryObj={category_obj}/>
 
       </PageHeaderLayout>
     );

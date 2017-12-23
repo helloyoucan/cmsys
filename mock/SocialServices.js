@@ -64,16 +64,22 @@ export function queryUserList(req, res, u) {
   for (let i = (params.pageNo - 1) * params.pageSize; i < params.pageNo * params.pageSize; i++) {
     list.push(
       {
-        "id": i,
-        "username": "admin" + i,
-        "lastupdTime": 1513827722000,
-        "insertTime": 1513064417000,
-        "status": i % 2,
-        "categoryId": "chaojiguanliyuan",
-        "assId": -1,
-        "lastupdMan": "admin",
-        "insertMan": "admin"
-      });
+        "position": "正主席" + i,
+        "sex": "女",
+        "annual": "2015-2016",
+        "status": 1,
+        "college": "KUAIJI",
+        "remarks": "",
+        "sanction": "无",
+        "id": 5,
+        "insertTime": 1513156716000,
+        "name": "小王" + i,
+        "dept": "主席团" + i,
+        "insertMan": "admin",
+        "major": "财务管理专业",
+        "stuNum": "201411888999"
+      }
+    );
   }
   res.send(
     {

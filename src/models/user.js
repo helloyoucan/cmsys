@@ -1,4 +1,4 @@
-import {queryUserList, addUser, getOneUser, updateUser} from '../services/user';
+import {queryUserList, addUser, getOneUser, updateUser, enableUser, disableUser} from '../services/user';
 
 export default {
   namespace: 'user',
@@ -13,13 +13,6 @@ export default {
   },
 
   effects: {
-    *getCategory({payload}, {call, put}){
-      const response = yield call(queryCategory, payload);
-      yield put({
-        type: 'queryCategoryReducers',
-        payload: response.data,
-      });
-    },
     *queryUserList({payload}, {call, put}) {
       yield put({
         type: 'changeLoading',
@@ -48,22 +41,29 @@ export default {
       const response = yield call(updateUser, payload);
       if (callback) callback(response);
     },
-    *remove({payload, callback}, {call, put}) {
-      yield put({
-        type: 'changeLoading',
-        payload: true,
-      });
-      const response = yield call(removeRule, payload);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-      yield put({
-        type: 'changeLoading',
-        payload: false,
-      });
-
-      if (callback) callback();
+    *enableOneUser({payload, callback}, {call, put}) {
+      const response = yield call(enableUser, payload);
+      if (response.ret) {
+        yield put({
+          type: 'enableOneUserReducers',
+          payload: {
+            id: payload.id,
+          }
+        });
+      }
+      if (callback) callback(response);
+    },
+    *disableOneUser({payload, callback}, {call, put,}) {
+      const response = yield call(disableUser, payload);
+      if (response.ret) {
+        yield put({
+          type: 'disableOneUserReducers',
+          payload: {
+            id: payload.id,
+          }
+        });
+      }
+      if (callback) callback(response);
     },
   },
 
@@ -80,10 +80,40 @@ export default {
         loading: payload,
       };
     },
-    queryCategoryReducers(state, {payload}) {
+    enableOneUserReducers(state, {payload}) {
+      const newUserList = state.data.list.map((item) => {
+        if (item.id == payload.id) {
+          return {
+            ...item,
+            status: 1,
+          }
+        }
+        return item;
+      });
       return {
         ...state,
-        category: payload,
+        data: {
+          ...state.data,
+          list: newUserList
+        }
+      };
+    },
+    disableOneUserReducers(state, {payload}) {
+      const newUserList = state.data.list.map((item) => {
+        if (item.id == payload.id) {
+          return {
+            ...item,
+            status: 0,
+          }
+        }
+        return item;
+      });
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          list: newUserList
+        }
       };
     },
   },
