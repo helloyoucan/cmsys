@@ -32,6 +32,11 @@ export default function request(url, options) {
       'Content-Type': 'application/json; charset=utf-8',
       ...newOptions.headers,
     };
+    for (let key in newOptions.body) {
+      if (newOptions.body[key] == undefined) {
+        newOptions.body[key] = "";
+      }
+    }
     newOptions.body = JSON.stringify(newOptions.body);
   }
 

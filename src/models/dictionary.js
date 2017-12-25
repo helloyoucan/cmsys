@@ -1,5 +1,11 @@
 /*字典表*/
-import {queryAssociation, queryCollegeName, queryGender, queryTweet, queryCategory} from '../services/dictionary';
+import {
+  queryAssociation,
+  queryCollegeName,
+  queryTweet,
+  queryCategory,
+  getSex
+} from '../services/dictionary';
 
 export default {
   namespace: 'dictionary',
@@ -32,7 +38,7 @@ export default {
       });
     },
     *getSex(_, {call, put}){
-      const response = yield call(querySex, {
+      const response = yield call(getSex, {
         type: "SEX",
       });
       yield put({

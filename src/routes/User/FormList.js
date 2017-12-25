@@ -21,7 +21,7 @@ export default class FormList extends PureComponent {
   }
 
   handleFormReset = () => {
-    const {form, dispatch} = this.props;
+    const {form} = this.props;
     form.resetFields();
     this.props.formReset();
   }
@@ -29,7 +29,7 @@ export default class FormList extends PureComponent {
 
   handleSearch = (e) => {
     e.preventDefault();
-    const {dispatch, form} = this.props;
+    const { form} = this.props;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       const values = {

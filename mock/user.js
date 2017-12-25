@@ -54,14 +54,9 @@ export function updateUser(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
    */
 }
-export function queryUserList(req, res, u) {
-  let url = u;
-  if (!url || Object.prototype.toString.call(url) !== '[object String]') {
-    url = req.url; // eslint-disable-line
-  }
-  const params = getUrlParams(url);
+export function queryUserList(req, res) {
   let list = new Array();
-  for (let i = (params.pageNo - 1) * params.pageSize; i < params.pageNo * params.pageSize; i++) {
+  for (let i = (req.body.pageNo - 1) * req.body.pageSize; i < req.body.pageNo * req.body.pageSize; i++) {
     list.push(
       {
         "id": i,
@@ -83,8 +78,8 @@ export function queryUserList(req, res, u) {
         "list": list,
         pagination: {
           "total": 100,
-          "currentPage": parseInt(params.pageNo),
-          "pageSize": parseInt(params.pageSize)
+          "currentPage": parseInt(req.body.pageNo),
+          "pageSize": parseInt(req.body.pageSize)
         }
 
       }

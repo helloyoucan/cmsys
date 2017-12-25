@@ -122,8 +122,8 @@ export const getNavData = app => [
             },
             {
               name: '社联干部管理',
-              path: 'socialServices',
-              component: dynamicWrapper(app, ['SocialServices'], () => import('../routes/SocialServices/SocialServicesTable')),
+              path: 'saucadre',
+              component: dynamicWrapper(app, ['saucadre', 'dictionary'], () => import('../routes/Saucadre/SaucadreTable')),
             },
             {
               name: '部门管理',

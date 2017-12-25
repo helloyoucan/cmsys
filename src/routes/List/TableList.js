@@ -222,6 +222,7 @@ export default class TableList extends PureComponent {
             <StandardTable
               selectedRows={selectedRows}
               loading={ruleLoading}
+              isSelect={true}
               columns={columns}
               data={data}
               onSelectRow={this.handleSelectRows}

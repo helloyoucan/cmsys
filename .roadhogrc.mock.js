@@ -1,11 +1,10 @@
-import mockjs from 'mockjs';
 import {getRule, postRule} from './mock/rule';
-import {imgMap} from './mock/utils';
 import {getNotices} from './mock/notices';
 import {delay} from 'roadhog-api-doc';
 import {login, logout} from './mock/login';
 import Dictionary from './mock/dictionary';
 import User from './mock/user';
+import Saucadre from './mock/saucadre';
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
 
@@ -14,15 +13,25 @@ const proxy = {
   'POST /login': login,
   // 'GET /api/currentUser': login,
   'GET /logout': logout,
-  //用户管理
+  //字典管理
+  'GET /sys/dic/getDic': Dictionary.queryCategory,
 
+  //用户管理
   'POST /sys/user/save': User.addUser,
   'GET /sys/user/enable': User.enableUser,
-  'POST /sys/user/disable': User.disableUser,
+  'GET /sys/user/disable': User.disableUser,
   'POST /sys/user/update': User.updateUser,
-  'GET /sys/user/page': User.queryUserList,
+  'POST /sys/user/page': User.queryUserList,
   'GET /sys/user/getOne': User.getOneUser,
-  'GET /sys/dic/getDic': Dictionary.queryCategory,
+
+  //社联干部管理
+  'POST /sys/saucadre/save': Saucadre.add,
+  'GET /sys/saucadre/job': Saucadre.enable,//在职
+  'GET /sys/saucadre/quit': Saucadre.disable,//离职
+  'POST /sys/saucadre/update': Saucadre.update,
+  'POST /sys/saucadre/page': Saucadre.queryList,
+  'GET /sys/saucadre/getOne': Saucadre.getOne,
+  'GET /sys/saucadre/delete': Saucadre.dels,
 
 // 支持值为 Object 和 Array
   // 'GET /api/currentUser': {

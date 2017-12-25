@@ -10,8 +10,186 @@ export function queryCategory(req, res, u) {
     case "ASSOCIATION_CATEGORY":
       break;
     case "COLLEGE_NAME":
+      data = [
+        {
+          "pmappname": "COLLEGE_NAME ",
+          "pmname": "DIANZISHANGWUGUANLI",
+          "pmvalue": "电子商务管理学院 ",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061391000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        },
+        {
+          "pmappname": "COLLEGE_NAME ",
+          "pmname": "FA",
+          "pmvalue": "法学院",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061391000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        },
+        {
+          "pmappname": "COLLEGE_NAME ",
+          "pmname": "GUOJI",
+          "pmvalue": "国际学院",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061391000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        },
+        {
+          "pmappname": "COLLEGE_NAME ",
+          "pmname": "JINRONG",
+          "pmvalue": "金融学院",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061391000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        },
+        {
+          "pmappname": "COLLEGE_NAME ",
+          "pmname": "JIXUJIAOYU",
+          "pmvalue": "继续教育学院",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061391000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        }, {
+          "pmappname": "COLLEGE_NAME ",
+          "pmname": "KUAIJI",
+          "pmvalue": "会计学院",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061391000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        }, {
+          "pmappname": "COLLEGE_NAME ",
+          "pmname": "LVYOUGUANLI",
+          "pmvalue": "旅游管理学院",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061391000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        }, {
+          "pmappname": "COLLEGE_NAME ",
+          "pmname": "WAIGUOYU",
+          "pmvalue": "外国语学院",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061391000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        }, {
+          "pmappname": "COLLEGE_NAME ",
+          "pmname": "XINXIJISHUYUGONGCHENG",
+          "pmvalue": "信息技术与工程学院",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061391000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        }, {
+          "pmappname": "COLLEGE_NAME ",
+          "pmname": "YISHUSHEJI",
+          "pmvalue": "艺术设计学院",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061391000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        }
+      ];
       break;
     case "SEX":
+      data = [
+        {
+          "pmappname": "#SEX",
+          "pmname": "MAN",
+          "pmvalue": "男",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061391000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        },
+        {
+          "pmappname": "#SEX",
+          "pmname": "WOMAN",
+          "pmvalue": "女",
+          "pmv2": null,
+          "pmv3": null,
+          "pmv4": null,
+          "pmv5": null,
+          "remarks": null,
+          "status": 1,
+          "insertTime": 1513061391000,
+          "insertMan": "admin",
+          "lastupdTime": null,
+          "lastupdMan": null
+        },]
       break;
     case "TWEETS_CATEGORY":
       break;

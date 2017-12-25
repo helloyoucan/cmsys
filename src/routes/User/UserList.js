@@ -146,11 +146,7 @@ export default class UserList extends PureComponent {
     });
   }
 
-  handleChangeStatus(val, id, changeLoading) {
-    /* console.log("checked:" + checked)
-     console.log("val" + val)
-     console.log("data" + data)
-     console.log("index" + index)*/
+  handleChangeStatus(val, id) {
     const {dispatch} = this.props;
     let type = val == 0 ? 'user/enableOneUser' : 'user/disableOneUser';
     this.setState({
@@ -244,7 +240,6 @@ export default class UserList extends PureComponent {
               <FormList
                 handleSearch={this.handleSearch.bind(this)}
                 formReset={this.handleFormReset.bind(this)}
-                dispatch={this.props.dispatch}
                 category={category}
               />
             </div>

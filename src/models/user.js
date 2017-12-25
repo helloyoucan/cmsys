@@ -9,7 +9,6 @@ export default {
     },
     loading: true,
     modalLoading: true,
-    category: [],
   },
 
   effects: {

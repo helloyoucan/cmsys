@@ -9,7 +9,7 @@ export async function queryAssociation(params) {
 export async function queryCollegeName(params) {
   return request(`/sys/dic/getDic?type=${params.type}`);
 }
-export async function queryGender(params) {
+export async function getSex(params) {
   return request(`/sys/dic/getDic?type=${params.type}`);
 }
 export async function queryTweet(params) {

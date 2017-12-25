@@ -25,12 +25,7 @@ export async function disableUser(params) {
    * id:''
    * }
    * */
-  return request('/sys/user/disable', {
-    method: 'POST',
-    body: {
-      ...params,
-    },
-  });
+  return request(`/sys/user/disable?id=${params.id}`);
 }
 export async function updateUser(params) {
   /**
@@ -56,7 +51,18 @@ export async function queryUserList(params) {
    pageNo	页码，默认为1	否	int
    pageSize	每页显示条数，默认为10	否	int
    * */
-  return request(`/sys/user/page?${stringify(params)}`);
+  /* for (let key in params) {
+   if (params[key] == undefined) {
+   params[key] = "";
+   }
+   }
+   return request(`/sys/user/page?${stringify(params)}`);*/
+  return request('/sys/user/page', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
 }
 
 export async function getOneUser(params) {
