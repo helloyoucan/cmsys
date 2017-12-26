@@ -5,6 +5,8 @@ import {login, logout} from './mock/login';
 import Dictionary from './mock/dictionary';
 import User from './mock/user';
 import Saucadre from './mock/saucadre';
+import File from './mock/file';
+import Workflow from './mock/workflow';
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
 
@@ -33,6 +35,15 @@ const proxy = {
   'GET /sys/saucadre/getOne': Saucadre.getOne,
   'GET /sys/saucadre/delete': Saucadre.dels,
 
+  //上传文件
+  'POST /sys/file/upload': File.uploadFile,
+
+  //工作流相关
+  'POST /sys/workflow/saveDeployment': Workflow.saveDeployment,
+  'GET /sys/workflow/getDeployInfo': Workflow.getDeployInfo,
+  'GET /sys/workflow/delDeployment': Workflow.delDeployment,
+  'GET /sys/workflow/viewImage': Workflow.viewImage,
+  'GET /sys/workflow/getImageUrl': Workflow.getImageUrl,
 // 支持值为 Object 和 Array
   // 'GET /api/currentUser': {
   //   $desc: "获取当前用户接口",
