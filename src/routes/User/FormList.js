@@ -42,7 +42,7 @@ export default class FormList extends PureComponent {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    let categorys = this.props.category.map((item) => {
+    let userCategorys = this.props.userCategory.map((item) => {
       return (<RadioButton key={item.pmname} value={item.pmname}>{item.pmvalue}</RadioButton>)
     })
     return (
@@ -54,7 +54,7 @@ export default class FormList extends PureComponent {
         <FormItem label="用户类型">
           {getFieldDecorator('categoryId')(
             < RadioGroup >
-              {categorys.length > 0 ? categorys : <Spin spinning={true} size="small"></Spin>}
+              {userCategorys.length > 0 ? userCategorys : <Spin spinning={true} size="small"></Spin>}
             </RadioGroup>
           )}
         </FormItem>

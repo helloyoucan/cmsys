@@ -1,6 +1,6 @@
 import request from '../utils/request';
 
-export async function queryCategory(params) {
+export async function queryUserCategory(params) {
   return request(`/sys/dic/getDic?type=${params.type}`);
 }
 export async function queryAssociation(params) {

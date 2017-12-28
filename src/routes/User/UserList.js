@@ -38,7 +38,7 @@ export default class UserList extends PureComponent {
   componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
-      type: 'dictionary/getCategory'
+      type: 'dictionary/getUserCategory'
     });
     dispatch({
       type: 'user/queryUserList',
@@ -166,10 +166,10 @@ export default class UserList extends PureComponent {
   }
 
   render() {
-    const {user: {loading: userLoading, data}, dictionary: {category}} = this.props;
-    let category_obj = {};
-    category.forEach((item) => {
-      category_obj[item.pmname] = item.pmvalue;
+    const {user: {loading: userLoading, data}, dictionary: {userCategory}} = this.props;
+    let userCategory_obj = {};
+    userCategory.forEach((item) => {
+      userCategory_obj[item.pmname] = item.pmvalue;
     });
     const {selectedRows} = this.state;
     const columns = [
@@ -196,7 +196,7 @@ export default class UserList extends PureComponent {
         title: '用户类型',
         dataIndex: 'categoryId',
         render(val) {
-          return category_obj[val];
+          return userCategory_obj[val];
         },
       },
       {
@@ -240,7 +240,7 @@ export default class UserList extends PureComponent {
               <FormList
                 handleSearch={this.handleSearch.bind(this)}
                 formReset={this.handleFormReset.bind(this)}
-                category={category}
+                userCategory={userCategory}
               />
             </div>
             <div className="tableListOperator">
@@ -266,11 +266,11 @@ export default class UserList extends PureComponent {
         </Card>
         <ModalList modalVisible={this.state.modalVisible}
                    modalLoading={this.state.modalLoading}
-                   category={category}
+                   userCategory={userCategory}
                    data={this.state.modalData}
                    dispatch={this.props.dispatch}
                    handleModalVisible={this.handleModalVisible.bind(this)}
-                   categoryObj={category_obj}/>
+                   userCategoryObj={userCategory_obj}/>
 
       </PageHeaderLayout>
     );

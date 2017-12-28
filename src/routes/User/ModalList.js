@@ -102,7 +102,7 @@ export default class ModalList extends PureComponent {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {data, category, modalLoading} = this.props;
+    const {data, userCategory, modalLoading} = this.props;
     const {username, categoryId, assId} = data.data == undefined ? this.state.formData : data.data;
     const formData = data.data == undefined ? {} : data.data;
     let title = '';
@@ -133,10 +133,10 @@ export default class ModalList extends PureComponent {
               {formData.username}
             </LineMessage>
             <LineMessage label="用户类型">
-              {this.props.categoryObj[formData.categoryId]}
+              {this.props.userCategoryObj[formData.categoryId]}
             </LineMessage>
             <LineMessage label="所属社团">
-              {formData.assId}
+              {formData.assId==-1?"":formData.assId}
             </LineMessage>
             <LineMessage label="用户状态">
               {formData.status == 1 ? '启用' : '禁用'}
@@ -177,7 +177,7 @@ export default class ModalList extends PureComponent {
               initialValue: categoryId
             })(
               <Select placeholder="用户类型" style={{width: '100%'}}>
-                {category.map((item) => {
+                {userCategory.map((item) => {
                   return ( <Option key={item.pmname} value={item.pmname}>{item.pmvalue}</Option>)
                 })}
               </Select>

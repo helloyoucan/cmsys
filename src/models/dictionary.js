@@ -3,14 +3,14 @@ import {
   queryAssociation,
   queryCollegeName,
   queryTweet,
-  queryCategory,
+  queryUserCategory,
   getSex
 } from '../services/dictionary';
 
 export default {
   namespace: 'dictionary',
   state: {
-    category: [],//用户类型
+    userCategory: [],//用户类型
     association: [],//协会类别
     collegeName: [],//学院名称
     sex: [],//性别
@@ -55,12 +55,12 @@ export default {
         payload: response.data,
       });
     },
-    *getCategory(_, {call, put}){
-      const response = yield call(queryCategory, {
+    *getUserCategory(_, {call, put}){
+      const response = yield call(queryUserCategory, {
         type: "USER_CATEGORY",
       });
       yield put({
-        type: 'queryCategoryReducers',
+        type: 'queryUserCategoryReducers',
         payload: response.data,
       });
     },
@@ -92,10 +92,10 @@ export default {
         tweet: payload,
       };
     },
-    queryCategoryReducers(state, {payload}) {
+    queryUserCategoryReducers(state, {payload}) {
       return {
         ...state,
-        category: payload,
+        userCategory: payload,
       };
     },
   },
