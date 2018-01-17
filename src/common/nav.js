@@ -48,18 +48,7 @@ export const getNavData = app => [
             {
               name: '信息管理',
               path: 'info',
-              children: [
-                {
-                  name: '信息列表',
-                  path: 'list',
-                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
-                },
-                {
-                  name: '注销管理',
-                  path: 'logout',
-                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
-                },
-              ]
+              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
             },
             {
               name: '干部管理',
@@ -85,6 +74,11 @@ export const getNavData = app => [
                   path: 'setUp',
                   component: dynamicWrapper(app, [], () => import('../routes/new/test')),
                 },
+                {
+                  name: '注销',
+                  path: 'logout',
+                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+                },
               ]
             },
             {
@@ -92,13 +86,8 @@ export const getNavData = app => [
               path: 'activity',
               children: [
                 {
-                  name: '活动预告',
+                  name: '推文',
                   path: 'foretell',
-                  component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
-                },
-                {
-                  name: '活动快讯',
-                  path: 'express',
                   component: dynamicWrapper(app, [], () => import('../routes/new/test')),
                 },
                 {
@@ -111,7 +100,7 @@ export const getNavData = app => [
           ]
         },
         {
-          name: '社联及社团干部管理',
+          name: '社联及社联干部管理',
           path: 'socialUnionAndClubCadresManagement',
           icon: 'solution',
           children: [
