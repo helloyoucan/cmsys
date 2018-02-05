@@ -42,6 +42,7 @@ export default class ModalList extends PureComponent {
     const {data} = this.props;
     switch (data.key) {
       case 'read':
+        this.props.handleModalVisible();
         break;
       case 'add':
         this.props.form.validateFieldsAndScroll((err, values) => {
