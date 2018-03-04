@@ -142,6 +142,46 @@ export default class ClubClassTable extends PureComponent {
     });
   }
 
+  handleDelete(delOneId) {
+    /*
+     * delOneId：删除单个时的传参
+     * */
+    const {dispatch, clubClass: {data: {pagination}}} = this.props;
+    let {selectedRows, formValues} = this.state;
+    if (arguments.length > 1) {//删除单个
+      selectedRows.push({
+        id: delOneId
+      });
+    }
+    if (!selectedRows) return;
+
+    dispatch({
+      type: 'clubClass/changeLoading',
+      payload: {
+        bool: true,
+      },
+    });
+    dispatch({
+      type: 'clubClass/dels',
+      payload: {
+        ids: selectedRows.map((item) => (item.id))
+      },
+      callback: () => {
+        dispatch({
+          type: 'clubClass/queryList',
+          payload: {
+            ...formValues,
+            pageNo: pagination.currentPage,
+            pageSize: pagination.pageSize,
+          },
+        });
+        this.setState({
+          selectedRows: [],
+        });
+      }
+    });
+  }
+
   handleChangeStatus(val, id) {
     const {dispatch} = this.props;
     let type = val == 0 ? 'clubClass/enable' : 'clubClass/disable';
@@ -217,9 +257,12 @@ export default class ClubClassTable extends PureComponent {
         dataIndex: 'id',
         render: (val) => (
           <div>
+
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
             <Divider type="vertical"/>
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
+            <Divider type="vertical"/>
+            <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
           </div>
         ),
       },
@@ -239,7 +282,7 @@ export default class ClubClassTable extends PureComponent {
               {
                 selectedRows.length > 0 && (
                   <span>
-                     <Button onClick={this.handelDelete.bind(this)}>删除</Button>
+                     <Button onClick={this.handleDelete.bind(this)}>删除</Button>
                    </span>
                 )
               }
@@ -249,7 +292,7 @@ export default class ClubClassTable extends PureComponent {
               loading={clubClassLoading}
               columns={columns}
               data={data}
-              isSelect={false}
+              isSelect={true}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
             />
