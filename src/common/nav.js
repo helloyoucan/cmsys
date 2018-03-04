@@ -38,7 +38,7 @@ export const getNavData = app => [
           name: '社团类别管理',
           path: 'clubClassManagement',
           icon: 'usergroup-add',
-          component: dynamicWrapper(app, [], () => import('../routes/ClubSpecies/ClubSpecies')),
+          component: dynamicWrapper(app, ['user', 'dictionary'], () => import('../routes/ClubClass/ClubClassTable')),
         },
         {
           name: '社团管理',
@@ -136,7 +136,7 @@ export const getNavData = app => [
           name: '数据管理',
           path: 'dataManagement',
           icon: 'database',
-          component: dynamicWrapper(app, ['user','dictionary'], () => import('../routes/Dictionary/DictionaryTable')),
+          component: dynamicWrapper(app, ['dictionary'], () => import('../routes/Dictionary/DictionaryTable')),
         },
         {
           name: '查询表格',
