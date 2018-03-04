@@ -51,7 +51,7 @@ export default {
         yield put({
           type: 'enableReducers',
           payload: {
-            ids: payload.ids,
+            id: payload.id,
           }
         });
       }
@@ -63,7 +63,7 @@ export default {
         yield put({
           type: 'disableReducers',
           payload: {
-            ids: payload.ids,
+            id: payload.id,
           }
         });
       }
@@ -98,8 +98,8 @@ export default {
       };
     },
     enableReducers(state, {payload}) {
-      const newList = state.data.list.map((item) => {
-        if (payload.ids.find((id) => (id == item.id)) != undefined) {
+      const newUserList = state.data.list.map((item) => {
+        if (item.id == payload.id) {
           return {
             ...item,
             status: 1,
@@ -111,7 +111,25 @@ export default {
         ...state,
         data: {
           ...state.data,
-          list: newList
+          list: newUserList
+        }
+      };
+    },
+    disableReducers(state, {payload}) {
+      const newUserList = state.data.list.map((item) => {
+        if (item.id == payload.id) {
+          return {
+            ...item,
+            status: 0,
+          }
+        }
+        return item;
+      });
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          list: newUserList
         }
       };
     },

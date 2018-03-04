@@ -29,7 +29,7 @@ export default class UserModal extends PureComponent {
   state = {
     addInputValue: '',
     confirmLoading: false,
-    formData: {username: '', categoryId: '', assId: ''},
+    formData: {name: ''},
     ModalTitle: '',
   };
 
@@ -51,7 +51,7 @@ export default class UserModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'user/add',
+              type: 'clubClass/add',
               payload: values,
               callback: (res) => {
                 if (res.ret) {
@@ -74,7 +74,7 @@ export default class UserModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'user/update',
+              type: 'clubClass/update',
               payload: {
                 ...values,
                 id: data.data.id
@@ -103,8 +103,8 @@ export default class UserModal extends PureComponent {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {data, userCategory, modalLoading} = this.props;
-    const {username, categoryId, assId} = data.data == undefined ? this.state.formData : data.data;
+    const {data, modalLoading} = this.props;
+    const {name} = data.data == undefined ? this.state.formData : data.data;
     const formData = data.data == undefined ? {} : data.data;
     let title = '';
     switch (data.key) {
@@ -130,14 +130,8 @@ export default class UserModal extends PureComponent {
       >
         {data.key == "read" ?
           <Card loading={modalLoading} bordered={false}>
-            <LineMessage label="用户名">
-              {formData.username}
-            </LineMessage>
-            <LineMessage label="用户类型">
-              {this.props.userCategoryObj[formData.categoryId]}
-            </LineMessage>
-            <LineMessage label="所属社团">
-              {formData.assId==-1?"":formData.assId}
+            <LineMessage label="类别名">
+              {formData.name}
             </LineMessage>
             <LineMessage label="用户状态">
               {formData.status == 1 ? '启用' : '禁用'}
@@ -161,35 +155,10 @@ export default class UserModal extends PureComponent {
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
-              label="用户名"
-            >  {getFieldDecorator('username', {
+              label="类别名"
+            >  {getFieldDecorator('name', {
               rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: username
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="用户类型"
-            >  {getFieldDecorator('categoryId', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: categoryId
-            })(
-              <Select placeholder="用户类型" style={{width: '100%'}}>
-                {userCategory.map((item) => {
-                  return ( <Option key={item.pmname} value={item.pmname}>{item.pmvalue}</Option>)
-                })}
-              </Select>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="所属社团"
-            >  {getFieldDecorator('assId', {
-              initialValue: assId
+              initialValue: name
             })(
               <Input/>
             )}

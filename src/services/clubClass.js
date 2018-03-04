@@ -17,15 +17,10 @@ export async function add(params) {
   });
 }
 export async function enable(params) {
-  return request(`/sys/clubClass/enable?ids=${params.ids}`);
+  return request(`/sys/clubClass/enable?id=${params.id}`);
 }
 export async function disable(params) {
-  /*
-   * params:{
-   * ids:''
-   * }
-   * */
-  return request(`/sys/clubClass/disable?ids=${params.ids}`);
+  return request(`/sys/clubClass/disable?id=${params.id}`);
 }
 export async function update(params) {
   /**

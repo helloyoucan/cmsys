@@ -14,8 +14,7 @@ import ClubClassModal from './ClubClassModal';
 import moment from 'moment';
 
 @connect(state => ({
-  user: state.user,
-  dictionary: state.dictionary
+  clubClass: state.clubClass
 }))
 export default class ClubClassTable extends PureComponent {
   state = {
@@ -145,7 +144,7 @@ export default class ClubClassTable extends PureComponent {
 
   handleChangeStatus(val, id) {
     const {dispatch} = this.props;
-    let type = val == 0 ? 'clubClass/enableOne' : 'clubClass/disableOne';
+    let type = val == 0 ? 'clubClass/enable' : 'clubClass/disable';
     this.setState({
       SwitchLoadingId: id,
     });
@@ -163,16 +162,12 @@ export default class ClubClassTable extends PureComponent {
   }
 
   render() {
-    const {user: {loading: userLoading, data}, dictionary: {userCategory}} = this.props;
-    let userCategory_obj = {};
-    userCategory.forEach((item) => {
-      userCategory_obj[item.pmname] = item.pmvalue;
-    });
+    const {clubClass: {loading: clubClassLoading, data}} = this.props;
     const {selectedRows} = this.state;
     const columns = [
       {
-        title: '名称',
-        dataIndex: 'username',
+        title: '类别名',
+        dataIndex: 'name',
       },
       {
         title: '状态',
@@ -190,17 +185,17 @@ export default class ClubClassTable extends PureComponent {
         },
       },
       {
-        title: '用户类型',
-        dataIndex: 'categoryId',
+        title: '添加时间',
+        dataIndex: 'insertTime',
         render(val) {
-          return userCategory_obj[val];
+          return <span>{moment(val).format('YYYY-MM-DD')}</span>;
         },
       },
       {
-        title: '所属社团',
-        dataIndex: 'assId',
+        title: '添加人',
+        dataIndex: 'insertMan',
         render(val) {
-          return val == -1 ? '' : val;
+          return val;
         },
       },
       {
@@ -237,22 +232,21 @@ export default class ClubClassTable extends PureComponent {
               <ClubClassForm
                 handleSearch={this.handleSearch.bind(this)}
                 formReset={this.handleFormReset.bind(this)}
-                userCategory={userCategory}
               />
             </div>
             <div className="tableListOperator">
               <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add')}>新建</Button>
               {
-                // selectedRows.length > 0 && (
-                //   <span>
-                //     <Button onClick={this.handelDelete.bind(this)}>删除</Button>
-                //   </span>
-                // )
+                selectedRows.length > 0 && (
+                  <span>
+                     <Button onClick={this.handelDelete.bind(this)}>删除</Button>
+                   </span>
+                )
               }
             </div>
             <StandardTable
               selectedRows={selectedRows}
-              loading={userLoading}
+              loading={clubClassLoading}
               columns={columns}
               data={data}
               isSelect={false}
@@ -262,12 +256,10 @@ export default class ClubClassTable extends PureComponent {
           </div>
         </Card>
         <ClubClassModal modalVisible={this.state.modalVisible}
-                   modalLoading={this.state.modalLoading}
-                   userCategory={userCategory}
-                   data={this.state.modalData}
-                   dispatch={this.props.dispatch}
-                   handleModalVisible={this.handleModalVisible.bind(this)}
-                   userCategoryObj={userCategory_obj}/>
+                        modalLoading={this.state.modalLoading}
+                        data={this.state.modalData}
+                        dispatch={this.props.dispatch}
+                        handleModalVisible={this.handleModalVisible.bind(this)}/>
 
       </PageHeaderLayout>
     );

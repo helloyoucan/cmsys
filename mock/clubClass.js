@@ -96,13 +96,13 @@ export function queryList(req, res) {
 export function getOne(req, res) {
   res.send(
     {
-      "ret": true, "msg": "获取用户信息成功",
+      "ret": true, "msg": "获取信息成功",
       "data": {
         "id": 1,
         "name": "文学类1",
         "lastupdTime": 1513827722000,
         "insertTime": 1513064417000,
-        "status": i % 2,
+        "status": 2,
         "lastupdMan": "admin",
         "insertMan": "admin"
       }
@@ -133,5 +133,5 @@ export function dels(req, res) {
    */
 }
 export default {
-  add, update, queryList, getOne, dels
+  add, update, queryList, getOne, dels, disable, enable
 };

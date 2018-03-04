@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {
-  Spin,
+  Input,
   Form,
   Select,
   Button,
@@ -29,7 +29,7 @@ export default class UserForm extends PureComponent {
 
   handleSearch = (e) => {
     e.preventDefault();
-    const { form} = this.props;
+    const {form} = this.props;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       const values = {
@@ -42,20 +42,15 @@ export default class UserForm extends PureComponent {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    let userCategorys = this.props.userCategory.map((item) => {
-      return (<RadioButton key={item.pmname} value={item.pmname}>{item.pmvalue}</RadioButton>)
-    })
     return (
       <Form onSubmit={this.handleSearch} layout="inline" style={{
         lineHeight: '40px',
         marginBottom: '10px'
       }}>
 
-        <FormItem label="用户类型">
-          {getFieldDecorator('categoryId')(
-            < RadioGroup >
-              {userCategorys.length > 0 ? userCategorys : <Spin spinning={true} size="small"></Spin>}
-            </RadioGroup>
+        <FormItem label="类别名">
+          {getFieldDecorator('name')(
+            <Input/>
           )}
         </FormItem>
         <Button type="primary" htmlType="submit">查询</Button>
