@@ -130,13 +130,13 @@ export const getNavData = app => [
           name: '用户管理',
           path: 'userManagement',
           icon: 'user',
-          component: dynamicWrapper(app, ['user', 'dictionary'], () => import('../routes/User/UserList')),
+          component: dynamicWrapper(app, ['user', 'dictionary'], () => import('../routes/User/UserTable')),
         },
         {
           name: '数据管理',
           path: 'dataManagement',
           icon: 'database',
-          component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+          component: dynamicWrapper(app, ['user','dictionary'], () => import('../routes/Dictionary/DictionaryTable')),
         },
         {
           name: '查询表格',

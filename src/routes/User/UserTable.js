@@ -9,15 +9,15 @@ import {
 } from 'antd';
 import StandardTable from '../../components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import FormList from './FormList';
-import ModalList from './ModalList';
+import UserForm from './UserForm';
+import UserModal from './UserModal';
 import moment from 'moment';
 
 @connect(state => ({
   user: state.user,
   dictionary: state.dictionary
 }))
-export default class UserList extends PureComponent {
+export default class UserTable extends PureComponent {
   state = {
     addInputValue: '',
     modalVisible: false,
@@ -38,10 +38,10 @@ export default class UserList extends PureComponent {
   componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
-      type: 'dictionary/getUserCategory'
+      type: 'dictionary/queryUserCategory'
     });
     dispatch({
-      type: 'user/queryUserList',
+      type: 'user/queryList',
       payload: {
         categoryId: '',
         pageNo: 1,
@@ -60,7 +60,7 @@ export default class UserList extends PureComponent {
       pageSize: pagination.pageSize,
     };
     dispatch({
-      type: 'user/queryUserList',
+      type: 'user/queryList',
       payload: params,
     });
   }
@@ -86,7 +86,7 @@ export default class UserList extends PureComponent {
           }
         });
         this.props.dispatch({
-          type: 'user/getOneUser',
+          type: 'user/getOne',
           payload: {
             id
           },
@@ -131,7 +131,7 @@ export default class UserList extends PureComponent {
     });
     const {dispatch} = this.props;
     dispatch({
-      type: 'user/queryUserList',
+      type: 'user/queryList',
       payload: {
         categoryId: value.categoryId,
         pageNo: 1,
@@ -148,7 +148,7 @@ export default class UserList extends PureComponent {
 
   handleChangeStatus(val, id) {
     const {dispatch} = this.props;
-    let type = val == 0 ? 'user/enableOneUser' : 'user/disableOneUser';
+    let type = val == 0 ? 'user/enableOne' : 'user/disableOne';
     this.setState({
       SwitchLoadingId: id,
     });
@@ -237,7 +237,7 @@ export default class UserList extends PureComponent {
         <Card bordered={false}>
           <div className="tableList">
             <div className="tableListForm">
-              <FormList
+              <UserForm
                 handleSearch={this.handleSearch.bind(this)}
                 formReset={this.handleFormReset.bind(this)}
                 userCategory={userCategory}
@@ -264,7 +264,7 @@ export default class UserList extends PureComponent {
             />
           </div>
         </Card>
-        <ModalList modalVisible={this.state.modalVisible}
+        <UserModal modalVisible={this.state.modalVisible}
                    modalLoading={this.state.modalLoading}
                    userCategory={userCategory}
                    data={this.state.modalData}

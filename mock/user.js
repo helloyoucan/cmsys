@@ -1,5 +1,5 @@
 import {getUrlParams} from './utils';
-export function addUser(req, res) {
+export function add(req, res) {
   res.send(
     {
       "ret": true,
@@ -16,7 +16,7 @@ export function addUser(req, res) {
    */
 
 }
-export function enableUser(req, res) {
+export function enable(req, res) {
   res.send(
     {
       "ret": true, "msg": "修改用户状态成功", "data": null
@@ -28,7 +28,7 @@ export function enableUser(req, res) {
    }
    );*/
 }
-export function disableUser(req, res) {
+export function disable(req, res) {
   res.send(
     {
       "ret": true, "msg": "修改用户状态成功", "data": null
@@ -40,7 +40,7 @@ export function disableUser(req, res) {
    }
    );*/
 }
-export function updateUser(req, res) {
+export function update(req, res) {
   res.send(
     {
       "ret": true, "msg": "保存用户成功", "data": null
@@ -54,7 +54,7 @@ export function updateUser(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
    */
 }
-export function queryUserList(req, res) {
+export function queryList(req, res) {
   let list = new Array();
   for (let i = (req.body.pageNo - 1) * req.body.pageSize; i < req.body.pageNo * req.body.pageSize; i++) {
     list.push(
@@ -92,7 +92,7 @@ export function queryUserList(req, res) {
    // 错误返回信息包括：用户权限不足，请重新登录
    );*/
 }
-export function getOneUser(req, res) {
+export function getOne(req, res) {
   res.send(
     {
       "ret": true, "msg": "获取用户信息成功",
@@ -118,5 +118,5 @@ export function getOneUser(req, res) {
    */
 }
 export default {
-  addUser, enableUser, disableUser, updateUser, queryUserList, getOneUser
+  add, enable, disable, update, queryList, getOne
 };

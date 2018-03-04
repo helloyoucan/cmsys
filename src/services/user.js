@@ -2,7 +2,7 @@ import request from '../utils/request';
 import {stringify} from 'qs';
 
 //添加用户
-export async function addUser(params) {
+export async function add(params) {
   /*
    *username	用户名	是	String
    categoryId	用户类型	是	String
@@ -16,10 +16,10 @@ export async function addUser(params) {
     },
   });
 }
-export async function enableUser(params) {
+export async function enable(params) {
   return request(`/sys/user/enable?id=${params.id}`);
 }
-export async function disableUser(params) {
+export async function disable(params) {
   /*
    * params:{
    * id:''
@@ -27,7 +27,7 @@ export async function disableUser(params) {
    * */
   return request(`/sys/user/disable?id=${params.id}`);
 }
-export async function updateUser(params) {
+export async function update(params) {
   /**
    id  用户id  是  int
    username  用户名  是  String
@@ -44,7 +44,7 @@ export async function updateUser(params) {
   });
 }
 //查询用户列表
-export async function queryUserList(params) {
+export async function queryList(params) {
   /*
    params:
    categoryId	用户类型	否	String
@@ -65,7 +65,7 @@ export async function queryUserList(params) {
   });
 }
 
-export async function getOneUser(params) {
+export async function getOne(params) {
   return request(`/sys/user/getOne?id=${params.id}`);
 }
 

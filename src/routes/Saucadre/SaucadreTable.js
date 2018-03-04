@@ -45,7 +45,7 @@ export default class SaucadreTable extends PureComponent {
       type: 'dictionary/getCollegeName'
     });
     dispatch({
-      type: 'dictionary/getSex'
+      type: 'dictionary/querySex'
     });
     dispatch({
       type: 'saucadre/queryList',

@@ -4,7 +4,8 @@ import {
   queryCollegeName,
   queryTweet,
   queryUserCategory,
-  getSex
+  querySex,
+  queryList, add, getOne, update,
 } from '../services/dictionary';
 
 export default {
@@ -14,12 +15,46 @@ export default {
     association: [],//协会类别
     collegeName: [],//学院名称
     sex: [],//性别
-    tweet: []//推文类别
+    tweet: [],//推文类别
+    data: {
+      list: [],
+      pagination: {},
+    },
+    loading: true,
+    modalLoading: true,
   },
 
   effects: {
+    *queryList({payload}, {call, put}) {
+      yield put({
+        type: 'changeLoading',
+        payload: true,
+      });
+      const response = yield call(queryList, payload);
+      yield put({
+        type: 'queryListReducers',
+        payload: response.data,
+      });
+      yield put({
+        type: 'changeLoading',
+        payload: false,
+      });
+    },
+    *add({payload, callback}, {call}) {
+      const response = yield call(add, payload);
+      if (callback) callback(response);
+    },
+    *getOne({payload, callback}, {call}) {
+      const response = yield call(getOne, payload);
+      if (callback) callback(response);
+    },
 
-    *getAssociation(_, {call, put}){
+    *update({payload, callback}, {call}) {
+      const response = yield call(update, payload);
+      if (callback) callback(response);
+    },
+    /*--------------------------------------------*/
+    *queryAssociation(_, {call, put}){
       const response = yield call(queryAssociation, {
         type: "ASSOCIATION_CATEGORY",
       });
@@ -28,7 +63,7 @@ export default {
         payload: response.data,
       });
     },
-    *getCollegeName(_, {call, put}){
+    *queryCollegeName(_, {call, put}){
       const response = yield call(queryCollegeName, {
         type: "COLLEGE_NAME",
       });
@@ -37,8 +72,8 @@ export default {
         payload: response.data,
       });
     },
-    *getSex(_, {call, put}){
-      const response = yield call(getSex, {
+    *querySex(_, {call, put}){
+      const response = yield call(querySex, {
         type: "SEX",
       });
       yield put({
@@ -46,7 +81,7 @@ export default {
         payload: response.data,
       });
     },
-    *getTweet(_, {call, put}){
+    *queryTweet(_, {call, put}){
       const response = yield call(queryTweet, {
         type: "TWEETS_CATEGORY",
       });
@@ -55,7 +90,7 @@ export default {
         payload: response.data,
       });
     },
-    *getUserCategory(_, {call, put}){
+    *queryUserCategory(_, {call, put}){
       const response = yield call(queryUserCategory, {
         type: "USER_CATEGORY",
       });
@@ -67,7 +102,19 @@ export default {
   },
 
   reducers: {
-
+    queryListReducers(state, {payload}) {
+      return {
+        ...state,
+        data: payload,
+      };
+    },
+    changeLoading(state, {payload}) {
+      return {
+        ...state,
+        loading: payload,
+      };
+    },
+    /*------------------------------------------------*/
     queryAssociationReducers(state, {payload}) {
       return {
         ...state,

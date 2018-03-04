@@ -24,7 +24,7 @@ import {
 const FormItem = Form.Item;
 const {Option} = Select;
 @Form.create()
-export default class ModalList extends PureComponent {
+export default class DictionaryTableModal extends PureComponent {
 
   state = {
     addInputValue: '',
@@ -51,7 +51,7 @@ export default class ModalList extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'user/addUser',
+              type: 'dictionary/add',
               payload: values,
               callback: (res) => {
                 if (res.ret) {
@@ -74,7 +74,7 @@ export default class ModalList extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'user/updateUser',
+              type: 'dictionary/update',
               payload: {
                 ...values,
                 id: data.data.id
@@ -103,7 +103,7 @@ export default class ModalList extends PureComponent {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {data, userCategory, modalLoading} = this.props;
+    const {data, modalLoading} = this.props;
     const {username, categoryId, assId} = data.data == undefined ? this.state.formData : data.data;
     const formData = data.data == undefined ? {} : data.data;
     let title = '';
@@ -134,7 +134,7 @@ export default class ModalList extends PureComponent {
               {formData.username}
             </LineMessage>
             <LineMessage label="用户类型">
-              {this.props.userCategoryObj[formData.categoryId]}
+              {formData.categoryId}
             </LineMessage>
             <LineMessage label="所属社团">
               {formData.assId==-1?"":formData.assId}
@@ -178,9 +178,7 @@ export default class ModalList extends PureComponent {
               initialValue: categoryId
             })(
               <Select placeholder="用户类型" style={{width: '100%'}}>
-                {userCategory.map((item) => {
-                  return ( <Option key={item.pmname} value={item.pmname}>{item.pmvalue}</Option>)
-                })}
+
               </Select>
             )}
             </FormItem>

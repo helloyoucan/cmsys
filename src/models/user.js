@@ -1,4 +1,4 @@
-import {queryUserList, addUser, getOneUser, updateUser, enableUser, disableUser} from '../services/user';
+import {queryList, add, getOne, update, enable, disable} from '../services/user';
 
 export default {
   namespace: 'user',
@@ -12,14 +12,14 @@ export default {
   },
 
   effects: {
-    *queryUserList({payload}, {call, put}) {
+    *queryList({payload}, {call, put}) {
       yield put({
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(queryUserList, payload);
+      const response = yield call(queryList, payload);
       yield put({
-        type: 'queryUserListReducers',
+        type: 'queryListReducers',
         payload: response.data,
       });
       yield put({
@@ -27,24 +27,24 @@ export default {
         payload: false,
       });
     },
-    *addUser({payload, callback}, {call}) {
-      const response = yield call(addUser, payload);
+    *add({payload, callback}, {call}) {
+      const response = yield call(add, payload);
       if (callback) callback(response);
     },
-    *getOneUser({payload, callback}, {call}) {
-      const response = yield call(getOneUser, payload);
+    *getOne({payload, callback}, {call}) {
+      const response = yield call(getOne, payload);
       if (callback) callback(response);
     },
 
-    *updateUser({payload, callback}, {call}) {
-      const response = yield call(updateUser, payload);
+    *update({payload, callback}, {call}) {
+      const response = yield call(update, payload);
       if (callback) callback(response);
     },
-    *enableOneUser({payload, callback}, {call, put}) {
-      const response = yield call(enableUser, payload);
+    *enableOne({payload, callback}, {call, put}) {
+      const response = yield call(enable, payload);
       if (response.ret) {
         yield put({
-          type: 'enableOneUserReducers',
+          type: 'enableOneReducers',
           payload: {
             id: payload.id,
           }
@@ -52,11 +52,11 @@ export default {
       }
       if (callback) callback(response);
     },
-    *disableOneUser({payload, callback}, {call, put,}) {
-      const response = yield call(disableUser, payload);
+    *disableOne({payload, callback}, {call, put,}) {
+      const response = yield call(disable, payload);
       if (response.ret) {
         yield put({
-          type: 'disableOneUserReducers',
+          type: 'disableOneReducers',
           payload: {
             id: payload.id,
           }
@@ -67,7 +67,7 @@ export default {
   },
 
   reducers: {
-    queryUserListReducers(state, {payload}) {
+    queryListReducers(state, {payload}) {
       return {
         ...state,
         data: payload,
@@ -79,7 +79,7 @@ export default {
         loading: payload,
       };
     },
-    enableOneUserReducers(state, {payload}) {
+    enableOneReducers(state, {payload}) {
       const newUserList = state.data.list.map((item) => {
         if (item.id == payload.id) {
           return {
@@ -97,7 +97,7 @@ export default {
         }
       };
     },
-    disableOneUserReducers(state, {payload}) {
+    disableOneReducers(state, {payload}) {
       const newUserList = state.data.list.map((item) => {
         if (item.id == payload.id) {
           return {

@@ -16,15 +16,19 @@ const proxy = {
   // 'GET /api/currentUser': login,
   'GET /logout': logout,
   //字典管理
-  'GET /sys/dic/getDic': Dictionary.queryCategory,
+  'GET /sys/dic/getDic': Dictionary.queryCategory,//按type分别查找
+  'POST /sys/dic/save': Dictionary.add,
+  'POST /sys/dic/update': Dictionary.update,
+  'POST /sys/dic/page': Dictionary.queryList,
+  'GET /sys/dic/getOne': Dictionary.getOne,
 
   //用户管理
-  'POST /sys/user/save': User.addUser,
-  'GET /sys/user/enable': User.enableUser,
-  'GET /sys/user/disable': User.disableUser,
-  'POST /sys/user/update': User.updateUser,
-  'POST /sys/user/page': User.queryUserList,
-  'GET /sys/user/getOne': User.getOneUser,
+  'POST /sys/user/save': User.add,
+  'GET /sys/user/enable': User.enable,
+  'GET /sys/user/disable': User.disable,
+  'POST /sys/user/update': User.update,
+  'POST /sys/user/page': User.queryList,
+  'GET /sys/user/getOne': User.getOne,
 
   //社联干部管理
   'POST /sys/saucadre/save': Saucadre.add,

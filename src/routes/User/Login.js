@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'dva';
 import {Link} from 'dva/router';
-import {Form, Input, Tabs, Button, Icon, Checkbox, Row, Col, Alert} from 'antd';
+import {Form, Input, Tabs, Button, Icon, Checkbox, Alert} from 'antd';
 import styles from './Login.less';
 
 const FormItem = Form.Item;
@@ -25,17 +25,6 @@ export default class Login extends Component {
     this.setState({type});
   }
 
-  onGetCaptcha = () => {
-    let count = 59;
-    this.setState({count});
-    this.interval = setInterval(() => {
-      count -= 1;
-      this.setState({count});
-      if (count === 0) {
-        clearInterval(this.interval);
-      }
-    }, 1000);
-  }
 
   handleSubmit = (e) => {
     e.preventDefault();

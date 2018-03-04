@@ -1,17 +1,12 @@
 import React, {PureComponent} from 'react';
 import {
-  Spin,
   Form,
-  Select,
   Button,
-  Radio
+  Input,
 } from 'antd';
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
-const {Option} = Select;
 @Form.create()
-export default class FormList extends PureComponent {
+export default class UserForm extends PureComponent {
   state = {
     formValues: {},
   };
@@ -42,20 +37,15 @@ export default class FormList extends PureComponent {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    let userCategorys = this.props.userCategory.map((item) => {
-      return (<RadioButton key={item.pmname} value={item.pmname}>{item.pmvalue}</RadioButton>)
-    })
     return (
       <Form onSubmit={this.handleSearch} layout="inline" style={{
         lineHeight: '40px',
         marginBottom: '10px'
       }}>
 
-        <FormItem label="用户类型">
-          {getFieldDecorator('categoryId')(
-            < RadioGroup >
-              {userCategorys.length > 0 ? userCategorys : <Spin spinning={true} size="small"></Spin>}
-            </RadioGroup>
+        <FormItem label="分类名称">
+          {getFieldDecorator('pmappname')(
+           <Input />
           )}
         </FormItem>
         <Button type="primary" htmlType="submit">查询</Button>
