@@ -29,7 +29,7 @@ export default class DictionaryTableModal extends PureComponent {
   state = {
     addInputValue: '',
     confirmLoading: false,
-    formData: {username: '', categoryId: '', assId: ''},
+    formData: {pmappname: '', pmname: '', pmvalue: ''},
     ModalTitle: '',
   };
 
@@ -104,7 +104,7 @@ export default class DictionaryTableModal extends PureComponent {
   render() {
     const {getFieldDecorator} = this.props.form;
     const {data, modalLoading} = this.props;
-    const {username, categoryId, assId} = data.data == undefined ? this.state.formData : data.data;
+    const {pmappname, pmname, pmvalue} = data.data == undefined ? this.state.formData : data.data;
     const formData = data.data == undefined ? {} : data.data;
     let title = '';
     switch (data.key) {
@@ -122,7 +122,7 @@ export default class DictionaryTableModal extends PureComponent {
     }
     return (
       <Modal
-        title={title + '用户'}
+        title={title + '字典表'}
         visible={this.props.modalVisible}
         onOk={this.handleOK.bind(this)}
         onCancel={() => this.props.handleModalVisible()}
@@ -130,20 +130,23 @@ export default class DictionaryTableModal extends PureComponent {
       >
         {data.key == "read" ?
           <Card loading={modalLoading} bordered={false}>
-            <LineMessage label="用户名">
-              {formData.username}
+            <LineMessage label="分类名称">
+              {formData.pmappname}
             </LineMessage>
-            <LineMessage label="用户类型">
-              {formData.categoryId}
+            <LineMessage label="项名">
+              {formData.pmname}
             </LineMessage>
-            <LineMessage label="所属社团">
-              {formData.assId==-1?"":formData.assId}
+            <LineMessage label="项值">
+              {formData.pmvalue}
             </LineMessage>
-            <LineMessage label="用户状态">
+            <LineMessage label="状态">
               {formData.status == 1 ? '启用' : '禁用'}
             </LineMessage>
             <LineMessage label="添加时间">
               {moment(formData.insertTime).format('YYYY-MM-DD')}
+            </LineMessage>
+            <LineMessage label="添加时间">
+              {formData.insertTime}
             </LineMessage>
             <LineMessage label="添加人">
               {formData.insertMan}
@@ -161,10 +164,10 @@ export default class DictionaryTableModal extends PureComponent {
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
-              label="用户名"
-            >  {getFieldDecorator('username', {
+              label="分类名称"
+            >  {getFieldDecorator('pmappname', {
               rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: username
+              initialValue: pmappname
             })(
               <Input/>
             )}
@@ -172,22 +175,21 @@ export default class DictionaryTableModal extends PureComponent {
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
-              label="用户类型"
-            >  {getFieldDecorator('categoryId', {
+              label="项名"
+            >  {getFieldDecorator('pmname', {
               rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: categoryId
+              initialValue: pmname
             })(
-              <Select placeholder="用户类型" style={{width: '100%'}}>
-
-              </Select>
+              <Input/>
             )}
             </FormItem>
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
-              label="所属社团"
-            >  {getFieldDecorator('assId', {
-              initialValue: assId
+              label="项值"
+            >  {getFieldDecorator('pmvalue', {
+              rules: [{required: true, message: '请输入!', whitespace: true}],
+              initialValue: pmvalue
             })(
               <Input/>
             )}

@@ -38,10 +38,7 @@ export default class ClubClassTable extends PureComponent {
   componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
-      type: 'dictionary/queryUserCategory'
-    });
-    dispatch({
-      type: 'user/queryList',
+      type: 'clubClass/queryList',
       payload: {
         categoryId: '',
         pageNo: 1,
@@ -60,7 +57,7 @@ export default class ClubClassTable extends PureComponent {
       pageSize: pagination.pageSize,
     };
     dispatch({
-      type: 'user/queryList',
+      type: 'clubClass/queryList',
       payload: params,
     });
   }
@@ -86,7 +83,7 @@ export default class ClubClassTable extends PureComponent {
           }
         });
         this.props.dispatch({
-          type: 'user/getOne',
+          type: 'clubClass/getOne',
           payload: {
             id
           },
@@ -131,7 +128,7 @@ export default class ClubClassTable extends PureComponent {
     });
     const {dispatch} = this.props;
     dispatch({
-      type: 'user/queryList',
+      type: 'clubClass/queryList',
       payload: {
         categoryId: value.categoryId,
         pageNo: 1,
@@ -148,7 +145,7 @@ export default class ClubClassTable extends PureComponent {
 
   handleChangeStatus(val, id) {
     const {dispatch} = this.props;
-    let type = val == 0 ? 'user/enableOne' : 'user/disableOne';
+    let type = val == 0 ? 'clubClass/enableOne' : 'clubClass/disableOne';
     this.setState({
       SwitchLoadingId: id,
     });

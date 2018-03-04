@@ -2,11 +2,13 @@ import {getRule, postRule} from './mock/rule';
 import {getNotices} from './mock/notices';
 import {delay} from 'roadhog-api-doc';
 import {login, logout} from './mock/login';
+import File from './mock/file';
+import Workflow from './mock/workflow';
+
 import Dictionary from './mock/dictionary';
 import User from './mock/user';
 import Saucadre from './mock/saucadre';
-import File from './mock/file';
-import Workflow from './mock/workflow';
+import clubClass from './mock/clubClass';
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
 
@@ -15,6 +17,16 @@ const proxy = {
   'POST /login': login,
   // 'GET /api/currentUser': login,
   'GET /logout': logout,
+
+  //社团类别管理
+  'POST /sys/clubClass/save': clubClass.add,
+  'GET /sys/clubClass/enable': clubClass.enable,
+  'GET /sys/clubClass/disable': clubClass.disable,
+  'POST /sys/clubClass/update': clubClass.update,
+  'POST /sys/clubClass/page': clubClass.queryList,
+  'GET /sys/clubClass/getOne': clubClass.getOne,
+  'GET /sys/clubClass/delete': clubClass.dels,
+
   //字典管理
   'GET /sys/dic/getDic': Dictionary.queryCategory,//按type分别查找
   'POST /sys/dic/save': Dictionary.add,
