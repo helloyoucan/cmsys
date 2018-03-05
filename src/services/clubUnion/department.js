@@ -9,7 +9,7 @@ export async function add(params) {
    associationId	社团ID，只有社团管理员才需要传	否	int
    status	用户状态，可不传，后端默认设置为启用	否	int
    * */
-  return request('/sys/clubCadre/save', {
+  return request('/sys/clubUniondepartment/save', {
     method: 'POST',
     body: {
       ...params,
@@ -17,15 +17,10 @@ export async function add(params) {
   });
 }
 export async function enable(params) {
-  return request(`/sys/clubCadre/job?ids=${params.ids}`);
+  return request(`/sys/clubUniondepartment/enable?id=${params.id}`);
 }
 export async function disable(params) {
-  /*
-   * params:{
-   * ids:''
-   * }
-   * */
-  return request(`/sys/clubCadre/quit?ids=${params.ids}`);
+  return request(`/sys/clubUniondepartment/disable?id=${params.id}`);
 }
 export async function update(params) {
   /**
@@ -36,7 +31,7 @@ export async function update(params) {
    status  用户状态，可不传，后端默认设置为启用  否  int
 
    * */
-  return request('/sys/clubCadre/update', {
+  return request('/sys/clubUniondepartment/update', {
     method: 'POST',
     body: {
       ...params,
@@ -51,8 +46,8 @@ export async function queryList(params) {
    pageNo	页码，默认为1	否	int
    pageSize	每页显示条数，默认为10	否	int
    * */
-  // return request(`/sys/clubCadre/page?${stringify(params)}`);
-  return request('/sys/clubCadre/page', {
+  // return request(`/sys/saucadre/page?${stringify(params)}`);
+  return request('/sys/clubUniondepartment/page', {
     method: 'POST',
     body: {
       ...params,
@@ -61,9 +56,9 @@ export async function queryList(params) {
 }
 
 export async function getOne(params) {
-  return request(`/sys/clubCadre/getOne?id=${params.id}`);
+  return request(`/sys/clubUniondepartment/getOne?id=${params.id}`);
 }
 export async function dels(params) {
-  return request(`/sys/clubCadre/delete?ids=${params.ids}`);
+  return request(`/sys/clubUniondepartment/delete?ids=${params.ids}`);
 }
 

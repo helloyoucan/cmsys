@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'dva';
-import LineMessage from '../../components/LineMessage/index';
+import LineMessage from '../../../components/LineMessage/index';
 import moment from 'moment';
 import {
   Row,
@@ -24,7 +24,7 @@ import {
 const FormItem = Form.Item;
 const {Option} = Select;
 @Form.create()
-export default class ClubClassModal extends PureComponent {
+export default class DepartmentModal extends PureComponent {
 
   state = {
     addInputValue: '',
@@ -130,7 +130,7 @@ export default class ClubClassModal extends PureComponent {
       >
         {data.key == "read" ?
           <Card loading={modalLoading} bordered={false}>
-            <LineMessage label="类别名">
+            <LineMessage label="部门名称">
               {formData.name}
             </LineMessage>
             <LineMessage label="用户状态">
@@ -155,7 +155,7 @@ export default class ClubClassModal extends PureComponent {
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
-              label="类别名"
+              label="部门名称"
             >  {getFieldDecorator('name', {
               rules: [{required: true, message: '请输入!', whitespace: true}],
               initialValue: name

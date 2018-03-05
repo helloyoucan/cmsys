@@ -117,7 +117,7 @@ export const getNavData = app => [
             {
               name: '部门管理',
               path: 'department',
-              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+              component: dynamicWrapper(app, ['clubUnion/department'], () => import('../routes/clubUnion/department/DepartmentTable')),
             },
             {
               name: '资料下载管理',

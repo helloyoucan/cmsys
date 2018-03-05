@@ -11,7 +11,7 @@ const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 const {Option} = Select;
 @Form.create()
-export default class ClubClassForm extends PureComponent {
+export default class DepartmentForm extends PureComponent {
   state = {
     formValues: {},
   };
@@ -48,7 +48,7 @@ export default class ClubClassForm extends PureComponent {
         marginBottom: '10px'
       }}>
 
-        <FormItem label="类别名">
+        <FormItem label="部门名称">
           {getFieldDecorator('name')(
             <Input/>
           )}

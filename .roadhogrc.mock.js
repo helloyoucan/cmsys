@@ -8,6 +8,7 @@ import Workflow from './mock/workflow';
 import Dictionary from './mock/dictionary';
 import User from './mock/user';
 import clubUnionCadre from './mock/clubUnion/cadre';
+import clubUniondepartment from './mock/clubUnion/department';
 import clubCadre from './mock/club/cadre';
 import clubClass from './mock/clubClass';
 // 是否禁用代理
@@ -18,7 +19,14 @@ const proxy = {
   'POST /login': login,
   // 'GET /api/currentUser': login,
   'GET /logout': logout,
-
+  //社联干部管理
+  'POST /sys/clubUniondepartment/save': clubUniondepartment.add,
+  'GET /sys/clubUniondepartment/enable': clubUniondepartment.enable,
+  'GET /sys/clubUniondepartment/disable': clubUniondepartment.disable,
+  'POST /sys/clubUniondepartment/update': clubUniondepartment.update,
+  'POST /sys/clubUniondepartment/page': clubUniondepartment.queryList,
+  'GET /sys/clubUniondepartment/getOne': clubUniondepartment.getOne,
+  'GET /sys/clubUniondepartment/delete': clubUniondepartment.dels,
   //社团类别管理
   'POST /sys/clubClass/save': clubClass.add,
   'GET /sys/clubClass/enable': clubClass.enable,
@@ -52,13 +60,13 @@ const proxy = {
   'GET /sys/saucadre/getOne': clubUnionCadre.getOne,
   'GET /sys/saucadre/delete': clubUnionCadre.dels,
   //社团干部管理
-  'POST /sys/saucadre/save': clubCadre.add,
-  'GET /sys/saucadre/job': clubCadre.enable,//在职
-  'GET /sys/saucadre/quit': clubCadre.disable,//离职
-  'POST /sys/saucadre/update': clubCadre.update,
-  'POST /sys/saucadre/page': clubCadre.queryList,
-  'GET /sys/saucadre/getOne': clubCadre.getOne,
-  'GET /sys/saucadre/delete': clubCadre.dels,
+  'POST /sys/clubCadre/save': clubCadre.add,
+  'GET /sys/clubCadre/job': clubCadre.enable,//在职
+  'GET /sys/clubCadre/quit': clubCadre.disable,//离职
+  'POST /sys/clubCadre/update': clubCadre.update,
+  'POST /sys/clubCadre/page': clubCadre.queryList,
+  'GET /sys/clubCadre/getOne': clubCadre.getOne,
+  'GET /sys/clubCadre/delete': clubCadre.dels,
   //上传文件
   'POST /sys/file/upload': File.uploadFile,
 
@@ -114,4 +122,4 @@ const proxy = {
   'GET /api/notices': getNotices,
 };
 
-export default noProxy ? {} : delay(proxy, 1000);
+export default noProxy ? {} : delay(proxy, 500);
