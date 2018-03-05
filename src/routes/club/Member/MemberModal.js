@@ -16,7 +16,7 @@ const FormItem = Form.Item;
 const {Option} = Select;
 const {TextArea} = Input;
 @Form.create()
-export default class CadreModal extends PureComponent {
+export default class MemberModal extends PureComponent {
 
   state = {
     addInputValue: '',
@@ -54,7 +54,7 @@ export default class CadreModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'clubUnionCadre/add',
+              type: 'clubMember/add',
               payload: values,
               callback: (res) => {
                 if (res.ret) {
@@ -77,7 +77,7 @@ export default class CadreModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'clubUnionCadre/update',
+              type: 'clubMember/update',
               payload: {
                 ...values,
                 id: data.data.id
@@ -124,7 +124,7 @@ export default class CadreModal extends PureComponent {
     }
     return (
       <Modal
-        title={title + '社联干部'}
+        title={title + '会员'}
         visible={this.props.modalVisible}
         onOk={this.handleOK.bind(this)}
         onCancel={() => this.props.handleModalVisible()}

@@ -9,6 +9,7 @@ import Dictionary from './mock/dictionary';
 import User from './mock/user';
 import clubUnionCadre from './mock/clubUnion/cadre';
 import clubUniondepartment from './mock/clubUnion/department';
+import clubMember from './mock/club/member';
 import clubCadre from './mock/club/cadre';
 import clubClass from './mock/clubClass';
 // 是否禁用代理
@@ -19,6 +20,14 @@ const proxy = {
   'POST /login': login,
   // 'GET /api/currentUser': login,
   'GET /logout': logout,
+  //社团会员管理
+  'POST /sys/clubMember/save': clubMember.add,
+  'GET /sys/clubMember/enable': clubMember.enable,
+  'GET /sys/clubMember/disable': clubMember.disable,
+  'POST /sys/clubMember/update': clubMember.update,
+  'POST /sys/clubMember/page': clubMember.queryList,
+  'GET /sys/clubMember/getOne': clubMember.getOne,
+  'GET /sys/clubMember/delete': clubMember.dels,
   //社联干部管理
   'POST /sys/clubUniondepartment/save': clubUniondepartment.add,
   'GET /sys/clubUniondepartment/enable': clubUniondepartment.enable,

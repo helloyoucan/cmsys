@@ -122,7 +122,7 @@ export default class ClubClassModal extends PureComponent {
     }
     return (
       <Modal
-        title={title + '用户'}
+        title={title + '社团类型'}
         visible={this.props.modalVisible}
         onOk={this.handleOK.bind(this)}
         onCancel={() => this.props.handleModalVisible()}
@@ -133,7 +133,7 @@ export default class ClubClassModal extends PureComponent {
             <LineMessage label="类别名">
               {formData.name}
             </LineMessage>
-            <LineMessage label="用户状态">
+            <LineMessage label="社团类型状态">
               {formData.status == 1 ? '启用' : '禁用'}
             </LineMessage>
             <LineMessage label="添加时间">

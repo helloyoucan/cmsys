@@ -54,7 +54,7 @@ export default class CadreModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'saucadre/add',
+              type: 'clubCadre/add',
               payload: values,
               callback: (res) => {
                 if (res.ret) {
@@ -77,7 +77,7 @@ export default class CadreModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'saucadre/update',
+              type: 'clubCadre/update',
               payload: {
                 ...values,
                 id: data.data.id

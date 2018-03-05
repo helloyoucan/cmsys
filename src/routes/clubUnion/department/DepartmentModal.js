@@ -51,7 +51,7 @@ export default class DepartmentModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'clubClass/add',
+              type: 'clubDepartment/add',
               payload: values,
               callback: (res) => {
                 if (res.ret) {
@@ -74,7 +74,7 @@ export default class DepartmentModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'clubClass/update',
+              type: 'clubDepartment/update',
               payload: {
                 ...values,
                 id: data.data.id
@@ -122,7 +122,7 @@ export default class DepartmentModal extends PureComponent {
     }
     return (
       <Modal
-        title={title + '用户'}
+        title={title + '部门'}
         visible={this.props.modalVisible}
         onOk={this.handleOK.bind(this)}
         onCancel={() => this.props.handleModalVisible()}
@@ -133,7 +133,7 @@ export default class DepartmentModal extends PureComponent {
             <LineMessage label="部门名称">
               {formData.name}
             </LineMessage>
-            <LineMessage label="用户状态">
+            <LineMessage label="部门状态">
               {formData.status == 1 ? '启用' : '禁用'}
             </LineMessage>
             <LineMessage label="添加时间">
