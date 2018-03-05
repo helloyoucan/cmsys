@@ -10,16 +10,16 @@ import {
   Menu,
   Icon
 } from 'antd';
-import StandardTable from '../../components/StandardTable';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import SaucadreForm from './SaucadreForm';
-import SaucadreModal from './SaucadreModal';
+import StandardTable from '../../../components/StandardTable/index';
+import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
+import CadreForm from './CadreForm';
+import CadreModal from './CadreModal';
 
 @connect(state => ({
-  saucadre: state.saucadre,
+  clubUnionCadre: state.clubUnionCadre,
   dictionary: state.dictionary,
 }))
-export default class SaucadreTable extends PureComponent {
+export default class CadreTable extends PureComponent {
   state = {
     addInputValue: '',
     modalVisible: false,
@@ -48,7 +48,7 @@ export default class SaucadreTable extends PureComponent {
       type: 'dictionary/querySex'
     });
     dispatch({
-      type: 'saucadre/queryList',
+      type: 'clubUnionCadre/queryList',
       payload: {
         keyword: '',
         pageNo: 1,
@@ -67,7 +67,7 @@ export default class SaucadreTable extends PureComponent {
       pageSize: pagination.pageSize,
     };
     dispatch({
-      type: 'saucadre/queryList',
+      type: 'clubUnionCadre/queryList',
       payload: params,
     });
   }
@@ -93,7 +93,7 @@ export default class SaucadreTable extends PureComponent {
           }
         });
         this.props.dispatch({
-          type: 'saucadre/getOne',
+          type: 'clubUnionCadre/getOne',
           payload: {
             id
           },
@@ -141,7 +141,7 @@ export default class SaucadreTable extends PureComponent {
     });
     const {dispatch} = this.props;
     dispatch({
-      type: 'saucadre/queryList',
+      type: 'clubUnionCadre/queryList',
       payload: {
         keyword: value.keyword,
         pageNo: 1,
@@ -158,7 +158,7 @@ export default class SaucadreTable extends PureComponent {
 
   handleChangeStatus(val, id) {
     const {dispatch} = this.props;
-    let type = val == 0 ? 'saucadre/enable' : 'saucadre/disable';
+    let type = val == 0 ? 'clubUnionCadre/enable' : 'clubUnionCadre/disable';
     this.setState({
       SwitchLoadingId: id,
       selectedRows: [],
@@ -185,12 +185,12 @@ export default class SaucadreTable extends PureComponent {
     let ids = [];
     switch (e.key) {
       case 'enable':
-        type = 'saucadre/enable';
+        type = 'clubUnionCadre/enable';
         newSelectedRows = selectedRows.filter((item) => (item.status == 0));
         ids = newSelectedRows.map((item) => (item.id));
         break;
       case 'disable':
-        type = 'saucadre/disable';
+        type = 'clubUnionCadre/disable';
         newSelectedRows = selectedRows.filter((item) => (item.status == 1));
         ids = newSelectedRows.map((item) => (item.id));
         break;
@@ -201,7 +201,7 @@ export default class SaucadreTable extends PureComponent {
       return;
     }
     dispatch({
-      type: 'saucadre/changeLoading',
+      type: 'clubUnionCadre/changeLoading',
       payload: {
         bool: true,
       },
@@ -216,7 +216,7 @@ export default class SaucadreTable extends PureComponent {
           selectedRows: [],
         });
         dispatch({
-          type: 'saucadre/changeLoading',
+          type: 'clubUnionCadre/changeLoading',
           payload: {
             bool: false,
           },
@@ -226,23 +226,23 @@ export default class SaucadreTable extends PureComponent {
   }
 
   handleDelete() {
-    const {dispatch, saucadre: {data: {pagination}}} = this.props;
+    const {dispatch, clubUnionCadre: {data: {pagination}}} = this.props;
     const {selectedRows, formValues} = this.state;
     if (!selectedRows) return;
     dispatch({
-      type: 'saucadre/changeLoading',
+      type: 'clubUnionCadre/changeLoading',
       payload: {
         bool: true,
       },
     });
     dispatch({
-      type: 'saucadre/dels',
+      type: 'clubUnionCadre/dels',
       payload: {
         ids: selectedRows.map((item) => (item.id))
       },
       callback: () => {
         dispatch({
-          type: 'saucadre/queryList',
+          type: 'clubUnionCadre/queryList',
           payload: {
             ...formValues,
             pageNo: pagination.currentPage,
@@ -258,7 +258,7 @@ export default class SaucadreTable extends PureComponent {
 
 
   render() {
-    const {saucadre: {loading: userLoading, data}, dictionary: {collegeName, sex}} = this.props;
+    const {clubUnionCadre: {loading: userLoading, data}, dictionary: {collegeName, sex}} = this.props;
     let collegeName_obj = {};
     collegeName.forEach((item) => {
       collegeName_obj[item.pmname] = item.pmvalue;
@@ -342,7 +342,7 @@ export default class SaucadreTable extends PureComponent {
         <Card bordered={false}>
           <div className="tableList">
             <div className="tableListForm">
-              <SaucadreForm
+              <CadreForm
                 handleSearch={this.handleSearch.bind(this)}
                 formReset={this.handleFormReset.bind(this)}
                 dispatch={this.props.dispatch}
@@ -374,7 +374,7 @@ export default class SaucadreTable extends PureComponent {
             />
           </div>
         </Card>
-        <SaucadreModal modalVisible={this.state.modalVisible}
+        <CadreModal modalVisible={this.state.modalVisible}
                        modalLoading={this.state.modalLoading}
                        data={this.state.modalData}
                        dispatch={this.props.dispatch}

@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'dva';
-import LineMessage from '../../components/LineMessage/index';
+import LineMessage from '../../../components/LineMessage/index';
 import moment from 'moment';
 import {
   Card,
@@ -16,7 +16,7 @@ const FormItem = Form.Item;
 const {Option} = Select;
 const {TextArea} = Input;
 @Form.create()
-export default class SaucadreModal extends PureComponent {
+export default class CadreModal extends PureComponent {
 
   state = {
     addInputValue: '',

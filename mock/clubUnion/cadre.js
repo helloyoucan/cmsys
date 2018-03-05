@@ -1,4 +1,4 @@
-import {getUrlParams} from './utils';
+import {getUrlParams} from '../utils';
 export function add(req, res) {
   /*
    stuNum：学号

@@ -101,7 +101,7 @@ export const getNavData = app => [
         },
         {
           name: '社联及社联干部管理',
-          path: 'socialUnionAndClubCadresManagement',
+          path: 'clubUnionManagement',
           icon: 'solution',
           children: [
             {
@@ -111,8 +111,8 @@ export const getNavData = app => [
             },
             {
               name: '社联干部管理',
-              path: 'saucadre',
-              component: dynamicWrapper(app, ['saucadre', 'dictionary'], () => import('../routes/Saucadre/SaucadreTable')),
+              path: 'cadre',
+              component: dynamicWrapper(app, ['clubUnion/cadre', 'dictionary'], () => import('../routes/clubUnion/Cadre/CadreTable')),
             },
             {
               name: '部门管理',

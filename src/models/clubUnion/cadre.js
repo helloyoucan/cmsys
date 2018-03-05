@@ -1,7 +1,7 @@
-import {queryList, add, getOne, update, enable, disable, dels} from '../services/saucadre';
+import {queryList, add, getOne, update, enable, disable, dels} from '../../services/clubUnion/cadre';
 
 export default {
-  namespace: 'saucadre',
+  namespace: 'clubUnionCadre',
   state: {
     data: {
       list: [],

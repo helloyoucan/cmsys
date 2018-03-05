@@ -1,4 +1,4 @@
-import request from '../utils/request';
+import request from '../../utils/request';
 import {stringify} from 'qs';
 
 //添加用户
