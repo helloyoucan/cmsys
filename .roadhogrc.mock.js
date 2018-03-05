@@ -8,6 +8,7 @@ import Workflow from './mock/workflow';
 import Dictionary from './mock/dictionary';
 import User from './mock/user';
 import clubUnionCadre from './mock/clubUnion/cadre';
+import clubCadre from './mock/club/cadre';
 import clubClass from './mock/clubClass';
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
@@ -50,7 +51,14 @@ const proxy = {
   'POST /sys/saucadre/page': clubUnionCadre.queryList,
   'GET /sys/saucadre/getOne': clubUnionCadre.getOne,
   'GET /sys/saucadre/delete': clubUnionCadre.dels,
-
+  //社团干部管理
+  'POST /sys/saucadre/save': clubCadre.add,
+  'GET /sys/saucadre/job': clubCadre.enable,//在职
+  'GET /sys/saucadre/quit': clubCadre.disable,//离职
+  'POST /sys/saucadre/update': clubCadre.update,
+  'POST /sys/saucadre/page': clubCadre.queryList,
+  'GET /sys/saucadre/getOne': clubCadre.getOne,
+  'GET /sys/saucadre/delete': clubCadre.dels,
   //上传文件
   'POST /sys/file/upload': File.uploadFile,
 

@@ -53,7 +53,7 @@ export const getNavData = app => [
             {
               name: '干部管理',
               path: 'cadres',
-              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+              component: dynamicWrapper(app, ['club/cadre','dictionary'], () => import('../routes/club/Cadre/CadreTable')),
             },
             {
               name: '会员管理',
