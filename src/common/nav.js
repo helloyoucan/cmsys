@@ -53,12 +53,12 @@ export const getNavData = app => [
             {
               name: '干部管理',
               path: 'cadre',
-              component: dynamicWrapper(app, ['club/cadre','dictionary'], () => import('../routes/club/Cadre/CadreTable')),
+              component: dynamicWrapper(app, ['club/cadre', 'dictionary'], () => import('../routes/club/Cadre/CadreTable')),
             },
             {
               name: '会员管理',
               path: 'member',
-              component: dynamicWrapper(app, ['club/member','dictionary'], () => import('../routes/club/Member/MemberTable')),
+              component: dynamicWrapper(app, ['club/member', 'dictionary'], () => import('../routes/club/Member/MemberTable')),
             },
             {
               name: '社团审批',
@@ -117,12 +117,12 @@ export const getNavData = app => [
             {
               name: '部门管理',
               path: 'department',
-              component: dynamicWrapper(app, ['clubUnion/department'], () => import('../routes/clubUnion/department/DepartmentTable')),
+              component: dynamicWrapper(app, ['clubUnion/department'], () => import('../routes/clubUnion/Department/DepartmentTable')),
             },
             {
               name: '资料下载管理',
               path: 'dataDownload',
-              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+              component: dynamicWrapper(app, ['file','clubUnion/dataDownload'], () => import('../routes/clubUnion/DataDownload/DataDownloadTable')),
             },
           ]
         },
