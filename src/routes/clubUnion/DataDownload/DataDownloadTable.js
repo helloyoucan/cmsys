@@ -14,10 +14,10 @@ import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import DataDownloadForm from './DataDownloadForm';
 import DataDownloadModal from './DataDownloadModal';
+import moment from 'moment';
 
 @connect(state => ({
   dataDownload: state.dataDownload,
-  dictionary: state.dictionary,
 }))
 export default class DataDownloadTable extends PureComponent {
   state = {
@@ -41,12 +41,6 @@ export default class DataDownloadTable extends PureComponent {
 
   componentDidMount() {
     const {dispatch} = this.props;
-    dispatch({
-      type: 'dictionary/queryCollegeName'
-    });
-    dispatch({
-      type: 'dictionary/querySex'
-    });
     dispatch({
       type: 'dataDownload/queryList',
       payload: {
@@ -197,51 +191,31 @@ export default class DataDownloadTable extends PureComponent {
   }
 
   render() {
-    const {dataDownload: {loading: userLoading, data}, dictionary: {collegeName, sex}} = this.props;
-    let collegeName_obj = {};
-    collegeName.forEach((item) => {
-      collegeName_obj[item.pmname] = item.pmvalue;
-    });
-
-    let sex_obj = {};
-    sex.forEach((item) => {
-      sex_obj[item.pmname] = item.pmvalue;
-    });
+    const {dataDownload: {loading: userLoading, data}} = this.props;
     const {selectedRows} = this.state;
     const columns = [
       {
-        title: '姓名',
-        dataIndex: 'name',
+        title: '文件名',
+        dataIndex: 'fileName',
       },
       {
-        title: '部门',
-        dataIndex: 'dept',
+        title: '文件路径',
+        dataIndex: 'path',
       },
       {
-        title: '现任职位',
-        dataIndex: 'position',
+        title: '描述',
+        dataIndex: 'describe',
       },
       {
-        title: '性别',
-        dataIndex: 'sex',
+        title: '上传时间',
+        dataIndex: 'insertTime',
         render(val) {
-          return sex_obj[val];
+          return <span>{moment(val).format('YYYY-MM-DD')}</span>;
         },
       },
       {
-        title: '学号',
-        dataIndex: 'stuNum',
-      },
-      {
-        title: '所属学院',
-        dataIndex: 'college',
-        render(val) {
-          return collegeName_obj[val];
-        },
-      },
-      {
-        title: '所属专业',
-        dataIndex: 'major',
+        title: '上传人',
+        dataIndex: 'insertMan',
       },
       {
         title: '操作',
@@ -290,14 +264,10 @@ export default class DataDownloadTable extends PureComponent {
           </div>
         </Card>
         <DataDownloadModal modalVisible={this.state.modalVisible}
-                     modalLoading={this.state.modalLoading}
-                     data={this.state.modalData}
-                     dispatch={this.props.dispatch}
-                     handleModalVisible={this.handleModalVisible.bind(this)}
-                     collegeName={collegeName}
-                     collegeNameObj={collegeName_obj}
-                     sex={sex}
-                     sex_obj={sex_obj}
+                           modalLoading={this.state.modalLoading}
+                           data={this.state.modalData}
+                           dispatch={this.props.dispatch}
+                           handleModalVisible={this.handleModalVisible.bind(this)}
         />
 
       </PageHeaderLayout>

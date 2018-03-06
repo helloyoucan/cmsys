@@ -14,7 +14,7 @@ export function add(req, res) {
   res.send(
     {
       "ret": true,
-      "msg": "保存会员信息成功",
+      "msg": "保存信息成功",
       "data": null
     }
   );
@@ -28,11 +28,11 @@ export function add(req, res) {
 
 }
 export function enable(req, res) {
-  /* ids：会员id数组*/
+  /* ids：id数组*/
   res.send(
     {
       "ret": true,
-      "msg": "修改会员状态成功",
+      "msg": "修改状态成功",
       "data": null
     }
   );
@@ -46,7 +46,7 @@ export function disable(req, res) {
   res.send(
     {
       "ret": true,
-      "msg": "修改会员状态成功",
+      "msg": "修改状态成功",
       "data": null
     }
   );
@@ -57,7 +57,7 @@ export function disable(req, res) {
    );*/
 }
 export function update(req, res) {
-  /*  id：会员id
+  /*  id：id
    stuNum：学号
    name：姓名
    sex：性别
@@ -71,7 +71,7 @@ export function update(req, res) {
   res.send(
     {
       "ret": true,
-      "msg": "更新会员信息成功",
+      "msg": "更新信息成功",
       "data": null
     }
   );
@@ -89,27 +89,19 @@ export function queryList(req, res, u) {
   for (let i = (req.body.pageNo - 1) * req.body.pageSize; i < req.body.pageNo * req.body.pageSize; i++) {
     list.push(
       {
-        "position": "正主席",
-        "sex": i % 2 == 1 ? "MAN" : "WOMAN",
-        "annual": "2015-2016",
-        "status": i % 2,
-        "college": "KUAIJI",
-        "remarks": "",
-        "sanction": "无",
         "id": i,
+        "fileName": '文件名' + i,
+        "describe": "文件描述",
+        "path": "www.baidu.com/1.png",
         "insertTime": 1513156716000,
-        "name": "小王" + i,
-        "dept": "主席团",
         "insertMan": "admin",
-        "major": "财务管理专业",
-        "stuNum": "201411888999"
       }
     );
   }
   res.send(
     {
       "ret": true,
-      "msg": "获取会员信息成功",
+      "msg": "获取信息成功",
       "data": {
         "list": list,
         pagination: {
@@ -129,42 +121,16 @@ export function queryList(req, res, u) {
    );*/
 }
 export function getOne(req, res) {
-  /*id：会员id
-   stuNum：学号
-   name：姓名
-   sex：性别
-   annual：任职年度
-   college：所属学院（关联字典表）
-   major：所属专业
-   dept：部门
-   position：现任职位
-   sanction：奖罚情况
-   remarks：备注
-   status：任职状态
-   insertTime：添加时间
-   insertMan：添加人
-   lastupdTime：最后修改时间
-   lastupdMan：最后修改人*/
   res.send(
     {
       "ret": true, "msg": "获取用户信息成功",
       "data": {
-        "id": 4,
-        "stuNum": "201411888777",
-        "name": "小丽",
-        "sex": "MAN",
-        "annual": "2016-2017",
-        "college": "KUAIJI",
-        "major": "财务管理专业",
-        "dept": "主席团",
-        "position": "正主席",
-        "sanction": "无",
-        "remarks": "这是备注",
-        "status": 1,
-        "insertTime": 1513156359000,
+        "id": 1,
+        "fileName": '文件名1',
+        "describe": "文件描述",
+        "path": "www.baidu.com/1.png",
+        "insertTime": 1513156716000,
         "insertMan": "admin",
-        "lastupdTime": 1513156737000,
-        "lastupdMan": "admin"
       }
     }
   );
@@ -178,11 +144,11 @@ export function getOne(req, res) {
 }
 
 export function dels(req, res) {
-  /* ids：会员id数组*/
+  /* ids：id数组*/
   res.send(
     {
       "ret": true,
-      "msg": "删除会员信息成功",
+      "msg": "删除信息成功",
       "data": null
     }
   );

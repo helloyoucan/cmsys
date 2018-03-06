@@ -15,7 +15,7 @@ export const getNavData = app => [
       path: '/',
       children: [
         {
-          name: '首页',
+          name: '概览',
           path: 'home',
           icon: 'home',
           insert_man: 'admin',//权限控制
@@ -51,6 +51,11 @@ export const getNavData = app => [
               component: dynamicWrapper(app, [], () => import('../routes/new/test')),
             },
             {
+              name: '社团信息列表',
+              path: 'infoList',
+              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+            },
+            {
               name: '干部管理',
               path: 'cadre',
               component: dynamicWrapper(app, ['club/cadre', 'dictionary'], () => import('../routes/club/Cadre/CadreTable')),
@@ -70,13 +75,28 @@ export const getNavData = app => [
                   component: dynamicWrapper(app, [], () => import('../routes/new/test')),
                 },
                 {
+                  name: '年审列表',
+                  path: 'yearbookList',
+                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+                },
+                {
                   name: '成立',
                   path: 'setUp',
                   component: dynamicWrapper(app, [], () => import('../routes/new/test')),
                 },
                 {
+                  name: '成立列表',
+                  path: 'setUpList',
+                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+                },
+                {
                   name: '注销',
                   path: 'logout',
+                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+                },
+                {
+                  name: '注销列表',
+                  path: 'logoutList',
                   component: dynamicWrapper(app, [], () => import('../routes/new/test')),
                 },
               ]
@@ -93,6 +113,11 @@ export const getNavData = app => [
                 {
                   name: '活动审批',
                   path: 'approval',
+                  component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+                },
+                {
+                  name: '活动审批列表',
+                  path: 'approvalList',
                   component: dynamicWrapper(app, [], () => import('../routes/new/test')),
                 },
               ]
@@ -122,7 +147,7 @@ export const getNavData = app => [
             {
               name: '资料下载管理',
               path: 'dataDownload',
-              component: dynamicWrapper(app, ['dictionary','file','clubUnion/dataDownload'], () => import('../routes/clubUnion/DataDownload/DataDownloadTable')),
+              component: dynamicWrapper(app, ['dictionary', 'file', 'clubUnion/dataDownload'], () => import('../routes/clubUnion/DataDownload/DataDownloadTable')),
             },
           ]
         },

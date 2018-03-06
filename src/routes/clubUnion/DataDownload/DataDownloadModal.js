@@ -9,7 +9,10 @@ import {
   Select,
   Modal,
   Spin,
-  Radio
+  Radio,
+  Upload,
+  Button,
+  Icon
 } from 'antd';
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
@@ -22,16 +25,9 @@ export default class DataDownloadModal extends PureComponent {
     addInputValue: '',
     confirmLoading: false,
     formData: {
-      stuNum: '',
-      nam: '',
-      sex: '',
-      annual: '',
-      college: '',
-      major: '',
-      dept: '',
-      position: '',
-      sanction: '',
-      remarks: '',
+      fileName: '',
+      path: '',
+      describe: '',
     },
     ModalTitle: '',
   };
@@ -106,7 +102,7 @@ export default class DataDownloadModal extends PureComponent {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {data, collegeName, collegeNameObj, sex, sex_obj, modalLoading} = this.props;
+    const {data, modalLoading} = this.props;
     const formData = data.data == undefined ? {} : data.data;
     let title = '';
     switch (data.key) {
@@ -122,6 +118,23 @@ export default class DataDownloadModal extends PureComponent {
       default:
         break;
     }
+    const uploadSetting = {
+      name: 'file',
+      action: '//jsonplaceholder.typicode.com/posts/',
+      headers: {
+        authorization: 'authorization-text',
+      },
+      onChange(info) {
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          //message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+         // message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
     return (
       <Modal
         title={title + '资料'}
@@ -132,52 +145,22 @@ export default class DataDownloadModal extends PureComponent {
       >
         {data.key == "read" ?
           <Card loading={modalLoading} bordered={false}>
-            <LineMessage label="姓名">
-              {formData.name}
+            <LineMessage label="文件名">
+              {formData.fileName}
             </LineMessage>
-            <LineMessage label="性别">
-              {sex_obj[formData.sex]}
+            <LineMessage label="文件路径">
+              {formData.path}
             </LineMessage>
-            <LineMessage label="学号">
-              {formData.stuNum}
-            </LineMessage>
-            <LineMessage label="所属学院">
-              {collegeNameObj[formData.college]}
-            </LineMessage>
-            <LineMessage label="所属专业">
-              {formData.major}
-            </LineMessage>
-            <LineMessage label="部门">
-              {formData.dept}
-            </LineMessage>
-            <LineMessage label="现任职位">
-              {formData.position}
-            </LineMessage>
-            <LineMessage label="任职状态">
-              {formData.status == 1 ? "在职" : "离职"}
-            </LineMessage>
-            <LineMessage label="任职年度">
-              {formData.annual}
-            </LineMessage>
-            <LineMessage label="奖罚情况">
-              {formData.sanction}
-            </LineMessage>
-            <LineMessage label="添加时间">
-              {moment(formData.insertTime).format('YYYY-MM-DD')}
-            </LineMessage>
-            <LineMessage label="添加人">
-              {formData.insertMan}
-            </LineMessage>
-            <LineMessage label="最后修改时间">
-              {moment(formData.lastupdTime).format('YYYY-MM-DD')}
-            </LineMessage>
-            <LineMessage label="最后修改人">
-              {formData.lastupdMan}
-            </LineMessage>
-            <LineMessage label="备注">
-              {formData.remarks}
+            <LineMessage label="描述">
+              {formData.describe}
             </LineMessage>
 
+            <LineMessage label="上传时间">
+              {moment(formData.insertTime).format('YYYY-MM-DD')}
+            </LineMessage>
+            <LineMessage label="上传人">
+              {formData.insertMan}
+            </LineMessage>
           </Card>
           :
           <Spin spinning={modalLoading}>
@@ -185,9 +168,9 @@ export default class DataDownloadModal extends PureComponent {
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
               label="姓名"
-            >  {getFieldDecorator('name', {
+            >  {getFieldDecorator('fileName', {
               rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.name
+              initialValue: formData.fileName
             })(
               <Input/>
             )}
@@ -195,109 +178,31 @@ export default class DataDownloadModal extends PureComponent {
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
-              label="性别"
-            >  {getFieldDecorator('sex', {
+              label="文件路径"
+            >  {getFieldDecorator('path', {
               rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.sex
+              initialValue: formData.path
             })(
-              <RadioGroup >
-                {sex.map((item) => {
-                  return ( <Radio key={item.pmname} value={item.pmname}>{item.pmvalue}</Radio>)
-                })}
-              </RadioGroup>
+              <Upload {...uploadSetting}>
+                <Button>
+                  <Icon type="upload"/> Click to Upload
+                </Button>
+              </Upload>
             )}
             </FormItem>
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
-              label="学号"
-            >  {getFieldDecorator('stuNum', {
+              label="描述"
+            >  {getFieldDecorator('describe', {
               rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.stuNum
+              initialValue: formData.describe
             })(
               <Input/>
             )}
             </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="所属学院"
-            >  {getFieldDecorator('college', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.college
-            })(
-              <Select placeholder="用户类型" style={{width: '100%'}}>
-                {collegeName.map((item) => {
-                  return ( <Option key={item.pmname} value={item.pmname}>{item.pmvalue}</Option>)
-                })}
-              </Select>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="所属专业"
-            >  {getFieldDecorator('major', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.major
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="部门"
-            >  {getFieldDecorator('dept', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.dept
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="任职年度"
-            >  {getFieldDecorator('annual', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.annual
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="现任职位"
-            >  {getFieldDecorator('position', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.position
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="奖罚情况"
-            >  {getFieldDecorator('sanction', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.sanction
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="备注"
-            >  {getFieldDecorator('assId', {
-              initialValue: formData.remarks
-            })(
-              <TextArea rows={3}/>
-            )}
-            </FormItem>
+
+
           </Spin>
         }
       </Modal>
