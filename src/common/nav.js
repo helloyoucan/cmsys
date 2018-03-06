@@ -122,7 +122,7 @@ export const getNavData = app => [
             {
               name: '资料下载管理',
               path: 'dataDownload',
-              component: dynamicWrapper(app, ['file','clubUnion/dataDownload'], () => import('../routes/clubUnion/DataDownload/DataDownloadTable')),
+              component: dynamicWrapper(app, ['dictionary','file','clubUnion/dataDownload'], () => import('../routes/clubUnion/DataDownload/DataDownloadTable')),
             },
           ]
         },

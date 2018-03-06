@@ -42,7 +42,7 @@ export default class MemberTable extends PureComponent {
   componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
-      type: 'dictionary/getCollegeName'
+      type: 'dictionary/queryCollegeName'
     });
     dispatch({
       type: 'dictionary/querySex'
