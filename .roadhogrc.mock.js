@@ -12,6 +12,7 @@ import clubUnionDepartment from './mock/clubUnion/department';
 import clubUnionDataDownload from './mock/clubUnion/dataDownload';
 import clubMember from './mock/club/member';
 import clubCadre from './mock/club/cadre';
+import clubInfo from './mock/club/info';
 import clubClass from './mock/clubClass';
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
@@ -31,6 +32,14 @@ const proxy = {
   'POST /sys/dataDownload/page': clubUnionDataDownload.queryList,
   'GET /sys/dataDownload/getOne': clubUnionDataDownload.getOne,
   'GET /sys/dataDownload/delete': clubUnionDataDownload.dels,
+  //社团信息
+  'POST /sys/clubInfo/save': clubInfo.add,
+  'GET /sys/clubInfo/enable': clubInfo.enable,
+  'GET /sys/clubInfo/disable': clubInfo.disable,
+  'POST /sys/clubInfo/update': clubInfo.update,
+  'POST /sys/clubInfo/page': clubInfo.queryList,
+  'GET /sys/clubInfo/getOne': clubInfo.getOne,
+  'GET /sys/clubInfo/delete': clubInfo.dels,
   //社团会员管理
   'POST /sys/clubMember/save': clubMember.add,
   'GET /sys/clubMember/enable': clubMember.enable,
