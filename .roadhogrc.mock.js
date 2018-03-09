@@ -11,6 +11,7 @@ import clubUnionCadre from './mock/clubUnion/cadre';
 import clubUnionDepartment from './mock/clubUnion/department';
 import clubUnionDataDownload from './mock/clubUnion/dataDownload';
 import clubMember from './mock/club/member';
+import clubYearbook from './mock/club/yearbook';
 import clubCadre from './mock/club/cadre';
 import clubInfo from './mock/club/info';
 import clubClass from './mock/clubClass';
@@ -48,6 +49,14 @@ const proxy = {
   'POST /sys/clubMember/page': clubMember.queryList,
   'GET /sys/clubMember/getOne': clubMember.getOne,
   'GET /sys/clubMember/delete': clubMember.dels,
+  //社团年审管理
+  'POST /sys/clubMember/save': clubYearbook.add,
+  'GET /sys/clubMember/enable': clubYearbook.enable,
+  'GET /sys/clubMember/disable': clubYearbook.disable,
+  'POST /sys/clubMember/update': clubYearbook.update,
+  'POST /sys/clubMember/page': clubYearbook.queryList,
+  'GET /sys/clubMember/getOne': clubYearbook.getOne,
+  'GET /sys/clubMember/delete': clubYearbook.dels,
   //社联干部管理
   'POST /sys/clubUnionDepartment/save': clubUnionDepartment.add,
   'GET /sys/clubUnionDepartment/enable': clubUnionDepartment.enable,

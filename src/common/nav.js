@@ -69,7 +69,7 @@ export const getNavData = app => [{
             {
               name: '年审列表',
               path: 'yearbookList',
-              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+              component: dynamicWrapper(app, ['club/yearbook'], () => import('../routes/club/Yearbook/YearbookTable')),
             },
             {
               name: '成立',
