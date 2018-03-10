@@ -14,6 +14,7 @@ import clubMember from './mock/club/member';
 import clubYearbook from './mock/club/yearbook';
 import clubCadre from './mock/club/cadre';
 import clubSetUpList from './mock/club/setUpList';
+import clubLogoutList from './mock/club/logoutList';
 import clubInfo from './mock/club/info';
 import clubClass from './mock/clubClass';
 // 是否禁用代理
@@ -34,6 +35,14 @@ const proxy = {
   'POST /sys/dataDownload/page': clubUnionDataDownload.queryList,
   'GET /sys/dataDownload/getOne': clubUnionDataDownload.getOne,
   'GET /sys/dataDownload/delete': clubUnionDataDownload.dels,
+  //社团成立/列表
+  'POST /sys/logoutList/save': clubLogoutList.add,
+  'GET /sys/logoutList/enable': clubLogoutList.enable,
+  'GET /sys/logoutList/disable': clubLogoutList.disable,
+  'POST /sys/logoutList/update': clubLogoutList.update,
+  'POST /sys/logoutList/page': clubLogoutList.queryList,
+  'GET /sys/logoutList/getOne': clubLogoutList.getOne,
+  'GET /sys/logoutList/delete': clubLogoutList.dels,
   //社团成立/列表
   'POST /sys/setUpList/save': clubSetUpList.add,
   'GET /sys/setUpList/enable': clubSetUpList.enable,

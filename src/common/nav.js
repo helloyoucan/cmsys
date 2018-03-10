@@ -84,7 +84,7 @@ export const getNavData = app => [{
             {
               name: '注销列表',
               path: 'logoutList',
-              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+              component: dynamicWrapper(app,['club/logoutList'], () => import('../routes/club/LogoutList/LogoutListTable')),
             },
           ]
         },
