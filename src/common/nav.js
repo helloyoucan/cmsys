@@ -72,14 +72,9 @@ export const getNavData = app => [{
               component: dynamicWrapper(app, ['club/yearbook'], () => import('../routes/club/Yearbook/YearbookTable')),
             },
             {
-              name: '成立',
-              path: 'setUp',
-              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
-            },
-            {
               name: '成立列表',
               path: 'setUpList',
-              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+              component: dynamicWrapper(app, ['club/setUpList'], () => import('../routes/club/SetUpList/SetUpListTable')),
             },
             {
               name: '注销',
@@ -99,12 +94,12 @@ export const getNavData = app => [{
           children: [
             {
               name: '推文',
-              path: 'foretell',
+              path: 'article',
               component: dynamicWrapper(app, [], () => import('../routes/new/test')),
             },
             {
-              name: '活动审批',
-              path: 'approval',
+              name: '活动列表',
+              path: 'activityList',
               component: dynamicWrapper(app, [], () => import('../routes/new/test')),
             },
           ]
