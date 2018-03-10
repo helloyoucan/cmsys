@@ -15,6 +15,8 @@ import clubYearbook from './mock/club/yearbook';
 import clubCadre from './mock/club/cadre';
 import clubSetUpList from './mock/club/setUpList';
 import clubLogoutList from './mock/club/logoutList';
+import clubActivityList from './mock/club/activityList';
+import clubArticle from './mock/club/article';
 import clubInfo from './mock/club/info';
 import clubClass from './mock/clubClass';
 // 是否禁用代理
@@ -35,6 +37,22 @@ const proxy = {
   'POST /sys/dataDownload/page': clubUnionDataDownload.queryList,
   'GET /sys/dataDownload/getOne': clubUnionDataDownload.getOne,
   'GET /sys/dataDownload/delete': clubUnionDataDownload.dels,
+  //社团活动
+  'POST /sys/activityList/save': clubActivityList.add,
+  'GET /sys/activityList/enable': clubActivityList.enable,
+  'GET /sys/activityList/disable': clubActivityList.disable,
+  'POST /sys/activityList/update': clubActivityList.update,
+  'POST /sys/activityList/page': clubActivityList.queryList,
+  'GET /sys/activityList/getOne': clubActivityList.getOne,
+  'GET /sys/activityList/delete': clubActivityList.dels,
+  //社团推文
+  'POST /sys/article/save': clubArticle.add,
+  'GET /sys/article/enable': clubArticle.enable,
+  'GET /sys/article/disable': clubArticle.disable,
+  'POST /sys/article/update': clubArticle.update,
+  'POST /sys/article/page': clubArticle.queryList,
+  'GET /sys/article/getOne': clubArticle.getOne,
+  'GET /sys/article/delete': clubArticle.dels,
   //社团成立/列表
   'POST /sys/logoutList/save': clubLogoutList.add,
   'GET /sys/logoutList/enable': clubLogoutList.enable,

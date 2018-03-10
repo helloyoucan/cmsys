@@ -95,12 +95,12 @@ export const getNavData = app => [{
             {
               name: '推文',
               path: 'article',
-              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+              component: dynamicWrapper(app, ['club/article'], () => import('../routes/club/Article/ArticleTable')),
             },
             {
               name: '活动列表',
               path: 'activityList',
-              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+              component: dynamicWrapper(app, ['club/activityList'], () => import('../routes/club/ActivityList/ActivityListTable')),
             },
           ]
 

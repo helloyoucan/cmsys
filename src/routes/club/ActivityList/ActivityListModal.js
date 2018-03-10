@@ -16,7 +16,7 @@ const FormItem = Form.Item;
 const {Option} = Select;
 const {TextArea} = Input;
 @Form.create()
-export default class LogoutListModal extends PureComponent {
+export default class ActivityListModal extends PureComponent {
 
   state = {
     addInputValue: '',
@@ -54,7 +54,7 @@ export default class LogoutListModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'logoutList/add',
+              type: 'activityList/add',
               payload: values,
               callback: (res) => {
                 if (res.ret) {
@@ -77,7 +77,7 @@ export default class LogoutListModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'logoutList/update',
+              type: 'activityList/update',
               payload: {
                 ...values,
                 id: data.data.id

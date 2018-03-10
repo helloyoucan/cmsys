@@ -16,7 +16,7 @@ const FormItem = Form.Item;
 const {Option} = Select;
 const {TextArea} = Input;
 @Form.create()
-export default class LogoutListModal extends PureComponent {
+export default class CadreModal extends PureComponent {
 
   state = {
     addInputValue: '',
@@ -54,7 +54,7 @@ export default class LogoutListModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'logoutList/add',
+              type: 'article/add',
               payload: values,
               callback: (res) => {
                 if (res.ret) {
@@ -77,7 +77,7 @@ export default class LogoutListModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'logoutList/update',
+              type: 'article/update',
               payload: {
                 ...values,
                 id: data.data.id
@@ -106,7 +106,7 @@ export default class LogoutListModal extends PureComponent {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {data, modalLoading} = this.props;
+    const {data, collegeName, collegeNameObj, sex, sex_obj, modalLoading} = this.props;
     const formData = data.data == undefined ? {} : data.data;
     let title = '';
     switch (data.key) {
@@ -124,7 +124,7 @@ export default class LogoutListModal extends PureComponent {
     }
     return (
       <Modal
-        title={title + '会员'}
+        title={title + '推文'}
         visible={this.props.modalVisible}
         onOk={this.handleOK.bind(this)}
         onCancel={() => this.props.handleModalVisible()}
@@ -238,7 +238,7 @@ export default class LogoutListModal extends PureComponent {
               rules: [{required: true, message: '请输入!', whitespace: true}],
               initialValue: formData.position
             })(
-              <Input />
+              <Input/>
             )}
             </FormItem>
             <FormItem

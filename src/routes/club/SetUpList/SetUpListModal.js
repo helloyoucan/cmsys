@@ -54,7 +54,7 @@ export default class SetUpListModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'info/add',
+              type: 'setUpList/add',
               payload: values,
               callback: (res) => {
                 if (res.ret) {
@@ -77,7 +77,7 @@ export default class SetUpListModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'info/update',
+              type: 'setUpList/update',
               payload: {
                 ...values,
                 id: data.data.id
