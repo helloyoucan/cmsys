@@ -2,7 +2,7 @@ import request from '../utils/request';
 
 export async function login(params) {
   return request('/login', {
-    method: 'POST',
+    method: 'GET',
     body: {
       ...params,
     },

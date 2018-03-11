@@ -204,4 +204,4 @@ const proxy = {
   'GET /api/notices': getNotices,
 };
 
-export default noProxy ? {} : delay(proxy, 500);
+export default noProxy ? {"/*": "http://localhost:8080/"} : delay(proxy, 500);
