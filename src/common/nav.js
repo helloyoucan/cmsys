@@ -146,11 +146,6 @@ export const getNavData = app => [{
       icon: 'database',
       component: dynamicWrapper(app, ['dictionary'], () => import('../routes/Dictionary/DictionaryTable')),
     },
-    {
-      name: '查询表格',
-      path: 'table-list',
-      component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
-    },
   ],
 },
   {
