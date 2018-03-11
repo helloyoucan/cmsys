@@ -45,12 +45,12 @@ export const getNavData = app => [{
         {
           name: '信息管理',
           path: 'info',
-          component: dynamicWrapper(app, ['club/info'], () => import('../routes/new/test')),
+          component: dynamicWrapper(app, ['club/info'], () => import('../routes/club/Info/InfoPage')),
         },
         {
           name: '社团信息列表',
           path: 'infoList',
-          component: dynamicWrapper(app, ['club/info'], () => import('../routes/club/Info/InfoPage')),
+          component: dynamicWrapper(app, ['club/info'], () => import('../routes/club/Info/InfoTable')),
         },
         {
           name: '干部管理',
@@ -115,7 +115,7 @@ export const getNavData = app => [{
         {
           name: '基本信息',
           path: 'basicInfo',
-          component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+          component: dynamicWrapper(app, ['clubUnion/info'], () => import('../routes/clubUnion/Info/InfoPage')),
         },
         {
           name: '社联干部管理',

@@ -10,6 +10,8 @@ import User from './mock/user';
 import clubUnionCadre from './mock/clubUnion/cadre';
 import clubUnionDepartment from './mock/clubUnion/department';
 import clubUnionDataDownload from './mock/clubUnion/dataDownload';
+import clubUnionInfo from './mock/clubUnion/info';
+
 import clubMember from './mock/club/member';
 import clubYearbook from './mock/club/yearbook';
 import clubCadre from './mock/club/cadre';
@@ -124,7 +126,14 @@ const proxy = {
   'POST /sys/user/update': User.update,
   'POST /sys/user/page': User.queryList,
   'GET /sys/user/getOne': User.getOne,
-
+  //社联信息
+  'POST /sys/clubUnionInfo/save': clubUnionInfo.add,
+  'GET /sys/clubUnionInfo/enable': clubUnionInfo.enable,
+  'GET /sys/clubUnionInfo/disable': clubUnionInfo.disable,
+  'POST /sys/clubUnionInfo/update': clubUnionInfo.update,
+  'POST /sys/clubUnionInfo/page': clubUnionInfo.queryList,
+  'GET /sys/clubUnionInfo/getOne': clubUnionInfo.getOne,
+  'GET /sys/clubUnionInfo/delete': clubUnionInfo.dels,
   //社联干部管理
   'POST /sys/saucadre/save': clubUnionCadre.add,
   'GET /sys/saucadre/job': clubUnionCadre.enable,//在职
