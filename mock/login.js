@@ -10,7 +10,7 @@ export function login(req, res) {
       "data": {
         "id": 1,
         "username": userName,
-        "categoryName": "超级管理员",
+        "categoryName": "测试--超级管理员",
         "lastupdTime": 1513752834000,
         "status": 1,
         "lastupdMan": "admin",
