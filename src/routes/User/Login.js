@@ -31,6 +31,7 @@ export default class Login extends Component {
     this.props.form.validateFields({force: true},
       (err, values) => {
         if (!err) {
+          console.log(values)
           this.props.dispatch({
             type: 'login/login',
             payload: {
@@ -72,40 +73,44 @@ export default class Login extends Component {
               <FormItem>
                 {getFieldDecorator('username', {
                   rules: [{
-                    required: type === 'account', message: '请输入账户名！',
+                    //required: type === 'account',
+                    required: true,
+                    message: '请输入账户名！',
                   }],
                 })(
                   <Input
                     size="large"
                     prefix={<Icon type="user" className={styles.prefixIcon}/>}
-                    placeholder="admin"
+                    placeholder="用户名"
                   />
                 )}
               </FormItem>
               <FormItem>
                 {getFieldDecorator('password', {
                   rules: [{
-                    required: type === 'account', message: '请输入密码！',
+                    //required: type === 'account',
+                    required: true,
+                    message: '请输入密码！',
                   }],
                 })(
                   <Input
                     size="large"
                     prefix={<Icon type="lock" className={styles.prefixIcon}/>}
                     type="password"
-                    placeholder="888888"
+                    placeholder="密码"
                   />
                 )}
               </FormItem>
             </TabPane>
           </Tabs>
           <FormItem className={styles.additional}>
-            {getFieldDecorator('remember', {
-              valuePropName: 'checked',
-              initialValue: true,
-            })(
-              <Checkbox className={styles.autoLogin}>自动登录</Checkbox>
-            )}
-            <a className={styles.forgot} href="">忘记密码</a>
+            {/*{getFieldDecorator('remember', {*/}
+            {/*valuePropName: 'checked',*/}
+            {/*initialValue: true,*/}
+            {/*})(*/}
+            {/*<Checkbox className={styles.autoLogin}>自动登录</Checkbox>*/}
+            {/*)}*/}
+            <a className={styles.forgot} href="javascript:;">忘记密码?请联系管理员</a>
             <Button size="large" loading={login.loginBtnSubmiting} className={styles.submit} type="primary"
                     htmlType="submit">
               登录

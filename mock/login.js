@@ -2,22 +2,48 @@
  * Created by can on 2017/12/15.
  */
 export function login(req, res) {
-  const {password, userName} = req.body;
+  console.log(req.query)
+  const {username} = req.query;
+  let data = {
+    "assId": -1,
+    "insertTime": 1513064417000,
+    "insertMan": "admin",
+    "lastupdMan": "admin",
+    "lastupdTime": 1516461323000,
+    "categoryValue": "超级管理员",
+    "id": 1,
+    "categoryId": "chaojiguanliyuan",
+    "username": username,
+    "status": 1
+  };
+  console.log(username)
+  switch (username) {
+    case 'admin':
+
+      data.categoryId = 'chaojiguanliyuan';
+      break;
+    case 'tuanwei01':
+      data.categoryId = 'tuanweiguanliyuan';
+      break;
+    case 'shelian01':
+      data.categoryId = 'shelianguanliyuan';
+      break;
+    case 'shetuan1':
+      data.categoryId = 'shetuanguanliyuan';
+      break;
+    default :
+      res.send({
+        ret: "false",
+        msg: "用户名或密码错误",
+        data: null
+      });
+      return;
+  }
   res.send(
     {
       "ret": true,
       "msg": "登录成功",
-      "data": {
-        "id": 1,
-        "username": userName,
-        "categoryName": "测试--超级管理员",
-        "lastupdTime": 1513752834000,
-        "status": 1,
-        "lastupdMan": "admin",
-        "insertTime": 1513064417000,
-        "categoryId": "chaojiguanliyuan",
-        "insertMan": "admin"
-      }
+      "data": data
     }
   );
   //登陆失败
