@@ -102,8 +102,8 @@ export function queryList(req, res) {
         "list": list,
         pagination: {
           "total": 100,
-          "currentPage": parseInt(req.body.pageNo),
-          "pageSize": parseInt(req.body.pageSize)
+          "currentPage": parseInt(req.query.pageNo),
+          "pageSize": parseInt(req.query.pageSize)
         }
 
       }
