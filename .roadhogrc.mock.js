@@ -57,6 +57,7 @@ const proxy = {
   'GET /sys/clubInfo/enable': clubInfo.enable,
   'GET /sys/clubInfo/disable': clubInfo.disable,
   'GET /sys/clubInfo/delete': clubInfo.dels,
+
   //字典管理
   'GET /sys/dic/getDic': Dictionary.queryCategory,//根据字典分类名称获取字典数据（除了字典类型）接口
   'GET /sys/dic/getDisCategoryForPage': Dictionary.queryList,//分页获取所有的字典类型接口
@@ -67,12 +68,12 @@ const proxy = {
   'POST /sys/dic/update': Dictionary.update,
   'GET /sys/dic/getOne': Dictionary.getOne,
 
-  //社联干部管理
+  //社联干部管理(完成接口对接-)
   'DELETE /sys/saucadre/delete': clubUnionCadre.dels,//删除社联干部接口
   'GET /sys/saucadre/getOne': clubUnionCadre.getOne,//根据id获取社联干部信息接口
   'GET /sys/saucadre/getPage': clubUnionCadre.queryList,//分页获取社联干部列表接口
   'PUT /sys/saucadre/job': clubUnionCadre.enable,//修改社联干部的状态为在职接口
-  'PUT /sys/saucadre/quit': clubUnionCadre.disable,//离职
+  'PUT /sys/saucadre/quit': clubUnionCadre.disable,//修改社联干部的状态为离职接口
   'POST /sys/saucadre/save': clubUnionCadre.add,//添加社联干部信息接口
   'PUT /sys/saucadre/update': clubUnionCadre.update,//更新社联干部信息接口
 
@@ -94,7 +95,25 @@ const proxy = {
   'GET /sys/workflow/viewImage': Workflow.viewImage,//查看流程图接口
   'GET /sys/workflow/viewCurrentImage': '',//查看当前流程图接口
 
-  /*-----上面是已确定的----------*/
+
+  //社团干部管理（已完成接口对接-）
+  'DELETE /sys/asscadre/delete': clubCadre.dels,//删除社团干部接口（社团管理员）
+  'GET /sys/asscadre/getOne': clubCadre.getOne,//根据id获取社团干部信息接口
+  'GET /sys/asscadre/getPage': clubCadre.queryList,//分页获取社团干部列表接口
+  'PUT /sys/asscadre/job': clubCadre.enable,//修改社团干部的状态为在职接口（社团管理员）
+  'PUT /sys/asscadre/quit': clubCadre.disable,//修改社团干部的状态为离职接口（社团管理员）
+  'POST /sys/asscadre/save': clubCadre.add,//添加社团干部信息接口(社团管理员)
+  'PUT /sys/asscadre/update': clubCadre.update,//更新社团干部信息接口（社团管理员）
+
+  //社团会员管理(已完成接口对接-)
+  'DELETE /sys/assmember/delete': clubMember.dels,//删除社团会员接口（社团管理员）
+  'GET /sys/clubMember/getOne': clubMember.getOne,//根据id获取社团干部信息接口
+  'GET /sys/assmember/getPage': clubMember.queryList,//分页获取社团会员列表接口
+  'POST /sys/assmember/save': clubMember.add,//添加社团会员信息接口(社团管理员
+  'PUT /sys/assmember/update': clubMember.update,//更新社团会员信息接口（社团管理员）
+
+
+  /*---------------上面是已确定的----------*/
   //社联-资料下载管理
   'POST /sys/dataDownload/save': clubUnionDataDownload.add,
   'GET /sys/dataDownload/enable': clubUnionDataDownload.enable,
@@ -129,14 +148,7 @@ const proxy = {
   'GET /sys/setUpList/getOne': clubSetUpList.getOne,
   'GET /sys/setUpList/delete': clubSetUpList.dels,
 
-  //社团会员管理
-  'POST /sys/clubMember/save': clubMember.add,
-  'GET /sys/clubMember/enable': clubMember.enable,
-  'GET /sys/clubMember/disable': clubMember.disable,
-  'POST /sys/clubMember/update': clubMember.update,
-  'POST /sys/clubMember/page': clubMember.queryList,
-  'GET /sys/clubMember/getOne': clubMember.getOne,
-  'GET /sys/clubMember/delete': clubMember.dels,
+
   //社团年审管理
   'POST /sys/clubMember/save': clubYearbook.add,
   'GET /sys/clubMember/enable': clubYearbook.enable,
@@ -165,14 +177,7 @@ const proxy = {
   'GET /sys/clubUnionInfo/getOne': clubUnionInfo.getOne,
   'GET /sys/clubUnionInfo/delete': clubUnionInfo.dels,
 
-  //社团干部管理
-  'POST /sys/clubCadre/save': clubCadre.add,
-  'GET /sys/clubCadre/job': clubCadre.enable,//在职
-  'GET /sys/clubCadre/quit': clubCadre.disable,//离职
-  'POST /sys/clubCadre/update': clubCadre.update,
-  'POST /sys/clubCadre/page': clubCadre.queryList,
-  'GET /sys/clubCadre/getOne': clubCadre.getOne,
-  'GET /sys/clubCadre/delete': clubCadre.dels,
+
 //社联部门管理
   'POST /sys/clubUnionDepartment/save': clubUnionDepartment.add,
   'GET /sys/clubUnionDepartment/enable': clubUnionDepartment.enable,

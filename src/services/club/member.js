@@ -1,58 +1,44 @@
 import request from '../../utils/request';
 import {stringify} from 'qs';
 
-//添加用户
-export async function add(params) {
-  /*
-   *username	用户名	是	String
-   categoryId	用户类型	是	String
-   associationId	社团ID，只有社团管理员才需要传	否	int
-   status	用户状态，可不传，后端默认设置为启用	否	int
-   * */
-  return request('/sys/clubMember/save', {
-    method: 'POST',
-    body: {
-      ...params,
-    },
-  });
-}
-export async function enable(params) {
-  return request(`/sys/clubMember/job?ids=${params.ids}`);
-}
-export async function disable(params) {
-  /*
-   * params:{
-   * ids:''
-   * }
-   * */
-  return request(`/sys/clubMember/quit?ids=${params.ids}`);
-}
-export async function update(params) {
+export async function dels(params) {//DELETE
   /**
-   id  用户id  是  int
-   username  用户名  是  String
-   categoryId  用户类型  是  String
-   associationId  社团ID，只有社团管理员才需要传  否  int
-   status  用户状态，可不传，后端默认设置为启用  否  int
-
+   *  params:
+   * ids id的数组
    * */
-  return request('/sys/clubMember/update', {
-    method: 'POST',
-    body: {
-      ...params,
-    },
+  return request(`/sys/assmember/delete?ids=${params.ids.join(',')}`, {
+    method: 'DELETE'
   });
 }
+export async function getOne(params) {//GET
+  return request(`/sys/assmember/getOne?id=${params.id}`);
+}
 
-export async function queryList(params) {
+export async function queryList(params) {//GET
   /*
    params:
-   categoryId	用户类型	否	String
+   assId 社团id
+   keyword 关键字
    pageNo	页码，默认为1	否	int
    pageSize	每页显示条数，默认为10	否	int
    * */
-  // return request(`/sys/clubMember/page?${stringify(params)}`);
-  return request('/sys/clubMember/page', {
+  return request(`/sys/assmember/getPage?${stringify(params)}`);
+}
+
+
+export async function add(params) {
+  /*
+   {
+   "college": "string",
+   "id": 0,
+   "major": "string",
+   "name": "string",
+   "remarks": "string",
+   "sex": "string",
+   "stuNum": "string"
+   }
+   * */
+  return request('/sys/assmember/save', {
     method: 'POST',
     body: {
       ...params,
@@ -60,10 +46,25 @@ export async function queryList(params) {
   });
 }
 
-export async function getOne(params) {
-  return request(`/sys/clubMember/getOne?id=${params.id}`);
+
+export async function update(params) {
+  /**
+   {
+  "college": "string",
+  "id": 0,
+  "major": "string",
+  "name": "string",
+  "remarks": "string",
+  "sex": "string",
+  "stuNum": "string"
+  }
+   * */
+  return request('/sys/assmember/update', {
+    method: 'PUT',
+    body: {
+      ...params,
+    },
+  });
 }
-export async function dels(params) {
-  return request(`/sys/clubMember/delete?ids=${params.ids}`);
-}
+
 
