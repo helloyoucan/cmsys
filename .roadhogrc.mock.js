@@ -68,7 +68,7 @@ const proxy = {
   'POST /sys/dic/update': Dictionary.update,
   'GET /sys/dic/getOne': Dictionary.getOne,
 
-  //社联干部管理(完成接口对接-)
+  //社联干部管理(完成接口对接-页面修改完成)
   'DELETE /sys/saucadre/delete': clubUnionCadre.dels,//删除社联干部接口
   'GET /sys/saucadre/getOne': clubUnionCadre.getOne,//根据id获取社联干部信息接口
   'GET /sys/saucadre/getPage': clubUnionCadre.queryList,//分页获取社联干部列表接口

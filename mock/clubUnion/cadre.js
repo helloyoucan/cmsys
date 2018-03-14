@@ -1,16 +1,5 @@
 import {getUrlParams} from '../utils';
 export function add(req, res) {
-  /*
-   stuNum：学号
-   name：姓名
-   sex：性别
-   annual：任职年度
-   college：所属学院（从字典值中取）
-   major：所属专业
-   dept：部门
-   position：现任职位
-   sanction：奖罚情况
-   remarks：备注*/
   res.send(
     {
       "ret": true,
@@ -83,10 +72,9 @@ export function update(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
    */
 }
-export function queryList(req, res, u) {
-
+export function queryList(req, res) {
   let list = new Array();
-  for (let i = (req.body.pageNo - 1) * req.body.pageSize; i < req.body.pageNo * req.body.pageSize; i++) {
+  for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
     list.push(
       {
         "position": "正主席",

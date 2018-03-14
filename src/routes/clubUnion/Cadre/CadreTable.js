@@ -271,8 +271,23 @@ export default class CadreTable extends PureComponent {
     const {selectedRows} = this.state;
     const columns = [
       {
-        title: '姓名',
-        dataIndex: 'name',
+        title: '姓名 ',
+        dataIndex: 'name ',
+      },
+      {
+        title: '学号',
+        dataIndex: 'stuNum',
+      },
+      {
+        title: '所属学院',
+        dataIndex: 'college',
+        render(val) {
+          return collegeName_obj[val];
+        },
+      },
+      {
+        title: '所属专业',
+        dataIndex: 'major',
       },
       {
         title: '任职状态',
@@ -296,28 +311,6 @@ export default class CadreTable extends PureComponent {
       {
         title: '现任职位',
         dataIndex: 'position',
-      },
-      {
-        title: '性别',
-        dataIndex: 'sex',
-        render(val) {
-          return sex_obj[val];
-        },
-      },
-      {
-        title: '学号',
-        dataIndex: 'stuNum',
-      },
-      {
-        title: '所属学院',
-        dataIndex: 'college',
-        render(val) {
-          return collegeName_obj[val];
-        },
-      },
-      {
-        title: '所属专业',
-        dataIndex: 'major',
       },
       {
         title: '操作',
@@ -375,14 +368,14 @@ export default class CadreTable extends PureComponent {
           </div>
         </Card>
         <CadreModal modalVisible={this.state.modalVisible}
-                       modalLoading={this.state.modalLoading}
-                       data={this.state.modalData}
-                       dispatch={this.props.dispatch}
-                       handleModalVisible={this.handleModalVisible.bind(this)}
-                       collegeName={collegeName}
-                       collegeNameObj={collegeName_obj}
-                       sex={sex}
-                       sex_obj={sex_obj}
+                    modalLoading={this.state.modalLoading}
+                    data={this.state.modalData}
+                    dispatch={this.props.dispatch}
+                    handleModalVisible={this.handleModalVisible.bind(this)}
+                    collegeName={collegeName}
+                    collegeNameObj={collegeName_obj}
+                    sex={sex}
+                    sex_obj={sex_obj}
         />
 
       </PageHeaderLayout>

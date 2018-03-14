@@ -2,9 +2,24 @@ import {queryList, add, getOne, update, enable, disable, dels} from '../../servi
 
 export default {
   namespace: 'clubUnionCadre',
+
   state: {
     data: {
-      list: [],
+      list: [
+        /*{
+         annual (string, optional): 任职年度 ,
+         college (string, optional): 所属学院（从字典值中取） ,
+         dept (string, optional): 部门 ,
+         id (integer, optional): 干部id ,
+         major (string, optional): 所属专业 ,
+         name (string, optional): 姓名 ,
+         position (string, optional): 现任职位 ,
+         remarks (string, optional): 备注 ,
+         sanction (string, optional): 奖罚情况 ,
+         sex (string, optional): 性别 ,
+         stuNum (string, optional): 学号
+         }*/
+      ],
       pagination: {},
     },
     loading: true,

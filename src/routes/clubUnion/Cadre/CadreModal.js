@@ -9,7 +9,7 @@ import {
   Select,
   Modal,
   Spin,
-  Radio
+  Radio,
 } from 'antd';
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
@@ -22,16 +22,16 @@ export default class CadreModal extends PureComponent {
     addInputValue: '',
     confirmLoading: false,
     formData: {
-      stuNum: '',
-      nam: '',
-      sex: '',
-      annual: '',
-      college: '',
-      major: '',
-      dept: '',
-      position: '',
-      sanction: '',
-      remarks: '',
+      stuNum: '',//学号
+      name: '',//姓名 ,
+      sex: '',//性别 ,
+      annual: '',//任职年度
+      college: '',//所属学院（从字典值中取）
+      major: '',//所属专业
+      dept: '',//部门
+      position: '',//现任职位 ,
+      sanction: '',//奖罚情况 ,
+      remarks: '',//备注 ,
     },
     ModalTitle: '',
   };
@@ -122,6 +122,10 @@ export default class CadreModal extends PureComponent {
       default:
         break;
     }
+    var years = (new Array((new Date()).getFullYear() - 1999 + 4)).fill(0);
+    years = years.map((_, index) => {
+      return (1999 + index) + '-' + (2000 + index);
+    });
     return (
       <Modal
         title={title + '社联干部'}
@@ -186,7 +190,7 @@ export default class CadreModal extends PureComponent {
               wrapperCol={{span: 15}}
               label="姓名"
             >  {getFieldDecorator('name', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
+              rules: [{required: true, message: '请输入!'}],
               initialValue: formData.name
             })(
               <Input/>
@@ -197,7 +201,7 @@ export default class CadreModal extends PureComponent {
               wrapperCol={{span: 15}}
               label="性别"
             >  {getFieldDecorator('sex', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
+              rules: [{required: true, message: '请输入!'}],
               initialValue: formData.sex
             })(
               <RadioGroup >
@@ -212,7 +216,7 @@ export default class CadreModal extends PureComponent {
               wrapperCol={{span: 15}}
               label="学号"
             >  {getFieldDecorator('stuNum', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
+              rules: [{required: true, message: '请输入!'}],
               initialValue: formData.stuNum
             })(
               <Input/>
@@ -223,10 +227,10 @@ export default class CadreModal extends PureComponent {
               wrapperCol={{span: 15}}
               label="所属学院"
             >  {getFieldDecorator('college', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
+              rules: [{required: true, message: '请输入!'}],
               initialValue: formData.college
             })(
-              <Select placeholder="用户类型" style={{width: '100%'}}>
+              <Select placeholder="所属学院" style={{width: '100%'}}>
                 {collegeName.map((item) => {
                   return ( <Option key={item.pmname} value={item.pmname}>{item.pmvalue}</Option>)
                 })}
@@ -238,7 +242,7 @@ export default class CadreModal extends PureComponent {
               wrapperCol={{span: 15}}
               label="所属专业"
             >  {getFieldDecorator('major', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
+              rules: [{required: true, message: '请输入!'}],
               initialValue: formData.major
             })(
               <Input/>
@@ -249,19 +253,8 @@ export default class CadreModal extends PureComponent {
               wrapperCol={{span: 15}}
               label="部门"
             >  {getFieldDecorator('dept', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
+              rules: [{required: true, message: '请输入!'}],
               initialValue: formData.dept
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="任职年度"
-            >  {getFieldDecorator('annual', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.annual
             })(
               <Input/>
             )}
@@ -271,7 +264,7 @@ export default class CadreModal extends PureComponent {
               wrapperCol={{span: 15}}
               label="现任职位"
             >  {getFieldDecorator('position', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
+              rules: [{required: true, message: '请输入!'}],
               initialValue: formData.position
             })(
               <Input/>
@@ -280,12 +273,27 @@ export default class CadreModal extends PureComponent {
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
+              label="任职年度"
+            >  {getFieldDecorator('annual', {
+              rules: [{required: true, message: '请输入!'}],
+              initialValue: formData.annual
+            })(
+              <Select placeholder="任职年度" style={{width: '100%'}}>
+                {years.map((item) => {
+                  return ( <Option key={item} value={item}>{item}</Option>)
+                })}
+              </Select>
+            )}
+            </FormItem>
+            <FormItem
+              labelCol={{span: 5}}
+              wrapperCol={{span: 15}}
               label="奖罚情况"
             >  {getFieldDecorator('sanction', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
+              rules: [{message: '请输入!'}],
               initialValue: formData.sanction
             })(
-              <Input/>
+              <TextArea rows={3}/>
             )}
             </FormItem>
             <FormItem
