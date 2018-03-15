@@ -18,6 +18,7 @@ import CadreModal from './CadreModal';
 @connect(state => ({
   clubCadre: state.clubCadre,
   dictionary: state.dictionary,
+  currentUser: state.currentUser
 }))
 export default class CadreTable extends PureComponent {
   state = {
@@ -139,10 +140,11 @@ export default class CadreTable extends PureComponent {
       },
       selectedRows: [],
     });
-    const {dispatch} = this.props;
+    const {dispatch, currentUser} = this.props;
     dispatch({
       type: 'clubCadre/queryList',
       payload: {
+        assId: currentUser.assId,
         keyword: value.keyword,
         pageNo: 1,
         pageSize: 10
@@ -225,10 +227,18 @@ export default class CadreTable extends PureComponent {
     });
   }
 
-  handleDelete() {
+  handleDelete(delOneId) {
+    /*
+     * delOneId：删除单个时的传参
+     * */
     const {dispatch, clubCadre: {data: {pagination}}} = this.props;
-    const {selectedRows, formValues} = this.state;
-    if (!selectedRows) return;
+    let {selectedRows, formValues} = this.state;
+    let ids = selectedRows.map((item) => (item.id));
+    if (arguments.length > 1) {//删除单个
+      ids.push(delOneId);
+    }
+    if (!ids) return;
+
     dispatch({
       type: 'clubCadre/changeLoading',
       payload: {
@@ -238,7 +248,7 @@ export default class CadreTable extends PureComponent {
     dispatch({
       type: 'clubCadre/dels',
       payload: {
-        ids: selectedRows.map((item) => (item.id))
+        ids: ids
       },
       callback: () => {
         dispatch({
@@ -271,12 +281,32 @@ export default class CadreTable extends PureComponent {
     const {selectedRows} = this.state;
     const columns = [
       {
-        title: '姓名',
+        title: '姓名 ',
         dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: '学号',
+        dataIndex: 'stuNum',
+        key: 'stuNum',
+      },
+      {
+        title: '所属学院',
+        dataIndex: 'college',
+        key: 'college',
+        render(val) {
+          return collegeName_obj[val];
+        },
+      },
+      {
+        title: '所属专业',
+        dataIndex: 'major',
+        key: 'major',
       },
       {
         title: '任职状态',
         dataIndex: 'status',
+        key: 'status',
         render: (val, record) => {
           return (
             <Switch
@@ -292,41 +322,24 @@ export default class CadreTable extends PureComponent {
       {
         title: '部门',
         dataIndex: 'dept',
+        key: 'dept',
       },
       {
         title: '现任职位',
         dataIndex: 'position',
-      },
-      {
-        title: '性别',
-        dataIndex: 'sex',
-        render(val) {
-          return sex_obj[val];
-        },
-      },
-      {
-        title: '学号',
-        dataIndex: 'stuNum',
-      },
-      {
-        title: '所属学院',
-        dataIndex: 'college',
-        render(val) {
-          return collegeName_obj[val];
-        },
-      },
-      {
-        title: '所属专业',
-        dataIndex: 'major',
+        key: 'position',
       },
       {
         title: '操作',
         dataIndex: 'id',
+        key: 'id',
         render: (val) => (
           <div>
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
             <Divider type="vertical"/>
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
+            <Divider type="vertical"/>
+            <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
           </div>
         ),
       },
@@ -375,14 +388,14 @@ export default class CadreTable extends PureComponent {
           </div>
         </Card>
         <CadreModal modalVisible={this.state.modalVisible}
-                       modalLoading={this.state.modalLoading}
-                       data={this.state.modalData}
-                       dispatch={this.props.dispatch}
-                       handleModalVisible={this.handleModalVisible.bind(this)}
-                       collegeName={collegeName}
-                       collegeNameObj={collegeName_obj}
-                       sex={sex}
-                       sex_obj={sex_obj}
+                    modalLoading={this.state.modalLoading}
+                    data={this.state.modalData}
+                    dispatch={this.props.dispatch}
+                    handleModalVisible={this.handleModalVisible.bind(this)}
+                    collegeName={collegeName}
+                    collegeNameObj={collegeName_obj}
+                    sex={sex}
+                    sex_obj={sex_obj}
         />
 
       </PageHeaderLayout>
