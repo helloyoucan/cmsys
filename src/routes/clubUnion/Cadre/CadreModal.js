@@ -122,13 +122,12 @@ export default class CadreModal extends PureComponent {
       default:
         break;
     }
-    var years = (new Array((new Date()).getFullYear() - 1999 + 4)).fill(0);
-    years = years.map((_, index) => {
+    const years = (new Array((new Date()).getFullYear() - 1999 + 4)).fill(0).map((_, index) => {
       return (1999 + index) + '-' + (2000 + index);
     });
     return (
       <Modal
-        title={title + '社联干部'}
+        title={title + '社联干部信息'}
         visible={this.props.modalVisible}
         onOk={this.handleOK.bind(this)}
         onCancel={() => this.props.handleModalVisible()}

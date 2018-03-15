@@ -225,10 +225,18 @@ export default class CadreTable extends PureComponent {
     });
   }
 
-  handleDelete() {
+  handleDelete(delOneId) {
+    /*
+     * delOneId：删除单个时的传参
+     * */
     const {dispatch, clubUnionCadre: {data: {pagination}}} = this.props;
-    const {selectedRows, formValues} = this.state;
-    if (!selectedRows) return;
+    let {selectedRows, formValues} = this.state;
+    let ids = selectedRows.map((item) => (item.id));
+    if (arguments.length > 1) {//删除单个
+      ids.push(delOneId);
+    }
+    if (!ids) return;
+
     dispatch({
       type: 'clubUnionCadre/changeLoading',
       payload: {
@@ -238,7 +246,7 @@ export default class CadreTable extends PureComponent {
     dispatch({
       type: 'clubUnionCadre/dels',
       payload: {
-        ids: selectedRows.map((item) => (item.id))
+        ids: ids
       },
       callback: () => {
         dispatch({
@@ -272,15 +280,18 @@ export default class CadreTable extends PureComponent {
     const columns = [
       {
         title: '姓名 ',
-        dataIndex: 'name ',
+        dataIndex: 'name',
+        key: 'name',
       },
       {
         title: '学号',
         dataIndex: 'stuNum',
+        key: 'stuNum',
       },
       {
         title: '所属学院',
         dataIndex: 'college',
+        key: 'college',
         render(val) {
           return collegeName_obj[val];
         },
@@ -288,10 +299,12 @@ export default class CadreTable extends PureComponent {
       {
         title: '所属专业',
         dataIndex: 'major',
+        key: 'major',
       },
       {
         title: '任职状态',
         dataIndex: 'status',
+        key: 'status',
         render: (val, record) => {
           return (
             <Switch
@@ -307,19 +320,24 @@ export default class CadreTable extends PureComponent {
       {
         title: '部门',
         dataIndex: 'dept',
+        key: 'dept',
       },
       {
         title: '现任职位',
         dataIndex: 'position',
+        key: 'position',
       },
       {
         title: '操作',
         dataIndex: 'id',
+        key: 'id',
         render: (val) => (
           <div>
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
             <Divider type="vertical"/>
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
+            <Divider type="vertical"/>
+            <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
           </div>
         ),
       },

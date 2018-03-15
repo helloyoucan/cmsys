@@ -148,12 +148,11 @@ export default class DepartmentTable extends PureComponent {
      * */
     const {dispatch, clubDepartment: {data: {pagination}}} = this.props;
     let {selectedRows, formValues} = this.state;
+    let ids = selectedRows.map((item) => (item.id));
     if (arguments.length > 1) {//删除单个
-      selectedRows.push({
-        id: delOneId
-      });
+      ids.push(delOneId);
     }
-    if (!selectedRows) return;
+    if (!ids) return;
 
     dispatch({
       type: 'clubDepartment/changeLoading',
@@ -164,7 +163,7 @@ export default class DepartmentTable extends PureComponent {
     dispatch({
       type: 'clubDepartment/dels',
       payload: {
-        ids: selectedRows.map((item) => (item.id))
+        ids: ids
       },
       callback: () => {
         dispatch({

@@ -45,7 +45,7 @@ export const getNavData = app => [{
         {
           name: '信息管理',
           path: 'info',
-          component: dynamicWrapper(app, ['club/info'], () => import('../routes/club/Info/InfoPage')),
+          component: dynamicWrapper(app, ['login', 'club/info'], () => import('../routes/club/Info/InfoPage')),
         },
         {
           name: '社团信息列表',
@@ -55,12 +55,12 @@ export const getNavData = app => [{
         {
           name: '干部管理',
           path: 'cadre',
-          component: dynamicWrapper(app, ['club/cadre', 'dictionary'], () => import('../routes/club/Cadre/CadreTable')),
+          component: dynamicWrapper(app, ['login','club/cadre', 'dictionary'], () => import('../routes/club/Cadre/CadreTable')),
         },
         {
           name: '会员管理',
           path: 'member',
-          component: dynamicWrapper(app, ['club/member', 'dictionary'], () => import('../routes/club/Member/MemberTable')),
+          component: dynamicWrapper(app, ['login','club/member', 'dictionary'], () => import('../routes/club/Member/MemberTable')),
         },
         {
           name: '社团审批',
@@ -69,7 +69,7 @@ export const getNavData = app => [{
             {
               name: '年审列表',
               path: 'yearbookList',
-              component: dynamicWrapper(app, ['club/yearbook'], () => import('../routes/club/Yearbook/YearbookTable')),
+              component: dynamicWrapper(app, ['login','club/yearbook'], () => import('../routes/club/Yearbook/YearbookTable')),
             },
             {
               name: '成立列表',
@@ -79,12 +79,12 @@ export const getNavData = app => [{
             {
               name: '注销',
               path: 'logout',
-              component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+              component: dynamicWrapper(app, ['login'], () => import('../routes/new/test')),
             },
             {
               name: '注销列表',
               path: 'logoutList',
-              component: dynamicWrapper(app,['club/logoutList'], () => import('../routes/club/LogoutList/LogoutListTable')),
+              component: dynamicWrapper(app, ['club/logoutList'], () => import('../routes/club/LogoutList/LogoutListTable')),
             },
           ]
         },
