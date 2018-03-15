@@ -96,7 +96,7 @@ const proxy = {
   'GET /sys/workflow/viewCurrentImage': '',//查看当前流程图接口
 
 
-  //社团干部管理（已完成接口对接-）
+  //社团干部管理（已完成接口对接-页面修改完成)
   'DELETE /sys/asscadre/delete': clubCadre.dels,//删除社团干部接口（社团管理员）
   'GET /sys/asscadre/getOne': clubCadre.getOne,//根据id获取社团干部信息接口
   'GET /sys/asscadre/getPage': clubCadre.queryList,//分页获取社团干部列表接口
