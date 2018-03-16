@@ -241,14 +241,13 @@ export default class CadreTable extends PureComponent {
     }
     if (!ids) return;
 
-    let that = this;
     confirm({
       title: '你确定要删除这些信息吗?',
       content: '删除后不可恢复',
       okText: '是的',
       okType: 'danger',
       cancelText: '不，取消',
-      onOk() {
+      onOk: () => {
         dispatch({
           type: 'clubCadre/changeLoading',
           payload: {
@@ -269,7 +268,7 @@ export default class CadreTable extends PureComponent {
                 pageSize: pagination.pageSize,
               },
             });
-            that.setState({
+            this.setState({
               selectedRows: [],
             });
           }
