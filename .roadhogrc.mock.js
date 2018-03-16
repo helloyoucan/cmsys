@@ -105,7 +105,7 @@ const proxy = {
   'POST /sys/asscadre/save': clubCadre.add,//添加社团干部信息接口(社团管理员)
   'PUT /sys/asscadre/update': clubCadre.update,//更新社团干部信息接口（社团管理员）
 
-  //社团会员管理(已完成接口对接-)
+  //社团会员管理(已完成接口对接-页面修改完成)
   'DELETE /sys/assmember/delete': clubMember.dels,//删除社团会员接口（社团管理员）
   'GET /sys/assmember/getOne': clubMember.getOne,//根据id获取社团干部信息接口
   'GET /sys/assmember/getPage': clubMember.queryList,//分页获取社团会员列表接口
