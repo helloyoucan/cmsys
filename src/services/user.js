@@ -1,6 +1,44 @@
 import request from '../utils/request';
 import {stringify} from 'qs';
 
+export async function disable(params) {
+  /*
+   * params:{
+   * id:''
+   * }
+   * */
+  return request(`/sys/user/disable?id=${params.id}`, {
+    method: 'PUT'
+  });
+}
+export async function enable(params) {
+  return request(`/sys/user/enable?id=${params.id}`, {
+    method: 'PUT'
+  });
+}
+export async function getOne(params) {
+  return request(`/sys/user/getOne?id=${params.id}`);
+}
+//查询用户列表
+export async function queryList(params) {
+  /*
+   params:
+   categoryId	用户类型	否	String
+   pageNo	页码，默认为1	否	int
+   pageSize	每页显示条数，默认为10	否	int
+   * */
+  /* for (let key in params) {
+   if (params[key] == undefined) {
+   params[key] = "";
+   }
+   }*/
+  return request(`/sys/user/getPage?${stringify(params)}`);
+}
+export async function resetPs(params) {
+  return request(`/sys/user/resetPs?id=${params.id}`, {
+    method: 'PUT'
+  });
+}
 //添加用户
 export async function add(params) {
   /*
@@ -16,17 +54,8 @@ export async function add(params) {
     },
   });
 }
-export async function enable(params) {
-  return request(`/sys/user/enable?id=${params.id}`);
-}
-export async function disable(params) {
-  /*
-   * params:{
-   * id:''
-   * }
-   * */
-  return request(`/sys/user/disable?id=${params.id}`);
-}
+
+
 export async function update(params) {
   /**
    id  用户id  是  int
@@ -37,35 +66,15 @@ export async function update(params) {
 
    * */
   return request('/sys/user/update', {
-    method: 'POST',
-    body: {
-      ...params,
-    },
-  });
-}
-//查询用户列表
-export async function queryList(params) {
-  /*
-   params:
-   categoryId	用户类型	否	String
-   pageNo	页码，默认为1	否	int
-   pageSize	每页显示条数，默认为10	否	int
-   * */
-  /* for (let key in params) {
-   if (params[key] == undefined) {
-   params[key] = "";
-   }
-   }
-   return request(`/sys/user/page?${stringify(params)}`);*/
-  return request('/sys/user/page', {
-    method: 'POST',
+    method: 'PUT',
     body: {
       ...params,
     },
   });
 }
 
-export async function getOne(params) {
-  return request(`/sys/user/getOne?id=${params.id}`);
+export async function updatePsw(params) {
+  return request(`/sys/user/updatePsw?newPwd=${params.newPwd}`, {
+    method: 'PUT'
+  });
 }
-

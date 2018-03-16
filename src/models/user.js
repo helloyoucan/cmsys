@@ -1,4 +1,4 @@
-import {queryList, add, getOne, update, enable, disable} from '../services/user';
+import {queryList, add, getOne, update, enable, disable, resetPs, updatePsw} from '../services/user';
 
 export default {
   namespace: 'user',
@@ -64,8 +64,31 @@ export default {
       }
       if (callback) callback(response);
     },
+    *resetPs({payload, callback}, {call, put,}) {
+      const response = yield call(resetPs, payload);
+      /*if (response.ret) {
+       yield put({
+       type: 'resetPsReducers',
+       payload: {
+       id: payload.id,
+       }
+       });
+       }*/
+      if (callback) callback(response);
+    },
+    *updatePsw({payload, callback}, {call, put,}) {
+      const response = yield call(updatePsw, payload);
+      /*if (response.ret) {
+       yield put({
+       type: 'updatePswPswReducers',
+       payload: {
+       id: payload.id,
+       }
+       });
+       }*/
+      if (callback) callback(response);
+    },
   },
-
   reducers: {
     queryListReducers(state, {payload}) {
       return {

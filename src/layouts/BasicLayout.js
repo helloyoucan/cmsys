@@ -13,7 +13,7 @@ import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import classNames from 'classnames';
 import {ContainerQuery} from 'react-container-query';
-
+import UpdatePsw from './updatePsw.js';
 import styles from './BasicLayout.less';
 import logo from '../assets/logo.png';
 const {Header, Sider, Content} = Layout;
@@ -52,6 +52,7 @@ class BasicLayout extends React.PureComponent {
     this.menus = props.navData.reduce((arr, current) => arr.concat(current.children), []);
     this.state = {
       openKeys: this.getDefaultCollapsedSubMenus(props),
+      visible: false
     };
   }
 
@@ -82,7 +83,14 @@ class BasicLayout extends React.PureComponent {
     if (key === 'logout') {
       this.props.dispatch({
         type: 'login/logout',
+        payload: {}
       });
+    }
+
+    if (key === 'updatePsw') {
+      this.setState({
+        visible: true
+      })
     }
   }
   getMenuData = (data, parentPath) => {
@@ -247,12 +255,33 @@ class BasicLayout extends React.PureComponent {
     }
   }
 
+  onCancel() {
+    this.setState({
+      visible: false
+    })
+  }
+
+  onOk(psw) {
+    this.state.dispatch({
+      type: 'user/updatePsw',
+      payload: {
+        id: psw
+      },
+      callback: () => {
+        this.setState({
+          visible: false
+        })
+      }
+    });
+  }
+
   render() {
     const {currentUser, collapsed, fetchingNotices, getRouteData} = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
         <Menu.Item disabled><Icon type="user"/>个人中心</Menu.Item>
         <Menu.Item disabled><Icon type="setting"/>设置</Menu.Item>
+        <Menu.Item key="updatePsw"><Icon type="key"/>修改密码</Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout"><Icon type="logout"/>退出登录</Menu.Item>
       </Menu>
@@ -351,7 +380,7 @@ class BasicLayout extends React.PureComponent {
                   emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
                 />
               </NoticeIcon>
-              {!!currentUser && currentUser.id? (
+              {!!currentUser && currentUser.id ? (
                 <Dropdown overlay={menu}>
                   <span className={`${styles.action} ${styles.account}`}>
                     {currentUser.categoryName }
@@ -381,6 +410,11 @@ class BasicLayout extends React.PureComponent {
               }
               <Redirect exact from="/" to="/home"/>
             </Switch>
+            <UpdatePsw
+              visible={this.state.visible}
+              onCancel={this.onCancel.bind(this)}
+              dispatch={this.props.dispatch}
+            />
             <GlobalFooter
               links={[{
                 title: '吴灿龙',
@@ -417,4 +451,5 @@ export default connect(state => ({
   collapsed: state.global.collapsed,
   fetchingNotices: state.global.fetchingNotices,
   notices: state.global.notices,
+  user: state.user
 }))(BasicLayout);

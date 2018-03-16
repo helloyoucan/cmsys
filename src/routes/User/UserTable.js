@@ -5,8 +5,11 @@ import {
   Button,
   message,
   Divider,
-  Switch
+  Switch,
+  Modal,
+  Icon
 } from 'antd';
+const confirm = Modal.confirm;
 import StandardTable from '../../components/StandardTable';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import UserForm from './UserForm';
@@ -30,7 +33,8 @@ export default class UserTable extends PureComponent {
     expandForm: false,
     selectedRows: [],
     formValues: {},
-    SwitchLoadingId: ''
+    SwitchLoadingId: '',
+    resetPsId: ''
 
 
   };
@@ -165,6 +169,37 @@ export default class UserTable extends PureComponent {
     });
   }
 
+  handelResetPs(val) {
+    const {dispatch} = this.props;
+    const that = this;
+    confirm({
+      title: '你确定要重置该账号的密码?',
+      content: '重置后的密码为初始密码',
+      okText: '是的',
+      okType: 'danger',
+      cancelText: '不，取消',
+      onOk() {
+        that.setState({
+          resetPsId: val
+        })
+        dispatch({
+          type: 'user/resetPs',
+          payload: {
+            id: val
+          },
+          callback: () => {
+            that.setState({
+              resetPsId: ''
+            })
+          }
+        });
+      },
+      onCancel() {
+        message.warning('您取消了操作');
+      },
+    });
+  }
+
   render() {
     const {user: {loading: userLoading, data}, dictionary: {userCategory}} = this.props;
     let userCategory_obj = {};
@@ -228,6 +263,14 @@ export default class UserTable extends PureComponent {
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
             <Divider type="vertical"/>
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
+            <Divider type="vertical"/>
+            {
+              this.state.resetPsId === val ?
+                <Icon type="loading"/>
+                :
+                <a href="javascript:;" style={{'color': 'red'}} onClick={this.handelResetPs.bind(this, val)}>重置密码</a>
+
+            }
           </div>
         ),
       },

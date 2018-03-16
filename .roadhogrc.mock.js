@@ -77,15 +77,15 @@ const proxy = {
   'POST /sys/saucadre/save': clubUnionCadre.add,//添加社联干部信息接口
   'PUT /sys/saucadre/update': clubUnionCadre.update,//更新社联干部信息接口
 
-  //用户管理
+  //用户管理(完成接口对接-页面修改完成)
   'PUT /sys/user/disable': User.disable,//禁用系统用户接口（超级管理员）
   'PUT /sys/user/enable': User.enable,//启用系统用户接口（超级管理员）
   'GET /sys/user/getOne': User.getOne,//根据id获取用户信息接口（超级管理员）
   'GET /sys/user/getPage': User.queryList,//获取系统用户列表接口（超级管理员）
-  'PUT /sys/user/resetPs': '',//重置密码接口（超级管理员）
+  'PUT /sys/user/resetPs': User.resetPs,//重置密码接口（超级管理员）
   'POST /sys/user/save': User.add,//保存系统用户接口（超级管理员）
   'PUT /sys/user/update': User.update,//更新系统用户接口（超级管理员）
-  'PUT /sys/user/updatePsw': '',//修改密码接口（已登录的用户）
+  'PUT /sys/user/updatePsw': User.updatePsw,//修改密码接口（已登录的用户）
 
   //工作流相关
   'DELETE /sys/workflow/delDeployment': Workflow.delDeployment,//删除部署信息接口

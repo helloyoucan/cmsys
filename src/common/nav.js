@@ -9,7 +9,7 @@ const dynamicWrapper = (app, models, component) => dynamic({
 
 // nav data
 export const getNavData = app => [{
-  component: dynamicWrapper(app, ['login'], () => import('../layouts/BasicLayout')),
+  component: dynamicWrapper(app, ['login', 'user'], () => import('../layouts/BasicLayout')),
   layout: 'BasicLayout',
   path: '/',
   children: [{
@@ -55,12 +55,12 @@ export const getNavData = app => [{
         {
           name: '干部管理',
           path: 'cadre',
-          component: dynamicWrapper(app, ['login','club/cadre', 'dictionary'], () => import('../routes/club/Cadre/CadreTable')),
+          component: dynamicWrapper(app, ['login', 'club/cadre', 'dictionary'], () => import('../routes/club/Cadre/CadreTable')),
         },
         {
           name: '会员管理',
           path: 'member',
-          component: dynamicWrapper(app, ['login','club/member', 'dictionary'], () => import('../routes/club/Member/MemberTable')),
+          component: dynamicWrapper(app, ['login', 'club/member', 'dictionary'], () => import('../routes/club/Member/MemberTable')),
         },
         {
           name: '社团审批',
@@ -69,7 +69,7 @@ export const getNavData = app => [{
             {
               name: '年审列表',
               path: 'yearbookList',
-              component: dynamicWrapper(app, ['login','club/yearbook'], () => import('../routes/club/Yearbook/YearbookTable')),
+              component: dynamicWrapper(app, ['login', 'club/yearbook'], () => import('../routes/club/Yearbook/YearbookTable')),
             },
             {
               name: '成立列表',
