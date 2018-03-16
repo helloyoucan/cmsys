@@ -276,7 +276,7 @@ export default class CadreTable extends PureComponent {
         });
       },
       onCancel() {
-        console.log('Cancel');
+        message.warning('您取消了操作');
       },
     });
   }
