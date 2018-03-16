@@ -1,4 +1,4 @@
-import {queryList, add, getOne, update, enable, disable, dels} from '../../services/club/member';
+import {queryList, add, getOne, update, dels} from '../../services/club/member';
 
 export default {
   namespace: 'clubMember',
@@ -45,30 +45,7 @@ export default {
       const response = yield call(update, payload);
       if (callback) callback(response);
     },
-    *enable({payload, callback}, {call, put}) {
-      const response = yield call(enable, payload);
-      if (response.ret) {
-        yield put({
-          type: 'enableReducers',
-          payload: {
-            ids: payload.ids,
-          }
-        });
-      }
-      if (callback) callback(response);
-    },
-    *disable({payload, callback}, {call, put,}) {
-      const response = yield call(disable, payload);
-      if (response.ret) {
-        yield put({
-          type: 'disableReducers',
-          payload: {
-            ids: payload.ids,
-          }
-        });
-      }
-      if (callback) callback(response);
-    },
+
     *dels({payload, callback}, {call, put,}) {
       const response = yield call(dels, payload);
       if (response.ret) {
@@ -95,42 +72,6 @@ export default {
       return {
         ...state,
         loading: payload,
-      };
-    },
-    enableReducers(state, {payload}) {
-      const newList = state.data.list.map((item) => {
-        if (payload.ids.find((id) => (id == item.id)) != undefined) {
-          return {
-            ...item,
-            status: 1,
-          }
-        }
-        return item;
-      });
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          list: newList
-        }
-      };
-    },
-    disableReducers(state, {payload}) {
-      const newList = state.data.list.map((item) => {
-        if (payload.ids.find((id) => (id == item.id)) != undefined) {
-          return {
-            ...item,
-            status: 0,
-          }
-        }
-        return item;
-      });
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          list: newList
-        }
       };
     },
     delsReducers(state, {payload}) {

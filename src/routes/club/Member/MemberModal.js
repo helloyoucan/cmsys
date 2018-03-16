@@ -144,23 +144,8 @@ export default class MemberModal extends PureComponent {
             <LineMessage label="所属学院">
               {collegeNameObj[formData.college]}
             </LineMessage>
-            <LineMessage label="所属专业">
+            <LineMessage label="专业">
               {formData.major}
-            </LineMessage>
-            <LineMessage label="部门">
-              {formData.dept}
-            </LineMessage>
-            <LineMessage label="现任职位">
-              {formData.position}
-            </LineMessage>
-            <LineMessage label="任职状态">
-              {formData.status == 1 ? "在职" : "离职"}
-            </LineMessage>
-            <LineMessage label="任职年度">
-              {formData.annual}
-            </LineMessage>
-            <LineMessage label="奖罚情况">
-              {formData.sanction}
             </LineMessage>
             <LineMessage label="添加时间">
               {moment(formData.insertTime).format('YYYY-MM-DD')}
@@ -226,7 +211,7 @@ export default class MemberModal extends PureComponent {
               rules: [{required: true, message: '请输入!', whitespace: true}],
               initialValue: formData.college
             })(
-              <Select placeholder="用户类型" style={{width: '100%'}}>
+              <Select placeholder="所属学院" style={{width: '100%'}}>
                 {collegeName.map((item) => {
                   return ( <Option key={item.pmname} value={item.pmname}>{item.pmvalue}</Option>)
                 })}
@@ -236,54 +221,10 @@ export default class MemberModal extends PureComponent {
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
-              label="所属专业"
+              label="专业"
             >  {getFieldDecorator('major', {
               rules: [{required: true, message: '请输入!', whitespace: true}],
               initialValue: formData.major
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="部门"
-            >  {getFieldDecorator('dept', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.dept
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="任职年度"
-            >  {getFieldDecorator('annual', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.annual
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="现任职位"
-            >  {getFieldDecorator('position', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.position
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="奖罚情况"
-            >  {getFieldDecorator('sanction', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.sanction
             })(
               <Input/>
             )}

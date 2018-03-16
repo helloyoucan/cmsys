@@ -107,7 +107,7 @@ const proxy = {
 
   //社团会员管理(已完成接口对接-)
   'DELETE /sys/assmember/delete': clubMember.dels,//删除社团会员接口（社团管理员）
-  'GET /sys/clubMember/getOne': clubMember.getOne,//根据id获取社团干部信息接口
+  'GET /sys/assmember/getOne': clubMember.getOne,//根据id获取社团干部信息接口
   'GET /sys/assmember/getPage': clubMember.queryList,//分页获取社团会员列表接口
   'POST /sys/assmember/save': clubMember.add,//添加社团会员信息接口(社团管理员
   'PUT /sys/assmember/update': clubMember.update,//更新社团会员信息接口（社团管理员）

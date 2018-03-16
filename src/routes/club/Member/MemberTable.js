@@ -8,8 +8,10 @@ import {
   Switch,
   Dropdown,
   Menu,
-  Icon
+  Icon,
+  Modal
 } from 'antd';
+const confirm = Modal.confirm;
 import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import MemberForm from './MemberForm';
@@ -60,15 +62,14 @@ export default class MemberTable extends PureComponent {
   handleStandardTableChange = (pagination) => {
     const {dispatch} = this.props;
     const {formValues} = this.state;
-
-    const params = {
-      keyword: formValues.keyword,
-      pageNo: pagination.current,
-      pageSize: pagination.pageSize,
-    };
     dispatch({
       type: 'clubMember/queryList',
-      payload: params,
+      payload: {
+        assId: '',
+        keyword: formValues.keyword,
+        pageNo: pagination.current,
+        pageSize: pagination.pageSize,
+      },
     });
   }
 
@@ -162,37 +163,48 @@ export default class MemberTable extends PureComponent {
      * */
     const {dispatch, clubMember: {data: {pagination}}} = this.props;
     let {selectedRows, formValues} = this.state;
+    let ids = selectedRows.map((item) => (item.id));
     if (arguments.length > 1) {//删除单个
-      selectedRows.push({
-        id: delOneId
-      });
+      ids.push(delOneId);
     }
-    if (!selectedRows) return;
-
-    dispatch({
-      type: 'clubMember/changeLoading',
-      payload: {
-        bool: true,
-      },
-    });
-    dispatch({
-      type: 'clubMember/dels',
-      payload: {
-        ids: selectedRows.map((item) => (item.id))
-      },
-      callback: () => {
+    if (!ids) return;
+    let that = this;
+    confirm({
+      title: '你确定要删除这些信息吗?',
+      content: '删除后不可恢复',
+      okText: '是的',
+      okType: 'danger',
+      cancelText: '不，取消',
+      onOk() {
         dispatch({
-          type: 'clubMember/queryList',
+          type: 'clubMember/changeLoading',
           payload: {
-            ...formValues,
-            pageNo: pagination.currentPage,
-            pageSize: pagination.pageSize,
+            bool: true,
           },
         });
-        this.setState({
-          selectedRows: [],
+        dispatch({
+          type: 'clubMember/dels',
+          payload: {
+            ids: ids
+          },
+          callback: () => {
+            dispatch({
+              type: 'clubMember/queryList',
+              payload: {
+                ...formValues,
+                pageNo: pagination.currentPage,
+                pageSize: pagination.pageSize,
+              },
+            });
+            that.setState({
+              selectedRows: [],
+            });
+          }
         });
-      }
+      },
+      onCancel() {
+        message.warning('您取消了操作');
+      },
     });
   }
 
@@ -214,14 +226,6 @@ export default class MemberTable extends PureComponent {
         dataIndex: 'name',
       },
       {
-        title: '部门',
-        dataIndex: 'dept',
-      },
-      {
-        title: '现任职位',
-        dataIndex: 'position',
-      },
-      {
         title: '性别',
         dataIndex: 'sex',
         render(val) {
@@ -239,8 +243,9 @@ export default class MemberTable extends PureComponent {
           return collegeName_obj[val];
         },
       },
+
       {
-        title: '所属专业',
+        title: '专业',
         dataIndex: 'major',
       },
       {

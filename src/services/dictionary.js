@@ -1,5 +1,5 @@
 import request from '../utils/request';
-
+import {stringify} from 'qs';
 
 export async function add(params) {
   return request('/sys/dic/save', {
