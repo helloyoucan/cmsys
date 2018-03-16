@@ -8,8 +8,10 @@ import {
   Switch,
   Dropdown,
   Menu,
-  Icon
+  Icon,
+  Modal
 } from 'antd';
+const confirm = Modal.confirm;
 import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import CadreForm from './CadreForm';
@@ -236,32 +238,45 @@ export default class CadreTable extends PureComponent {
       ids.push(delOneId);
     }
     if (!ids) return;
-
-    dispatch({
-      type: 'clubUnionCadre/changeLoading',
-      payload: {
-        bool: true,
-      },
-    });
-    dispatch({
-      type: 'clubUnionCadre/dels',
-      payload: {
-        ids: ids
-      },
-      callback: () => {
+    let that = this;
+    confirm({
+      title: '你确定要删除这些信息吗?',
+      content: '删除后不可恢复',
+      okText: '是的',
+      okType: 'danger',
+      cancelText: '不，取消',
+      onOk() {
         dispatch({
-          type: 'clubUnionCadre/queryList',
+          type: 'clubUnionCadre/changeLoading',
           payload: {
-            ...formValues,
-            pageNo: pagination.currentPage,
-            pageSize: pagination.pageSize,
+            bool: true,
           },
         });
-        this.setState({
-          selectedRows: [],
+        dispatch({
+          type: 'clubUnionCadre/dels',
+          payload: {
+            ids: ids
+          },
+          callback: () => {
+            dispatch({
+              type: 'clubUnionCadre/queryList',
+              payload: {
+                ...formValues,
+                pageNo: pagination.currentPage,
+                pageSize: pagination.pageSize,
+              },
+            });
+            that.setState({
+              selectedRows: [],
+            });
+          }
         });
-      }
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
     });
+
   }
 
 
