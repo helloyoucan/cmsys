@@ -20,6 +20,7 @@ import MemberModal from './MemberModal';
 @connect(state => ({
   clubMember: state.clubMember,
   dictionary: state.dictionary,
+  currentUser: state.login.currentUser
 }))
 export default class MemberTable extends PureComponent {
   state = {
@@ -46,30 +47,15 @@ export default class MemberTable extends PureComponent {
     dispatch({
       type: 'dictionary/queryCollegeName'
     });
-    dispatch({
-      type: 'dictionary/querySex'
-    });
-    dispatch({
-      type: 'clubMember/queryList',
-      payload: {
-        keyword: '',
-        pageNo: 1,
-        pageSize: 10
-      }
-    });
+    this.getData({})
   }
 
   handleStandardTableChange = (pagination) => {
-    const {dispatch} = this.props;
     const {formValues} = this.state;
-    dispatch({
-      type: 'clubMember/queryList',
-      payload: {
-        assId: '',
-        keyword: formValues.keyword,
-        pageNo: pagination.current,
-        pageSize: pagination.pageSize,
-      },
+    this.getData({
+      keyword: formValues.keyword,
+      pageNo: pagination.current,
+      pageSize: pagination.pageSize,
     });
   }
 
@@ -141,12 +127,28 @@ export default class MemberTable extends PureComponent {
       selectedRows: [],
     });
     const {dispatch} = this.props;
+    this.getData({
+      keyword: value.keyword,
+    })
+  }
+
+  getData(params, isRefresh) {
+    const {dispatch, currentUser} = this.props;
+    if (isRefresh) {
+      params = {
+        keyword: '',
+        pageNo: 1,
+        pageSize: 10,
+      }
+    }
     dispatch({
       type: 'clubMember/queryList',
       payload: {
-        keyword: value.keyword,
+        assId: currentUser.assId,
+        keyword: '',
         pageNo: 1,
-        pageSize: 10
+        pageSize: 10,
+        ...params
       }
     });
   }
@@ -187,13 +189,10 @@ export default class MemberTable extends PureComponent {
             ids: ids
           },
           callback: () => {
-            dispatch({
-              type: 'clubMember/queryList',
-              payload: {
-                ...formValues,
-                pageNo: pagination.currentPage,
-                pageSize: pagination.pageSize,
-              },
+            this.getData({
+              ...formValues,
+              pageNo: pagination.currentPage,
+              pageSize: pagination.pageSize,
             });
             this.setState({
               selectedRows: [],
@@ -208,16 +207,13 @@ export default class MemberTable extends PureComponent {
   }
 
   render() {
-    const {clubMember: {loading: userLoading, data}, dictionary: {collegeName, sex}} = this.props;
+    const {clubMember: {loading: userLoading, data}, dictionary: {collegeName}} = this.props;
     let collegeName_obj = {};
     collegeName.forEach((item) => {
       collegeName_obj[item.pmname] = item.pmvalue;
     });
 
-    let sex_obj = {};
-    sex.forEach((item) => {
-      sex_obj[item.pmname] = item.pmvalue;
-    });
+
     const {selectedRows} = this.state;
     const columns = [
       {
@@ -227,9 +223,6 @@ export default class MemberTable extends PureComponent {
       {
         title: '性别',
         dataIndex: 'sex',
-        render(val) {
-          return sex_obj[val];
-        },
       },
       {
         title: '学号',
@@ -300,8 +293,7 @@ export default class MemberTable extends PureComponent {
                      handleModalVisible={this.handleModalVisible.bind(this)}
                      collegeName={collegeName}
                      collegeNameObj={collegeName_obj}
-                     sex={sex}
-                     sex_obj={sex_obj}
+                     handelGetData={this.getData.bind(this)}
         />
 
       </PageHeaderLayout>

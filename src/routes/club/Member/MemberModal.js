@@ -60,6 +60,7 @@ export default class MemberModal extends PureComponent {
                 if (res.ret) {
                   this.props.handleModalVisible();
                   this.props.form.resetFields();
+                  this.props.handelGetData({}, true);
                 }
                 this.setState({
                   confirmLoading: false,
@@ -86,6 +87,7 @@ export default class MemberModal extends PureComponent {
                 if (res.ret) {
                   this.props.handleModalVisible();
                   this.props.form.resetFields();
+                  this.props.handelGetData({}, true);
                 }
                 this.setState({
                   confirmLoading: false,
@@ -106,7 +108,7 @@ export default class MemberModal extends PureComponent {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {data, collegeName, collegeNameObj, sex, sex_obj, modalLoading} = this.props;
+    const {data, collegeName, collegeNameObj, modalLoading} = this.props;
     const formData = data.data == undefined ? {} : data.data;
     let title = '';
     switch (data.key) {
@@ -136,7 +138,7 @@ export default class MemberModal extends PureComponent {
               {formData.name}
             </LineMessage>
             <LineMessage label="性别">
-              {sex_obj[formData.sex]}
+              {formData.sex}
             </LineMessage>
             <LineMessage label="学号">
               {formData.stuNum}
@@ -186,9 +188,8 @@ export default class MemberModal extends PureComponent {
               initialValue: formData.sex
             })(
               <RadioGroup >
-                {sex.map((item) => {
-                  return ( <Radio key={item.pmname} value={item.pmname}>{item.pmvalue}</Radio>)
-                })}
+                <Radio key="男" value="男">男</Radio>
+                <Radio key="女" value="女">女</Radio>
               </RadioGroup>
             )}
             </FormItem>
@@ -233,7 +234,7 @@ export default class MemberModal extends PureComponent {
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
               label="备注"
-            >  {getFieldDecorator('assId', {
+            >  {getFieldDecorator('remarks', {
               initialValue: formData.remarks
             })(
               <TextArea rows={3}/>

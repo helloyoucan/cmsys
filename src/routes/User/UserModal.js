@@ -57,6 +57,7 @@ export default class UserModal extends PureComponent {
                 if (res.ret) {
                   this.props.handleModalVisible();
                   this.props.form.resetFields();
+                  this.props.handelGetData({}, true);
                 }
                 this.setState({
                   confirmLoading: false,
@@ -83,6 +84,7 @@ export default class UserModal extends PureComponent {
                 if (res.ret) {
                   this.props.handleModalVisible();
                   this.props.form.resetFields();
+                  this.props.handelGetData({}, true);
                 }
                 this.setState({
                   confirmLoading: false,
@@ -137,7 +139,7 @@ export default class UserModal extends PureComponent {
               {this.props.userCategoryObj[formData.categoryId]}
             </LineMessage>
             <LineMessage label="所属社团">
-              {formData.assId==-1?"":formData.assId}
+              {formData.assId == -1 ? "" : formData.assId}
             </LineMessage>
             <LineMessage label="用户状态">
               {formData.status == 1 ? '启用' : '禁用'}

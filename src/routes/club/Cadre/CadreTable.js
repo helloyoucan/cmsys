@@ -20,7 +20,7 @@ import CadreModal from './CadreModal';
 @connect(state => ({
   clubCadre: state.clubCadre,
   dictionary: state.dictionary,
-  currentUser: state.currentUser
+  currentUser: state.login.currentUser
 }))
 export default class CadreTable extends PureComponent {
   state = {
@@ -47,32 +47,17 @@ export default class CadreTable extends PureComponent {
     dispatch({
       type: 'dictionary/queryCollegeName'
     });
-    dispatch({
-      type: 'dictionary/querySex'
-    });
-    dispatch({
-      type: 'clubCadre/queryList',
-      payload: {
-        keyword: '',
-        pageNo: 1,
-        pageSize: 10
-      }
-    });
+    this.getData({})
   }
 
   handleStandardTableChange = (pagination) => {
-    const {dispatch} = this.props;
     const {formValues} = this.state;
-
     const params = {
       keyword: formValues.keyword,
       pageNo: pagination.current,
       pageSize: pagination.pageSize,
     };
-    dispatch({
-      type: 'clubCadre/queryList',
-      payload: params,
-    });
+    this.getData(params)
   }
 
   handelModal(key, id) {
@@ -135,6 +120,27 @@ export default class CadreTable extends PureComponent {
     });
   }
 
+  getData(params, isRefresh) {
+    const {dispatch, currentUser} = this.props;
+    if (isRefresh) {
+      params = {
+        keyword: '',
+        pageNo: 1,
+        pageSize: 10,
+      }
+    }
+    dispatch({
+      type: 'clubCadre/queryList',
+      payload: {
+        assId: currentUser.assId,
+        keyword: '',
+        pageNo: 1,
+        pageSize: 10,
+        ...params
+      }
+    });
+  }
+
   handleSearch(value) {
     this.setState({
       formValues: {
@@ -143,15 +149,7 @@ export default class CadreTable extends PureComponent {
       selectedRows: [],
     });
     const {dispatch, currentUser} = this.props;
-    dispatch({
-      type: 'clubCadre/queryList',
-      payload: {
-        assId: currentUser.assId,
-        keyword: value.keyword,
-        pageNo: 1,
-        pageSize: 10
-      }
-    });
+    this.getData(value);
   }
 
   handleFormReset() {
@@ -282,16 +280,12 @@ export default class CadreTable extends PureComponent {
 
 
   render() {
-    const {clubCadre: {loading: userLoading, data}, dictionary: {collegeName, sex}} = this.props;
+    const {clubCadre: {loading: userLoading, data}, dictionary: {collegeName}} = this.props;
     let collegeName_obj = {};
     collegeName.forEach((item) => {
       collegeName_obj[item.pmname] = item.pmvalue;
     });
 
-    let sex_obj = {};
-    sex.forEach((item) => {
-      sex_obj[item.pmname] = item.pmvalue;
-    });
     const {selectedRows} = this.state;
     const columns = [
       {
@@ -408,8 +402,7 @@ export default class CadreTable extends PureComponent {
                     handleModalVisible={this.handleModalVisible.bind(this)}
                     collegeName={collegeName}
                     collegeNameObj={collegeName_obj}
-                    sex={sex}
-                    sex_obj={sex_obj}
+                    handelGetData={this.getData.bind(this)}
         />
 
       </PageHeaderLayout>

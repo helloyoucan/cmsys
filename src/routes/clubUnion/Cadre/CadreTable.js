@@ -46,15 +46,25 @@ export default class CadreTable extends PureComponent {
     dispatch({
       type: 'dictionary/queryCollegeName'
     });
-    dispatch({
-      type: 'dictionary/querySex'
-    });
+    this.getData({});
+  }
+
+  getData(params, isRefresh) {
+    const {dispatch} = this.props;
+    if (isRefresh) {
+      params = {
+        keyword: '',
+        pageNo: 1,
+        pageSize: 10,
+      }
+    }
     dispatch({
       type: 'clubUnionCadre/queryList',
       payload: {
         keyword: '',
         pageNo: 1,
-        pageSize: 10
+        pageSize: 10,
+        ...params
       }
     });
   }
@@ -68,10 +78,7 @@ export default class CadreTable extends PureComponent {
       pageNo: pagination.current,
       pageSize: pagination.pageSize,
     };
-    dispatch({
-      type: 'clubUnionCadre/queryList',
-      payload: params,
-    });
+    this.getData(params);
   }
 
   handelModal(key, id) {
@@ -141,14 +148,8 @@ export default class CadreTable extends PureComponent {
       },
       selectedRows: [],
     });
-    const {dispatch} = this.props;
-    dispatch({
-      type: 'clubUnionCadre/queryList',
-      payload: {
-        keyword: value.keyword,
-        pageNo: 1,
-        pageSize: 10
-      }
+    this.getData({
+      keyword: value.keyword,
     });
   }
 
@@ -257,14 +258,11 @@ export default class CadreTable extends PureComponent {
             ids: ids
           },
           callback: () => {
-            dispatch({
-              type: 'clubUnionCadre/queryList',
-              payload: {
-                ...formValues,
-                pageNo: pagination.currentPage,
-                pageSize: pagination.pageSize,
-              },
-            });
+            this.getData({
+              ...formValues,
+              pageNo: pagination.currentPage,
+              pageSize: pagination.pageSize,
+            })
             this.setState({
               selectedRows: [],
             });
@@ -280,16 +278,12 @@ export default class CadreTable extends PureComponent {
 
 
   render() {
-    const {clubUnionCadre: {loading: userLoading, data}, dictionary: {collegeName, sex}} = this.props;
+    const {clubUnionCadre: {loading: userLoading, data}, dictionary: {collegeName}} = this.props;
     let collegeName_obj = {};
     collegeName.forEach((item) => {
       collegeName_obj[item.pmname] = item.pmvalue;
     });
 
-    let sex_obj = {};
-    sex.forEach((item) => {
-      sex_obj[item.pmname] = item.pmvalue;
-    });
     const {selectedRows} = this.state;
     const columns = [
       {
@@ -406,8 +400,7 @@ export default class CadreTable extends PureComponent {
                     handleModalVisible={this.handleModalVisible.bind(this)}
                     collegeName={collegeName}
                     collegeNameObj={collegeName_obj}
-                    sex={sex}
-                    sex_obj={sex_obj}
+                    handle={this.getData.bind(this)}
         />
 
       </PageHeaderLayout>

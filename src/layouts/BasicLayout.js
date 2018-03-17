@@ -248,11 +248,11 @@ class BasicLayout extends React.PureComponent {
     });
   }
   handleNoticeVisibleChange = (visible) => {
-    if (visible) {
-      this.props.dispatch({
-        type: 'global/fetchNotices',
-      });
-    }
+    /*if (visible) {
+     this.props.dispatch({
+     type: 'global/fetchNotices',
+     });
+     }*/
   }
 
   onCancel() {
@@ -451,5 +451,4 @@ export default connect(state => ({
   collapsed: state.global.collapsed,
   fetchingNotices: state.global.fetchingNotices,
   notices: state.global.notices,
-  user: state.user
 }))(BasicLayout);

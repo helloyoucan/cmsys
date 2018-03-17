@@ -1,10 +1,6 @@
 /*字典表*/
 import {
-  queryAssociation,
-  queryCollegeName,
-  queryTweet,
-  queryUserCategory,
-  querySex,
+  queryforPmappname,
   queryList, add, getOne, update,
 } from '../services/dictionary';
 
@@ -55,7 +51,7 @@ export default {
     },
     /*--------------------------------------------*/
     *queryAssociation(_, {call, put}){
-      const response = yield call(queryAssociation, {
+      const response = yield call(queryforPmappname, {
         type: "ASSOCIATION_CATEGORY",
       });
       yield put({
@@ -64,7 +60,7 @@ export default {
       });
     },
     *queryCollegeName(_, {call, put}){
-      const response = yield call(queryCollegeName, {
+      const response = yield call(queryforPmappname, {
         type: "COLLEGE_NAME",
       });
       yield put({
@@ -72,17 +68,8 @@ export default {
         payload: response.data,
       });
     },
-    *querySex(_, {call, put}){
-      const response = yield call(querySex, {
-        type: "SEX",
-      });
-      yield put({
-        type: 'querySexReducers',
-        payload: response.data,
-      });
-    },
     *queryTweet(_, {call, put}){
-      const response = yield call(queryTweet, {
+      const response = yield call(queryforPmappname, {
         type: "TWEETS_CATEGORY",
       });
       yield put({
@@ -91,7 +78,7 @@ export default {
       });
     },
     *queryUserCategory(_, {call, put}){
-      const response = yield call(queryUserCategory, {
+      const response = yield call(queryforPmappname, {
         type: "USER_CATEGORY",
       });
       yield put({
@@ -125,12 +112,6 @@ export default {
       return {
         ...state,
         collegeName: payload,
-      };
-    },
-    querySexReducers(state, {payload}) {
-      return {
-        ...state,
-        sex: payload,
       };
     },
     queryTweetReducers(state, {payload}) {

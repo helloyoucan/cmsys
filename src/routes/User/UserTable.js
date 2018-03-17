@@ -44,14 +44,7 @@ export default class UserTable extends PureComponent {
     dispatch({
       type: 'dictionary/queryUserCategory'
     });
-    dispatch({
-      type: 'user/queryList',
-      payload: {
-        categoryId: '',
-        pageNo: 1,
-        pageSize: 10
-      }
-    });
+    this.getData({});
   }
 
   handleStandardTableChange = (pagination) => {
@@ -63,10 +56,7 @@ export default class UserTable extends PureComponent {
       pageNo: pagination.current,
       pageSize: pagination.pageSize,
     };
-    dispatch({
-      type: 'user/queryList',
-      payload: params,
-    });
+    this.getData(params);
   }
 
   handelModal(key, id) {
@@ -134,12 +124,27 @@ export default class UserTable extends PureComponent {
       formValues: value
     });
     const {dispatch} = this.props;
+    this.getData({
+      categoryId: value.categoryId
+    })
+  }
+
+  getData(params, isRefresh) {
+    const {dispatch} = this.props;
+    if (isRefresh) {
+      params = {
+        categoryId: '',
+        pageNo: 1,
+        pageSize: 10,
+      }
+    }
     dispatch({
       type: 'user/queryList',
       payload: {
-        categoryId: value.categoryId,
+        categoryId: '',
         pageNo: 1,
-        pageSize: 10
+        pageSize: 10,
+        ...params
       }
     });
   }
@@ -313,7 +318,8 @@ export default class UserTable extends PureComponent {
                    data={this.state.modalData}
                    dispatch={this.props.dispatch}
                    handleModalVisible={this.handleModalVisible.bind(this)}
-                   userCategoryObj={userCategory_obj}/>
+                   userCategoryObj={userCategory_obj}
+                   handelGetData={this.getData.bind(this)}/>
 
       </PageHeaderLayout>
     );
