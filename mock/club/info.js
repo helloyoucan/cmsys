@@ -27,35 +27,7 @@ export function add(req, res) {
    */
 
 }
-export function enable(req, res) {
-  /* ids：会员id数组*/
-  res.send(
-    {
-      "ret": true,
-      "msg": "修改会员状态成功",
-      "data": null
-    }
-  );
-  /*res.send(
-   {
-   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
-   }
-   );*/
-}
-export function disable(req, res) {
-  res.send(
-    {
-      "ret": true,
-      "msg": "修改会员状态成功",
-      "data": null
-    }
-  );
-  /*res.send(
-   {
-   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
-   }
-   );*/
-}
+
 export function update(req, res) {
   /*  id：会员id
    stuNum：学号
@@ -83,10 +55,10 @@ export function update(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
    */
 }
-export function queryList(req, res, u) {
+export function queryList(req, res) {
 
   let list = new Array();
-  for (let i = (req.body.pageNo - 1) * req.body.pageSize; i < req.body.pageNo * req.body.pageSize; i++) {
+  for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
     list.push(
       {
         "position": "正主席",
@@ -114,8 +86,8 @@ export function queryList(req, res, u) {
         "list": list,
         pagination: {
           "total": 100,
-          "currentPage": parseInt(req.body.pageNo),
-          "pageSize": parseInt(req.body.pageSize)
+          "currentPage": parseInt(req.query.pageNo),
+          "pageSize": parseInt(req.query.pageSize)
         }
 
       }
@@ -177,23 +149,6 @@ export function getOne(req, res) {
    */
 }
 
-export function dels(req, res) {
-  /* ids：会员id数组*/
-  res.send(
-    {
-      "ret": true,
-      "msg": "删除会员信息成功",
-      "data": null
-    }
-  );
-  /* res.send(
-   {
-   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
-   }
-   );
-   //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
-   */
-}
 export default {
-  add, enable, disable, update, queryList, getOne, dels
+  add, update, queryList, getOne
 };

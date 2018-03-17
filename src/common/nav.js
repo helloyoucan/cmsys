@@ -32,8 +32,8 @@ export const getNavData = app => [{
       ]
     },
     {
-      name: '社团类别管理',
-      path: 'clubClassManagement',
+      name: '审批任务管理',
+      path: 'task',
       icon: 'usergroup-add',
       component: dynamicWrapper(app, ['clubClass'], () => import('../routes/ClubClass/ClubClassTable')),
     },
@@ -44,17 +44,17 @@ export const getNavData = app => [{
       children: [
         {
           name: '信息管理',
-          path: 'info',
+          path: 'cinfo',
           component: dynamicWrapper(app, ['login', 'club/info'], () => import('../routes/club/Info/InfoPage')),
         },
         {
           name: '社团信息列表',
-          path: 'infoList',
+          path: 'cinfoList',
           component: dynamicWrapper(app, ['club/info'], () => import('../routes/club/Info/InfoTable')),
         },
         {
           name: '干部管理',
-          path: 'cadre',
+          path: 'ccadre',
           component: dynamicWrapper(app, ['login', 'club/cadre', 'dictionary'], () => import('../routes/club/Cadre/CadreTable')),
         },
         {
@@ -114,12 +114,12 @@ export const getNavData = app => [{
       children: [
         {
           name: '基本信息',
-          path: 'basicInfo',
+          path: 'cuinfo',
           component: dynamicWrapper(app, ['clubUnion/info'], () => import('../routes/clubUnion/Info/InfoPage')),
         },
         {
           name: '社联干部管理',
-          path: 'cadre',
+          path: 'cucadre',
           component: dynamicWrapper(app, ['clubUnion/cadre', 'dictionary'], () => import('../routes/clubUnion/Cadre/CadreTable')),
         },
         {

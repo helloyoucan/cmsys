@@ -32,7 +32,7 @@ const proxy = {
   //文件上传
   'POST /sys/file/upload': File.uploadFile,
 
-  //社团成注销/列表
+  //社团注销
   'DELETE /sys/asscancel/delete': '',//删除社团注销申请单接口
   'GET /sys/asscancel/getOne': clubLogoutList.getOne,//根据申请单id获取社团注销信息
   'POST /sys/asscancel/getPage': clubLogoutList.queryList,//获取社团注销申请单列表接口
@@ -48,15 +48,13 @@ const proxy = {
   'GET /sys/logoutList/disable': clubLogoutList.disable,
   'GET /sys/logoutList/delete': clubLogoutList.dels,
 
-  //社团信息-社团接口
+  //社团信息-社团列表接口（已完成接口对接）
   'POST /sys/ass/save': clubInfo.add,//保存社团信息接口（超级管理员）
   'POST /sys/ass/update': clubInfo.update,//更新社团信息接口（超级管理员）
-  'POST /sys/ass/getPage': clubInfo.queryList,//获取社团列表（超级管理员）
+  'GET /sys/ass/getPage': clubInfo.queryList,//获取社团列表（超级管理员）
   'GET /sys/ass/getOne': clubInfo.getOne,//根据id获取社团信息接口
-  /*-------*/
-  'GET /sys/clubInfo/enable': clubInfo.enable,//-
-  'GET /sys/clubInfo/disable': clubInfo.disable,//-
-  'GET /sys/clubInfo/delete': clubInfo.dels,//-
+  'GET /sys/ass/getAll': "",//获取所有社团的接口
+
 
   //字典管理
   'GET /sys/dic/getDic': Dictionary.queryCategory,//根据字典分类名称获取字典数据（除了字典类型）接口

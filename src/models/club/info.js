@@ -1,4 +1,4 @@
-import {queryList, add, getOne, update, enable, disable, dels} from '../../services/club/info';
+import {queryList, add, getOne, update} from '../../services/club/info';
 
 export default {
   namespace: 'info',
@@ -44,43 +44,7 @@ export default {
     *update({payload, callback}, {call}) {
       const response = yield call(update, payload);
       if (callback) callback(response);
-    },
-    *enable({payload, callback}, {call, put}) {
-      const response = yield call(enable, payload);
-      if (response.ret) {
-        yield put({
-          type: 'enableReducers',
-          payload: {
-            ids: payload.ids,
-          }
-        });
-      }
-      if (callback) callback(response);
-    },
-    *disable({payload, callback}, {call, put,}) {
-      const response = yield call(disable, payload);
-      if (response.ret) {
-        yield put({
-          type: 'disableReducers',
-          payload: {
-            ids: payload.ids,
-          }
-        });
-      }
-      if (callback) callback(response);
-    },
-    *dels({payload, callback}, {call, put,}) {
-      const response = yield call(dels, payload);
-      if (response.ret) {
-        yield put({
-          type: 'delsReducers',
-          payload: {
-            ids: payload.ids,
-          }
-        });
-      }
-      if (callback) callback(response);
-    },
+    }
 
   },
 
@@ -96,54 +60,6 @@ export default {
         ...state,
         loading: payload,
       };
-    },
-    enableReducers(state, {payload}) {
-      const newList = state.data.list.map((item) => {
-        if (payload.ids.find((id) => (id == item.id)) != undefined) {
-          return {
-            ...item,
-            status: 1,
-          }
-        }
-        return item;
-      });
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          list: newList
-        }
-      };
-    },
-    disableReducers(state, {payload}) {
-      const newList = state.data.list.map((item) => {
-        if (payload.ids.find((id) => (id == item.id)) != undefined) {
-          return {
-            ...item,
-            status: 0,
-          }
-        }
-        return item;
-      });
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          list: newList
-        }
-      };
-    },
-    delsReducers(state, {payload}) {
-      const newList = state.data.list.filter((item) => {
-        return payload.ids.find((id) => (id == item.id)) == undefined;
-      });
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          list: newList
-        }
-      };
-    },
+    }
   },
 };
