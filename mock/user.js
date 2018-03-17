@@ -55,7 +55,7 @@ export function update(req, res) {
    */
 }
 export function queryList(req, res) {
-  let list = new Array();
+  /*let list = new Array();
   for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
     list.push(
       {
@@ -84,13 +84,13 @@ export function queryList(req, res) {
 
       }
     }
-  );
-  /*res.send(
+  );*/
+  res.send(
    {
    "ret": false, "msg": "用户权限不足，请重新登录", "data": null
    }
    // 错误返回信息包括：用户权限不足，请重新登录
-   );*/
+   );
 }
 export function getOne(req, res) {
   res.send(

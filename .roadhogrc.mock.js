@@ -54,15 +54,15 @@ const proxy = {
   'POST /sys/ass/getPage': clubInfo.queryList,//获取社团列表（超级管理员）
   'GET /sys/ass/getOne': clubInfo.getOne,//根据id获取社团信息接口
   /*-------*/
-  'GET /sys/clubInfo/enable': clubInfo.enable,
-  'GET /sys/clubInfo/disable': clubInfo.disable,
-  'GET /sys/clubInfo/delete': clubInfo.dels,
+  'GET /sys/clubInfo/enable': clubInfo.enable,//-
+  'GET /sys/clubInfo/disable': clubInfo.disable,//-
+  'GET /sys/clubInfo/delete': clubInfo.dels,//-
 
   //字典管理
   'GET /sys/dic/getDic': Dictionary.queryCategory,//根据字典分类名称获取字典数据（除了字典类型）接口
-  'GET /sys/dic/getDisCategoryForPage': Dictionary.queryList,//分页获取所有的字典类型接口
+  'GET /sys/dic/getDisCategoryForPage': '',//分页获取所有的字典类型接口
   'GET /sys/dic/getDisCategoryIsEnable': '',//获取所有启用状态的字典类型接口
-  'GET /sys/dic/getDisForPage': '',//分页获取所有的字典数据（除了字典类型）接口
+  'GET /sys/dic/getDisForPage': Dictionary.queryList,//分页获取所有的字典数据（除了字典类型）接口
   /*-------*/
   'POST /sys/dic/save': Dictionary.add,
   'POST /sys/dic/update': Dictionary.update,
@@ -93,7 +93,7 @@ const proxy = {
   'GET /sys/workflow/getImageUrl': Workflow.getImageUrl,//获取图片url
   'POST /sys/workflow/saveDeployment': Workflow.saveDeployment,//发布流程接口
   'GET /sys/workflow/viewImage': Workflow.viewImage,//查看流程图接口
-  'GET /sys/workflow/viewCurrentImage': '',//查看当前流程图接口
+  'GET /sys/workflow/viewCurrentImage': '',//查看当前流程图接口（提交或审批的相关人员查看）
 
 
   //社团干部管理（已完成接口对接-页面修改完成)

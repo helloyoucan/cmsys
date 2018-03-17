@@ -40,7 +40,7 @@ export function getOne(req, res) {
         "id": 4,
         "stuNum": "201411888777",
         "name": "小丽",
-        "sex": "MAN",
+        "sex": "男",
         "annual": "2016-2017",
         "college": "KUAIJI",
         "major": "财务管理专业",
@@ -71,7 +71,7 @@ export function queryList(req, res) {
     list.push(
       {
         "position": "正主席",
-        "sex": i % 2 == 1 ? "MAN" : "WOMAN",
+        "sex": i % 2 == 1 ? "男" : "女",
         "annual": "2015-2016",
         "status": i % 2,
         "college": "KUAIJI",

@@ -5,7 +5,7 @@ export function login(req, res) {
   console.log(req.query)
   const {username} = req.query;
   let data = {
-    "assId": -1,
+    "assId": 1,
     "insertTime": 1513064417000,
     "insertMan": "admin",
     "lastupdMan": "admin",
@@ -16,7 +16,6 @@ export function login(req, res) {
     "username": username,
     "status": 1
   };
-  console.log(username)
   switch (username) {
     case 'admin':
 

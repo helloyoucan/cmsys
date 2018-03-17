@@ -446,7 +446,7 @@ export function update(req, res) {
 }
 export function queryList(req, res) {
   let list = new Array();
-  for (let i = (req.body.pageNo - 1) * req.body.pageSize; i < req.body.pageNo * req.body.pageSize; i++) {
+  for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
     list.push(
       {
         "pmappname": "ASSOCIATION_CATEGORY",
@@ -472,8 +472,8 @@ export function queryList(req, res) {
         "list": list,
         pagination: {
           "total": 100,
-          "currentPage": parseInt(req.body.pageNo),
-          "pageSize": parseInt(req.body.pageSize)
+          "currentPage": parseInt(req.query.pageNo),
+          "pageSize": parseInt(req.query.pageSize)
         }
 
       }

@@ -18,12 +18,7 @@ export async function update(params) {
   });
 }
 export async function queryList(params) {
-  return request('/sys/dic/page', {
-    method: 'POST',
-    body: {
-      ...params,
-    },
-  });
+  return request(`/sys/dic/getDisForPage?${stringify(params)}`);
 }
 
 export async function getOne(params) {
@@ -32,19 +27,6 @@ export async function getOne(params) {
 
 
 /*-----------------------------------------------------*/
-export async function queryUserCategory(params) {
-  return request(`/sys/dic/getDic?type=${params.type}`);
+export async function queryforPmappname(params) {
+  return request(`/sys/dic/getDic?pmappname=${params.type}`);
 }
-export async function queryAssociation(params) {
-  return request(`/sys/dic/getDic?type=${params.type}`);
-}
-export async function queryCollegeName(params) {
-  return request(`/sys/dic/getDic?type=${params.type}`);
-}
-export async function querySex(params) {
-  return request(`/sys/dic/getDic?type=${params.type}`);
-}
-export async function queryTweet(params) {
-  return request(`/sys/dic/getDic?type=${params.type}`);
-}
-
