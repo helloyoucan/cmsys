@@ -1,4 +1,4 @@
-import {queryList, add, getOne, update} from '../../services/club/info';
+import {queryList, add, getOne, update, getAll} from '../../services/club/info';
 
 export default {
   namespace: 'info',
@@ -43,6 +43,10 @@ export default {
     },
     *update({payload, callback}, {call}) {
       const response = yield call(update, payload);
+      if (callback) callback(response);
+    },
+    *getAll({payload, callback}, {call}) {
+      const response = yield call(getAll, payload);
       if (callback) callback(response);
     }
 

@@ -5,10 +5,6 @@ import {
   Button,
   message,
   Divider,
-  Switch,
-  Dropdown,
-  Menu,
-  Icon
 } from 'antd';
 import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
@@ -17,6 +13,7 @@ import InfoModal from './InfoModal';
 
 @connect(state => ({
   info: state.info,
+  currentUser: state.login.currentUser
 }))
 export default class InfoTable extends PureComponent {
   state = {
@@ -39,13 +36,26 @@ export default class InfoTable extends PureComponent {
   };
 
   componentDidMount() {
-    const {dispatch} = this.props;
+    this.getData({})
+  }
+
+  getData(params, isRefresh) {
+    const {dispatch, currentUser} = this.props;
+    if (isRefresh) {
+      params = {
+        keyword: '',
+        pageNo: 1,
+        pageSize: 10,
+      }
+    }
     dispatch({
       type: 'info/queryList',
       payload: {
+        assId: currentUser.assId || '',
         keyword: '',
         pageNo: 1,
-        pageSize: 10
+        pageSize: 10,
+        ...params
       }
     });
   }
@@ -59,10 +69,7 @@ export default class InfoTable extends PureComponent {
       pageNo: pagination.current,
       pageSize: pagination.pageSize,
     };
-    dispatch({
-      type: 'info/queryList',
-      payload: params,
-    });
+    this.getData(params);
   }
 
   handelModal(key, id) {
@@ -133,14 +140,9 @@ export default class InfoTable extends PureComponent {
       selectedRows: [],
     });
     const {dispatch} = this.props;
-    dispatch({
-      type: 'info/queryList',
-      payload: {
-        keyword: value.keyword,
-        pageNo: 1,
-        pageSize: 10
-      }
-    });
+    this.getData(({
+      ...value,
+    }))
   }
 
   handleFormReset() {
@@ -149,69 +151,29 @@ export default class InfoTable extends PureComponent {
     });
   }
 
-  handleDelete(delOneId) {
-    /*
-     * delOneId：删除单个时的传参
-     * */
-    const {dispatch, info: {data: {pagination}}} = this.props;
-    let {selectedRows, formValues} = this.state;
-    if (arguments.length > 1) {//删除单个
-      selectedRows.push({
-        id: delOneId
-      });
-    }
-    if (!selectedRows) return;
-
-    dispatch({
-      type: 'info/changeLoading',
-      payload: {
-        bool: true,
-      },
-    });
-    dispatch({
-      type: 'info/dels',
-      payload: {
-        ids: selectedRows.map((item) => (item.id))
-      },
-      callback: () => {
-        dispatch({
-          type: 'info/queryList',
-          payload: {
-            ...formValues,
-            pageNo: pagination.currentPage,
-            pageSize: pagination.pageSize,
-          },
-        });
-        this.setState({
-          selectedRows: [],
-        });
-      }
-    });
-  }
-
   render() {
     const {info: {loading: userLoading, data}} = this.props;
     const {selectedRows} = this.state;
     const columns = [
       {
-        title: '姓名',
+        title: '社团名称',
         dataIndex: 'name',
       },
       {
-        title: '部门',
-        dataIndex: 'dept',
+        title: '社团类型',
+        dataIndex: 'category',
       },
       {
-        title: '现任职位',
-        dataIndex: 'position',
+        title: '活动领域',
+        dataIndex: 'actField',
       },
       {
-        title: '学号',
-        dataIndex: 'stuNum',
+        title: '发起人',
+        dataIndex: 'initSituation.name',
       },
       {
-        title: '所属专业',
-        dataIndex: 'major',
+        title: '现任负责人',
+        dataIndex: 'leadSituation.name',
       },
       {
         title: '操作',
@@ -221,8 +183,6 @@ export default class InfoTable extends PureComponent {
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
             <Divider type="vertical"/>
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
-            <Divider type="vertical"/>
-            <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
           </div>
         ),
       },
@@ -240,20 +200,13 @@ export default class InfoTable extends PureComponent {
             </div>
             <div className="tableListOperator">
               <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add')}>新建</Button>
-              {
-                selectedRows.length > 0 && (
-                  <span>
-                    <Button onClick={this.handleDelete.bind(this)}>删除</Button>
-                  </span>
-                )
-              }
             </div>
             <StandardTable
               selectedRows={selectedRows}
               loading={userLoading}
               columns={columns}
               data={data}
-              isSelect={true}
+              isSelect={false}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
             />

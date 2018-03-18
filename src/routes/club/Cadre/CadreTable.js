@@ -148,7 +148,6 @@ export default class CadreTable extends PureComponent {
       },
       selectedRows: [],
     });
-    const {dispatch, currentUser} = this.props;
     this.getData(value);
   }
 

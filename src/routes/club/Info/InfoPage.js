@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'dva';
 import {
-  Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Upload,
+  message, Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Upload,
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from './style.less';
@@ -36,6 +36,24 @@ export default class InfoPage extends PureComponent {
     const {info} = this.props;
     const {getFieldDecorator, getFieldValue} = this.props.form;
     const formData = info.oneData == undefined ? {} : info.oneData;
+    const uploadSetting = {
+      name: 'file',
+      action: '//jsonplaceholder.typicode.com/posts/',
+      headers: {
+        authorization: 'authorization-text',
+      },
+      onChange(info) {
+        console.log(info)
+        if (info.file.status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    }
     const formItemLayout = {
       labelCol: {
         xs: {span: 24},
@@ -97,16 +115,16 @@ export default class InfoPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.name
               })(
-                <Input placeholder="社团名称"/>
+                <Input/>
               )}
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="社团类别"
+              label="社团类型"
             >
               {getFieldDecorator('category', {
                 rules: [{
-                  required: true, message: '请输入选择',
+                  required: true, message: '请选择',
                 }], initialValue: formData.category
               })(
                 <Select
@@ -119,48 +137,167 @@ export default class InfoPage extends PureComponent {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="创建日期"
+              label="社团宗旨"
             >
-              {getFieldDecorator('date', {
-                rules: [{
-                  required: true, message: '请选择起止日期',
-                }],
-                initialValue: formData.date
-              })(
-                <DatePicker/>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="社团简介"
-            >
-              {getFieldDecorator('introduce', {
+              {getFieldDecorator('purpose', {
                 rules: [{
                   required: true, message: '请输入',
-                }],
-                initialValue: formData.introduce
+                }], initialValue: formData.name
               })(
-                <TextArea style={{minHeight: 32}} placeholder="请输入社团简介" rows={4}/>
+                <Input/>
               )}
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="是否展示信息"
-              help="是否把信息展示都网站上"
+              label="活动领域"
             >
-              <div>
-                {getFieldDecorator('isShow', {
-                  rules: [{
-                    required: true, message: '请选择',
-                  }],
-                  initialValue: formData.isShow || '1'
-                })(
-                  <Radio.Group>
-                    <Radio value="1">展示</Radio>
-                    <Radio value="0">不展示</Radio>
-                  </Radio.Group>
-                )}
-              </div>
+              {getFieldDecorator('actField', {
+                rules: [{
+                  required: true, message: '请输入',
+                }], initialValue: formData.name
+              })(
+                <Input/>
+              )}
+            </FormItem>
+            <p>发起人资料</p>
+            <FormItem
+              {...formItemLayout}
+              label="姓名"
+            >
+              {getFieldDecorator('initSituation.name', {
+                rules: [{
+                  required: true, message: '请输入',
+                }], initialValue: formData.initSituation.name
+              })(
+                <Input/>
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="联系电话"
+            >
+              {getFieldDecorator('initSituation.phone', {
+                rules: [{
+                  required: true, message: '请输入',
+                }], initialValue: formData.initSituation.phone
+              })(
+                <Input/>
+              )}
+            </FormItem>
+            <p>现任负责人资料</p>
+            <FormItem
+              {...formItemLayout}
+              label="姓名"
+            >
+              {getFieldDecorator('leadSituation.name', {
+                rules: [{
+                  required: true, message: '请输入',
+                }], initialValue: formData.leadSituation.name
+              })(
+                <Input/>
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="联系电话"
+            >
+              {getFieldDecorator('leadSituation.phone', {
+                rules: [{
+                  required: true, message: '请输入',
+                }], initialValue: formData.leadSituation.phone
+              })(
+                <Input/>
+              )}
+            </FormItem>
+            <p>指导老师资料</p>
+            <FormItem
+              {...formItemLayout}
+              label="姓名"
+            >
+              {getFieldDecorator('leadTeacherSituation.name', {
+                rules: [{
+                  required: true, message: '请输入',
+                }], initialValue: formData.leadTeacherSituation.name
+              })(
+                <Input/>
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="联系电话"
+            >
+              {getFieldDecorator('leadTeacherSituation.phone', {
+                rules: [{
+                  required: true, message: '请输入',
+                }], initialValue: formData.leadTeacherSituation.phone
+              })(
+                <Input/>
+              )}
+            </FormItem>
+            <p>社团成立资料</p>
+            <FormItem
+              {...formItemLayout}
+              label="申请表"
+            >
+              {getFieldDecorator('applicationFilename', {
+                initialValue: formData.applicationFilename
+              })(
+                <Upload {...uploadSetting}>
+                  {formData.applicationFilename ?
+                    ( <p>{formData.applicationFilename}-{formData.applicationFile}</p>) :
+                    (
+                      <Button>
+                        <Icon type="upload"/> 点击上传
+                      </Button>)
+                  }
+                </Upload>
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="业务指导部门意见"
+            >
+              {getFieldDecorator('applicationFilename', {
+                initialValue: formData.busDeptAdviceFilename
+              })(
+                <Upload {...uploadSetting}>
+                  {formData.busDeptAdviceFilename ?
+                    ( <p>{formData.busDeptAdviceFilename}-{formData.busDeptAdviceFile}</p>) :
+                    (
+                      <Button>
+                        <Icon type="upload"/> 点击上传
+                      </Button>)
+                  }
+                </Upload>
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="社团章程"
+            >
+              {getFieldDecorator('applicationFilename', {
+                initialValue: formData.constitutionFilename
+              })(
+                <Upload {...uploadSetting}>
+                  {formData.constitutionFilename ?
+                    ( <p>{formData.constitutionFilename}-{formData.constitutionFile}</p>) :
+                    (
+                      <Button>
+                        <Icon type="upload"/> 点击上传
+                      </Button>)
+                  }
+                </Upload>
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="备注"
+            >
+              {getFieldDecorator('remarks', {
+                rules: [{}], initialValue: formData.remarks
+              })(
+                <Input/>
+              )}
             </FormItem>
             <FormItem {...submitFormLayout} style={{marginTop: 32}}>
               <Button type="primary" htmlType="submit" loading={this.state.confirmLoading}>

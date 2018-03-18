@@ -26,9 +26,9 @@ const noProxy = process.env.NO_PROXY === 'true';
 
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 const proxy = {
-  'GET /login': login,
+  'GET /login': login,//系统用户登录接口
   // 'GET /api/currentUser': login,
-  'GET /logout': logout,
+  'GET /logout': logout,//系统用户注销登录接口
   //文件上传
   'POST /sys/file/upload': File.uploadFile,
 
@@ -53,7 +53,7 @@ const proxy = {
   'POST /sys/ass/update': clubInfo.update,//更新社团信息接口（超级管理员）
   'GET /sys/ass/getPage': clubInfo.queryList,//获取社团列表（超级管理员）
   'GET /sys/ass/getOne': clubInfo.getOne,//根据id获取社团信息接口
-  'GET /sys/ass/getAll': "",//获取所有社团的接口
+  'GET /sys/ass/getAll': clubInfo.getAll,//获取所有社团的接口
 
 
   //字典管理
