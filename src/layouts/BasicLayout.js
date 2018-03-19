@@ -279,8 +279,6 @@ class BasicLayout extends React.PureComponent {
     const {currentUser, collapsed, fetchingNotices, getRouteData} = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
-        <Menu.Item disabled><Icon type="user"/>个人中心</Menu.Item>
-        <Menu.Item disabled><Icon type="setting"/>设置</Menu.Item>
         <Menu.Item key="updatePsw"><Icon type="key"/>修改密码</Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout"><Icon type="logout"/>退出登录</Menu.Item>
@@ -339,7 +337,7 @@ class BasicLayout extends React.PureComponent {
               onClick={this.toggle}
             />
             <div className={styles.right}>
-              <HeaderSearch
+              {/*<HeaderSearch
                 className={`${styles.action} ${styles.search}`}
                 placeholder="站内搜索"
                 dataSource={['搜索提示一', '搜索提示二', '搜索提示三']}
@@ -379,7 +377,7 @@ class BasicLayout extends React.PureComponent {
                   emptyText="你已完成所有待办"
                   emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
                 />
-              </NoticeIcon>
+              </NoticeIcon>*/}
               {!!currentUser && currentUser.id ? (
                 <Dropdown overlay={menu}>
                   <span className={`${styles.action} ${styles.account}`}>

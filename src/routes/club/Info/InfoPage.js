@@ -19,6 +19,26 @@ export default class InfoPage extends PureComponent {
   state = {
     confirmLoading: false,
     uploadLoading: false,
+    formData: {
+      name: '',
+      category: '',
+      purpose: '',
+      actField: '',
+      initSituation: {
+        name: '', phone: ''
+      },
+      leadSituation: {
+        name: '', phone: ''
+      },
+      leadTeacherSituation: {
+        name: '', phone: ''
+      },
+      applicationFilename: '',
+      applicationFile: '',
+      applicationFilename: '',
+      constitutionFile: '',
+      remarks: '',
+    }
   }
   handleSubmit = (e) => {
     e.preventDefault();
@@ -35,7 +55,8 @@ export default class InfoPage extends PureComponent {
   render() {
     const {info} = this.props;
     const {getFieldDecorator, getFieldValue} = this.props.form;
-    const formData = info.oneData == undefined ? {} : info.oneData;
+    //const formData = info.oneData == undefined ? {} : info.oneData;
+    const formData = this.state.formData
     const uploadSetting = {
       name: 'file',
       action: '//jsonplaceholder.typicode.com/posts/',
@@ -88,26 +109,6 @@ export default class InfoPage extends PureComponent {
           >
             <FormItem
               {...formItemLayout}
-              label="社团logo"
-            >
-              {getFieldDecorator('logo', {
-                initialValue: formData.logo
-              })(
-                <Upload
-                  name="avatar"
-                  listType="picture-card"
-                  className="avatar-uploader"
-                  showUploadList={false}
-                  action="/sys/file/upload"
-                  // beforeUpload={beforeUpload}
-                  // onChange={this.handleChange}
-                >
-                  {formData.logo ? <img src={formData.logo} alt=""/> : uploadButton}
-                </Upload>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
               label="社团名称"
             >
               {getFieldDecorator('name', {
@@ -127,11 +128,9 @@ export default class InfoPage extends PureComponent {
                   required: true, message: '请选择',
                 }], initialValue: formData.category
               })(
-                <Select
-                  mode="multiple"
-                >
-                  <Option value="1">类别一</Option>
-                  <Option value="2">其它</Option>
+                <Select >
+                  <Option value="1" key="1">类别一</Option>
+                  <Option value="2" key="2">其它</Option>
                 </Select>
               )}
             </FormItem>
@@ -159,7 +158,7 @@ export default class InfoPage extends PureComponent {
                 <Input/>
               )}
             </FormItem>
-            <p>发起人资料</p>
+            <p style={{'paddingLeft':'150px','fontSize':'20px'}}>发起人资料</p>
             <FormItem
               {...formItemLayout}
               label="姓名"
@@ -184,7 +183,7 @@ export default class InfoPage extends PureComponent {
                 <Input/>
               )}
             </FormItem>
-            <p>现任负责人资料</p>
+            <p style={{'paddingLeft':'150px','fontSize':'20px'}}>现任负责人资料</p>
             <FormItem
               {...formItemLayout}
               label="姓名"
@@ -209,7 +208,7 @@ export default class InfoPage extends PureComponent {
                 <Input/>
               )}
             </FormItem>
-            <p>指导老师资料</p>
+            <p style={{'paddingLeft':'150px','fontSize':'20px'}}>指导老师资料</p>
             <FormItem
               {...formItemLayout}
               label="姓名"
@@ -234,7 +233,7 @@ export default class InfoPage extends PureComponent {
                 <Input/>
               )}
             </FormItem>
-            <p>社团成立资料</p>
+            <p style={{'paddingLeft':'150px','fontSize':'20px'}}>社团成立资料</p>
             <FormItem
               {...formItemLayout}
               label="申请表"
@@ -244,7 +243,7 @@ export default class InfoPage extends PureComponent {
               })(
                 <Upload {...uploadSetting}>
                   {formData.applicationFilename ?
-                    ( <p>{formData.applicationFilename}-{formData.applicationFile}</p>) :
+                    ( <p style={{'paddingLeft':'150px','fontSize':'20px'}}>{formData.applicationFilename}-{formData.applicationFile}</p>) :
                     (
                       <Button>
                         <Icon type="upload"/> 点击上传
@@ -262,7 +261,7 @@ export default class InfoPage extends PureComponent {
               })(
                 <Upload {...uploadSetting}>
                   {formData.busDeptAdviceFilename ?
-                    ( <p>{formData.busDeptAdviceFilename}-{formData.busDeptAdviceFile}</p>) :
+                    ( <p style={{'paddingLeft':'150px','fontSize':'20px'}}>{formData.busDeptAdviceFilename}-{formData.busDeptAdviceFile}</p>) :
                     (
                       <Button>
                         <Icon type="upload"/> 点击上传
@@ -280,7 +279,7 @@ export default class InfoPage extends PureComponent {
               })(
                 <Upload {...uploadSetting}>
                   {formData.constitutionFilename ?
-                    ( <p>{formData.constitutionFilename}-{formData.constitutionFile}</p>) :
+                    ( <p style={{'paddingLeft':'150px','fontSize':'20px'}}>{formData.constitutionFilename}-{formData.constitutionFile}</p>) :
                     (
                       <Button>
                         <Icon type="upload"/> 点击上传
@@ -296,7 +295,7 @@ export default class InfoPage extends PureComponent {
               {getFieldDecorator('remarks', {
                 rules: [{}], initialValue: formData.remarks
               })(
-                <Input/>
+                <Input type="textarea"/>
               )}
             </FormItem>
             <FormItem {...submitFormLayout} style={{marginTop: 32}}>
