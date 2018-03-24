@@ -1,5 +1,5 @@
 import {queryList, add, getOne, update, getAll} from '../../services/club/info';
-
+import {routerRedux} from 'dva/router';
 export default {
   namespace: 'info',
   state: {
@@ -7,11 +7,15 @@ export default {
       list: [],
       pagination: {},
     },
+    clubsNames: [],
     loading: true,
     modalLoading: true,
   },
 
   effects: {
+    *goToPage({payload}, {call, put}) {
+      yield put(routerRedux.push('/clubManagement/cinfo'));
+    },
     *changeLoading({payload}, {call, put}) {
       yield put({
         type: 'changeLoadingReducers',
@@ -45,8 +49,12 @@ export default {
       const response = yield call(update, payload);
       if (callback) callback(response);
     },
-    *getAll({payload, callback}, {call}) {
+    *getAll({payload, callback}, {call, put}) {
       const response = yield call(getAll, payload);
+      yield put({
+        type: 'getAllReducers',
+        payload: response.data,
+      });
       if (callback) callback(response);
     }
 
@@ -57,6 +65,12 @@ export default {
       return {
         ...state,
         data: payload,
+      };
+    },
+    getAllReducers(state, {payload}) {
+      return {
+        ...state,
+        clubsNames: payload,
       };
     },
     changeLoadingReducers(state, {payload}) {

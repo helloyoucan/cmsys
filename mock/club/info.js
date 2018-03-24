@@ -13,6 +13,14 @@ export function getAll(req, res) {
         {
           id: 2,
           name: '社团2'
+        },
+        {
+          id: 3,
+          name: '社团2'
+        },
+        {
+          id: 4,
+          name: '社团2'
         }
       ]
     }

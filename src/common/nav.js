@@ -35,7 +35,13 @@ export const getNavData = app => [{
       name: '审批任务管理',
       path: 'task',
       icon: 'usergroup-add',
-      component: dynamicWrapper(app, ['clubClass'], () => import('../routes/ClubClass/ClubClassTable')),
+      children: [
+        {
+          name: '注销审批',
+          path: 'cinfo',
+          component: dynamicWrapper(app, ['login', 'club/info'], () => import('../routes/club/Info/InfoPage')),
+        }
+      ]
     },
     {
       name: '社团管理',
@@ -138,7 +144,7 @@ export const getNavData = app => [{
       name: '用户管理',
       path: 'userManagement',
       icon: 'user',
-      component: dynamicWrapper(app, ['user', 'dictionary'], () => import('../routes/User/UserTable')),
+      component: dynamicWrapper(app, ['user', 'dictionary', 'club/info'], () => import('../routes/User/UserTable')),
     },
     {
       name: '数据管理',

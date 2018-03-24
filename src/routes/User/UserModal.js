@@ -39,7 +39,10 @@ export default class UserModal extends PureComponent {
 
 
   handleOK() {
-    const {data} = this.props;
+    const {data, dispatch} = this.props;
+    dispatch({
+      type: 'info/getAll'
+    });
     switch (data.key) {
       case 'read':
         this.props.handleModalVisible();
@@ -105,7 +108,7 @@ export default class UserModal extends PureComponent {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {data, userCategory, modalLoading} = this.props;
+    const {data, userCategory,clubsNames,userCategoryObj,clubsNames_obj, modalLoading} = this.props;
     const {username, categoryId, assId} = data.data == undefined ? this.state.formData : data.data;
     const formData = data.data == undefined ? {} : data.data;
     let title = '';
@@ -136,10 +139,10 @@ export default class UserModal extends PureComponent {
               {formData.username}
             </LineMessage>
             <LineMessage label="用户类型">
-              {this.props.userCategoryObj[formData.categoryId]}
+              {userCategoryObj[formData.categoryId]}
             </LineMessage>
             <LineMessage label="所属社团">
-              {formData.assId == -1 ? "" : formData.assId}
+              {formData.assId == -1 ? "" : clubsNames_obj[formData.assId]}
             </LineMessage>
             <LineMessage label="用户状态">
               {formData.status == 1 ? '启用' : '禁用'}
@@ -193,7 +196,11 @@ export default class UserModal extends PureComponent {
             >  {getFieldDecorator('assId', {
               initialValue: assId
             })(
-              <Input/>
+              <Select placeholder="用户类型" style={{width: '100%'}}>
+                {clubsNames.map((item) => {
+                  return ( <Option key={item.id} value={item.id}>{item.name}</Option>)
+                })}
+              </Select>
             )}
             </FormItem>
           </Spin>

@@ -18,7 +18,8 @@ import moment from 'moment';
 
 @connect(state => ({
   user: state.user,
-  dictionary: state.dictionary
+  dictionary: state.dictionary,
+  info: state.info
 }))
 export default class UserTable extends PureComponent {
   state = {
@@ -43,6 +44,9 @@ export default class UserTable extends PureComponent {
     const {dispatch} = this.props;
     dispatch({
       type: 'dictionary/queryUserCategory'
+    });
+    dispatch({
+      type: 'info/getAll'
     });
     this.getData({});
   }
@@ -206,10 +210,14 @@ export default class UserTable extends PureComponent {
   }
 
   render() {
-    const {user: {loading: userLoading, data}, dictionary: {userCategory}} = this.props;
+    const {user: {loading: userLoading, data}, info: {clubsNames}, dictionary: {userCategory}} = this.props;
     let userCategory_obj = {};
     userCategory.forEach((item) => {
       userCategory_obj[item.pmname] = item.pmvalue;
+    });
+    let clubsNames_obj = {};
+    clubsNames.forEach((item) => {
+      clubsNames_obj[item.id] = item.name;
     });
     const {selectedRows} = this.state;
     const columns = [
@@ -243,7 +251,8 @@ export default class UserTable extends PureComponent {
         title: '所属社团',
         dataIndex: 'assId',
         render(val) {
-          return val == -1 ? '' : val;
+          if (val == -1) return '';
+          return clubsNames_obj[val];
         },
       },
       {
@@ -319,6 +328,8 @@ export default class UserTable extends PureComponent {
                    dispatch={this.props.dispatch}
                    handleModalVisible={this.handleModalVisible.bind(this)}
                    userCategoryObj={userCategory_obj}
+                   clubsNames={clubsNames}
+                   clubsNames_obj={clubsNames_obj}
                    handelGetData={this.getData.bind(this)}/>
 
       </PageHeaderLayout>

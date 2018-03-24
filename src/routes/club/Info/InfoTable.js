@@ -10,6 +10,7 @@ import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import InfoForm from './InfoForm';
 import InfoModal from './InfoModal';
+import {routerRedux} from 'dva/router';
 
 @connect(state => ({
   info: state.info,
@@ -73,50 +74,54 @@ export default class InfoTable extends PureComponent {
   }
 
   handelModal(key, id) {
-    switch (key) {
-      case 'add':
-        this.setState({
-          modalVisible: true,
-          modalData: {
-            key,
-            id: ''
-          }
-        });
-        break;
-      case 'read':
-      case 'edit':
-        this.setState({
-          modalVisible: true,
-          modalLoading: true,
-          modalData: {
-            key,
-          }
-        });
-        this.props.dispatch({
-          type: 'info/getOne',
-          payload: {
-            id
-          },
-          callback: (res) => {
-            if (res.ret) {
-              var old = this.state.modalData;
-              this.setState({
-                modalData: {
-                  ...old,
-                  data: res.data,
-                },
-                modalLoading: false,
-              });
-            } else if (res.msg) {
-              message.error(res.msg);
-            }
-          }
-        });
+    this.props.dispatch({
+      type: 'info/goToPage',
+      payload: {}
+    });
+    /*switch (key) {
+     case 'add':
+     this.setState({
+     modalVisible: true,
+     modalData: {
+     key,
+     id: ''
+     }
+     });
+     break;
+     case 'read':
+     case 'edit':
+     this.setState({
+     modalVisible: true,
+     modalLoading: true,
+     modalData: {
+     key,
+     }
+     });
+     this.props.dispatch({
+     type: 'info/getOne',
+     payload: {
+     id
+     },
+     callback: (res) => {
+     if (res.ret) {
+     var old = this.state.modalData;
+     this.setState({
+     modalData: {
+     ...old,
+     data: res.data,
+     },
+     modalLoading: false,
+     });
+     } else if (res.msg) {
+     message.error(res.msg);
+     }
+     }
+     });
 
-        break;
-      default:
-        return;
-    }
+     break;
+     default:
+     return;
+     }*/
   }
 
   handleModalVisible() {

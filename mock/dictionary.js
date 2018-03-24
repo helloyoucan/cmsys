@@ -6,7 +6,8 @@ function queryCategory(req, res, u) {
   }
   const params = getUrlParams(url);
   let data = [];
-  switch (params.type) {
+  console.log(params.pmappname)
+  switch (params.pmappname) {
     case "ASSOCIATION_CATEGORY":
       data = [
         {
@@ -263,39 +264,6 @@ function queryCategory(req, res, u) {
           "lastupdMan": null
         }
       ];
-      break;
-    case "SEX":
-      data = [
-        {
-          "pmappname": "SEX",
-          "pmname": "MAN",
-          "pmvalue": "男",
-          "pmv2": null,
-          "pmv3": null,
-          "pmv4": null,
-          "pmv5": null,
-          "remarks": null,
-          "status": 1,
-          "insertTime": 1513061391000,
-          "insertMan": "admin",
-          "lastupdTime": null,
-          "lastupdMan": null
-        },
-        {
-          "pmappname": "SEX",
-          "pmname": "WOMAN",
-          "pmvalue": "女",
-          "pmv2": null,
-          "pmv3": null,
-          "pmv4": null,
-          "pmv5": null,
-          "remarks": null,
-          "status": 1,
-          "insertTime": 1513061391000,
-          "insertMan": "admin",
-          "lastupdTime": null,
-          "lastupdMan": null
-        },]
       break;
     case "TWEETS_CATEGORY":
       data = [
