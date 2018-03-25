@@ -74,9 +74,17 @@ export default class InfoTable extends PureComponent {
   }
 
   handelModal(key, id) {
+    /* switch (key) {
+     case 'add':
+     break;
+     case 'edit':
+     break;
+     }*/
     this.props.dispatch({
       type: 'info/goToPage',
-      payload: {}
+      payload: {
+        id: id
+      }
     });
     /*switch (key) {
      case 'add':
@@ -204,7 +212,7 @@ export default class InfoTable extends PureComponent {
               />
             </div>
             <div className="tableListOperator">
-              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add')}>新建</Button>
+              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add', null)}>新建</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}

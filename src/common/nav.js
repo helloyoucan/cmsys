@@ -152,6 +152,10 @@ export const getNavData = app => [{
       icon: 'database',
       component: dynamicWrapper(app, ['dictionary'], () => import('../routes/Dictionary/DictionaryTable')),
     },
+    {
+      path: 'success',
+      component: dynamicWrapper(app, ['dictionary'], () => import('../routes/Result/Success')),
+    },
   ],
 },
   {

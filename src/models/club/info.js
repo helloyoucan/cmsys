@@ -7,14 +7,17 @@ export default {
       list: [],
       pagination: {},
     },
-    clubsNames: [],
+    clubs: [],
     loading: true,
     modalLoading: true,
   },
 
   effects: {
     *goToPage({payload}, {call, put}) {
-      yield put(routerRedux.push('/clubManagement/cinfo'));
+      yield put(routerRedux.push({
+        pathname: '/clubManagement/cinfo',
+        data: payload
+      }));
     },
     *changeLoading({payload}, {call, put}) {
       yield put({
@@ -49,12 +52,8 @@ export default {
       const response = yield call(update, payload);
       if (callback) callback(response);
     },
-    *getAll({payload, callback}, {call, put}) {
+    *getAll({payload, callback}, {call}) {
       const response = yield call(getAll, payload);
-      yield put({
-        type: 'getAllReducers',
-        payload: response.data,
-      });
       if (callback) callback(response);
     }
 
@@ -70,7 +69,7 @@ export default {
     getAllReducers(state, {payload}) {
       return {
         ...state,
-        clubsNames: payload,
+        data: payload,
       };
     },
     changeLoadingReducers(state, {payload}) {

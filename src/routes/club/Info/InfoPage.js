@@ -52,6 +52,31 @@ export default class InfoPage extends PureComponent {
     });
   }
 
+  componentDidMount() {
+    this.getData({})
+  }
+
+  getData() {
+    const id = this.props.location.data.id;
+    if (id != null) {
+      this.props.dispatch({
+        type: 'info/getOne',
+        payload: {
+          id: this.props.location.data.id
+        },
+        callback: (res) => {
+          if (res.ret) {
+            this.setState({
+              formData: res.data
+            })
+          } else if (res.msg) {
+            message.error(res.msg);
+          }
+        }
+      });
+    }
+  }
+
   render() {
     const {info} = this.props;
     const {getFieldDecorator, getFieldValue} = this.props.form;
@@ -158,7 +183,7 @@ export default class InfoPage extends PureComponent {
                 <Input/>
               )}
             </FormItem>
-            <p style={{'paddingLeft':'150px','fontSize':'20px'}}>发起人资料</p>
+            <p style={{'paddingLeft': '150px', 'fontSize': '20px'}}>发起人资料</p>
             <FormItem
               {...formItemLayout}
               label="姓名"
@@ -183,7 +208,7 @@ export default class InfoPage extends PureComponent {
                 <Input/>
               )}
             </FormItem>
-            <p style={{'paddingLeft':'150px','fontSize':'20px'}}>现任负责人资料</p>
+            <p style={{'paddingLeft': '150px', 'fontSize': '20px'}}>现任负责人资料</p>
             <FormItem
               {...formItemLayout}
               label="姓名"
@@ -208,7 +233,7 @@ export default class InfoPage extends PureComponent {
                 <Input/>
               )}
             </FormItem>
-            <p style={{'paddingLeft':'150px','fontSize':'20px'}}>指导老师资料</p>
+            <p style={{'paddingLeft': '150px', 'fontSize': '20px'}}>指导老师资料</p>
             <FormItem
               {...formItemLayout}
               label="姓名"
@@ -233,7 +258,7 @@ export default class InfoPage extends PureComponent {
                 <Input/>
               )}
             </FormItem>
-            <p style={{'paddingLeft':'150px','fontSize':'20px'}}>社团成立资料</p>
+            <p style={{'paddingLeft': '150px', 'fontSize': '20px'}}>社团成立资料</p>
             <FormItem
               {...formItemLayout}
               label="申请表"
@@ -243,7 +268,10 @@ export default class InfoPage extends PureComponent {
               })(
                 <Upload {...uploadSetting}>
                   {formData.applicationFilename ?
-                    ( <p style={{'paddingLeft':'150px','fontSize':'20px'}}>{formData.applicationFilename}-{formData.applicationFile}</p>) :
+                    (<p style={{
+                      'paddingLeft': '150px',
+                      'fontSize': '20px'
+                    }}>{formData.applicationFilename}-{formData.applicationFile}</p>) :
                     (
                       <Button>
                         <Icon type="upload"/> 点击上传
@@ -261,7 +289,10 @@ export default class InfoPage extends PureComponent {
               })(
                 <Upload {...uploadSetting}>
                   {formData.busDeptAdviceFilename ?
-                    ( <p style={{'paddingLeft':'150px','fontSize':'20px'}}>{formData.busDeptAdviceFilename}-{formData.busDeptAdviceFile}</p>) :
+                    (<p style={{
+                      'paddingLeft': '150px',
+                      'fontSize': '20px'
+                    }}>{formData.busDeptAdviceFilename}-{formData.busDeptAdviceFile}</p>) :
                     (
                       <Button>
                         <Icon type="upload"/> 点击上传
@@ -279,7 +310,10 @@ export default class InfoPage extends PureComponent {
               })(
                 <Upload {...uploadSetting}>
                   {formData.constitutionFilename ?
-                    ( <p style={{'paddingLeft':'150px','fontSize':'20px'}}>{formData.constitutionFilename}-{formData.constitutionFile}</p>) :
+                    (<p style={{
+                      'paddingLeft': '150px',
+                      'fontSize': '20px'
+                    }}>{formData.constitutionFilename}-{formData.constitutionFile}</p>) :
                     (
                       <Button>
                         <Icon type="upload"/> 点击上传
