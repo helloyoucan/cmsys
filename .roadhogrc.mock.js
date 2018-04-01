@@ -16,7 +16,7 @@ import clubMember from './mock/club/member';
 import clubYearbook from './mock/club/yearbook';
 import clubCadre from './mock/club/cadre';
 import clubSetUpList from './mock/club/setUpList';
-import clubLogoutList from './mock/club/logoutList';
+import clubLogout from './mock/club/logoutList';
 import clubActivityList from './mock/club/activityList';
 import clubArticle from './mock/club/article';
 import clubInfo from './mock/club/info';
@@ -32,21 +32,17 @@ const proxy = {
   //文件上传
   'POST /sys/file/upload': File.uploadFile,
 
-  //社团注销
-  'DELETE /sys/asscancel/delete': '',//删除社团注销申请单接口
-  'GET /sys/asscancel/getOne': clubLogoutList.getOne,//根据申请单id获取社团注销信息
-  'POST /sys/asscancel/getPage': clubLogoutList.queryList,//获取社团注销申请单列表接口
-  'GET /sys/asscancel/getTaskList': '',//获取社团注销申请任务列表接口
-  'POST /sys/asscancel/save': clubLogoutList.add,//保存社团注销申请单接口
-  'PUT /sys/asscancel/startProcess': '',//启动社团注销流程接口
-  'PUT /sys/asscancel/submitTask': '',//提交任务接口
-  'POST /sys/asscancel/update': clubLogoutList.update,//修改社团注销申请单接口
-  'GET /sys/asscancel/viewHisComment': '',//查看历史的审批信息接口
-  'GET /sys/asscancel/viewTaskFrom': '',//办理任务，获取审批信息接口
-  /*--------*/
-  'GET /sys/logoutList/enable': clubLogoutList.enable,
-  'GET /sys/logoutList/disable': clubLogoutList.disable,
-  'GET /sys/logoutList/delete': clubLogoutList.dels,
+  //社团注销（已完成接口对接）
+  'DELETE /sys/asscancel/delete': clubLogout.del,//删除社团注销申请单接口
+  'GET /sys/asscancel/getOne': clubLogout.getOne,//根据申请单id获取社团注销信息
+  'GET /sys/asscancel/getPage': clubLogout.queryList,//获取社团注销申请单列表接口
+  'GET /sys/asscancel/getTaskList': clubLogout.getTaskList,//获取社团注销申请任务列表接口
+  'POST /sys/asscancel/save': clubLogout.add,//保存社团注销申请单接口
+  'PUT /sys/asscancel/startProcess': clubLogout.startProcess,//启动社团注销流程接口
+  'PUT /sys/asscancel/submitTask': clubLogout.submitTask,//提交任务接口
+  'PUT /sys/asscancel/update': clubLogout.update,//修改社团注销申请单接口
+  'GET /sys/asscancel/viewHisComment': clubLogout.viewHisComment,//查看历史的审批信息接口
+  'GET /sys/asscancel/viewTaskFrom': clubLogout.viewTaskFrom,//办理任务，获取审批信息接口
 
   //社团信息-社团列表接口（已完成接口对接）
   'POST /sys/ass/save': clubInfo.add,//保存社团信息接口（超级管理员）
