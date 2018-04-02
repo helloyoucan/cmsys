@@ -8,17 +8,19 @@ import {
   Switch,
   Dropdown,
   Menu,
-  Icon
+  Icon,
+  Modal
 } from 'antd';
+const confirm = Modal.confirm;
 import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
-import LogoutListForm from './LogoutListForm';
-import LogoutListModal from './LogoutListModal';
+import LogoutForm from './LogoutForm';
+import LogoutModal from './LogoutModal';
 
 @connect(state => ({
-  logoutList: state.logoutList,
+  clubLogout: state.clubLogout,
 }))
-export default class LogoutListTable extends PureComponent {
+export default class LogoutTable extends PureComponent {
   state = {
     addInputValue: '',
     modalVisible: false,
@@ -41,7 +43,7 @@ export default class LogoutListTable extends PureComponent {
   componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
-      type: 'logoutList/queryList',
+      type: 'clubLogout/queryList',
       payload: {
         keyword: '',
         pageNo: 1,
@@ -60,7 +62,7 @@ export default class LogoutListTable extends PureComponent {
       pageSize: pagination.pageSize,
     };
     dispatch({
-      type: 'logoutList/queryList',
+      type: 'clubLogout/queryList',
       payload: params,
     });
   }
@@ -86,7 +88,7 @@ export default class LogoutListTable extends PureComponent {
           }
         });
         this.props.dispatch({
-          type: 'logoutList/getOne',
+          type: 'clubLogout/getOne',
           payload: {
             id
           },
@@ -134,7 +136,7 @@ export default class LogoutListTable extends PureComponent {
     });
     const {dispatch} = this.props;
     dispatch({
-      type: 'logoutList/queryList',
+      type: 'clubLogout/queryList',
       payload: {
         keyword: value.keyword,
         pageNo: 1,
@@ -153,44 +155,57 @@ export default class LogoutListTable extends PureComponent {
     /*
      * delOneId：删除单个时的传参
      * */
-    const {dispatch, logoutList: {data: {pagination}}} = this.props;
+    const {dispatch, clubLogout: {data: {pagination}}} = this.props;
     let {selectedRows, formValues} = this.state;
-    if (arguments.length > 1) {//删除单个
-      selectedRows.push({
-        id: delOneId
-      });
-    }
-    if (!selectedRows) return;
-
-    dispatch({
-      type: 'logoutList/changeLoading',
-      payload: {
-        bool: true,
-      },
-    });
-    dispatch({
-      type: 'logoutList/dels',
-      payload: {
-        ids: selectedRows.map((item) => (item.id))
-      },
-      callback: () => {
+    // if (arguments.length > 1) {//删除单个
+    //   selectedRows.push({
+    //     id: delOneId
+    //   });
+    // }
+    // if (!selectedRows) return;
+    confirm({
+      title: '你确定要删除这些信息吗?',
+      content: '删除后不可恢复',
+      okText: '是的',
+      okType: 'danger',
+      cancelText: '不，取消',
+      onOk: () => {
         dispatch({
-          type: 'logoutList/queryList',
+          type: 'clubLogout/changeLoading',
           payload: {
-            ...formValues,
-            pageNo: pagination.currentPage,
-            pageSize: pagination.pageSize,
+            bool: true,
           },
         });
-        this.setState({
-          selectedRows: [],
+        dispatch({
+          type: 'clubLogout/del',
+          payload: {
+            // ids: selectedRows.map((item) => (item.id))
+            id: delOneId
+          },
+          callback: () => {
+            dispatch({
+              type: 'clubLogout/queryList',
+              payload: {
+                ...formValues,
+                pageNo: pagination.currentPage,
+                pageSize: pagination.pageSize,
+              },
+            });
+            this.setState({
+              selectedRows: [],
+            });
+          }
         });
-      }
+      },
+      onCancel() {
+        message.warning('您取消了操作');
+      },
     });
+
   }
 
   render() {
-    const {logoutList: {loading: userLoading, data}} = this.props;
+    const {clubLogout: {loading: userLoading, data}} = this.props;
     const {selectedRows} = this.state;
     const columns = [
       {
@@ -232,7 +247,7 @@ export default class LogoutListTable extends PureComponent {
         <Card bordered={false}>
           <div className="tableList">
             <div className="tableListForm">
-              <LogoutListForm
+              <LogoutForm
                 handleSearch={this.handleSearch.bind(this)}
                 formReset={this.handleFormReset.bind(this)}
                 dispatch={this.props.dispatch}
@@ -240,30 +255,24 @@ export default class LogoutListTable extends PureComponent {
             </div>
             <div className="tableListOperator">
               <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add')}>新建</Button>
-              {
-                selectedRows.length > 0 && (
-                  <span>
-                    <Button onClick={this.handleDelete.bind(this)}>删除</Button>
-                  </span>
-                )
-              }
+
             </div>
             <StandardTable
               selectedRows={selectedRows}
               loading={userLoading}
               columns={columns}
               data={data}
-              isSelect={true}
+              isSelect={false}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
             />
           </div>
         </Card>
-        <LogoutListModal modalVisible={this.state.modalVisible}
-                        modalLoading={this.state.modalLoading}
-                        data={this.state.modalData}
-                        dispatch={this.props.dispatch}
-                        handleModalVisible={this.handleModalVisible.bind(this)}
+        <LogoutModal modalVisible={this.state.modalVisible}
+                     modalLoading={this.state.modalLoading}
+                     data={this.state.modalData}
+                     dispatch={this.props.dispatch}
+                     handleModalVisible={this.handleModalVisible.bind(this)}
         />
 
       </PageHeaderLayout>

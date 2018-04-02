@@ -16,7 +16,7 @@ import clubMember from './mock/club/member';
 import clubYearbook from './mock/club/yearbook';
 import clubCadre from './mock/club/cadre';
 import clubSetUpList from './mock/club/setUpList';
-import clubLogout from './mock/club/logoutList';
+import clubLogout from './mock/club/logout';
 import clubActivityList from './mock/club/activityList';
 import clubArticle from './mock/club/article';
 import clubInfo from './mock/club/info';

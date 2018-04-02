@@ -57,23 +57,25 @@ export default class InfoPage extends PureComponent {
   }
 
   getData() {
-    const id = this.props.location.data.id;
-    if (id != null) {
-      this.props.dispatch({
-        type: 'info/getOne',
-        payload: {
-          id: this.props.location.data.id
-        },
-        callback: (res) => {
-          if (res.ret) {
-            this.setState({
-              formData: res.data
-            })
-          } else if (res.msg) {
-            message.error(res.msg);
+    if (this.props.location.data != undefined) {
+      const id = this.props.location.data.id;
+      if (id != null) {
+        this.props.dispatch({
+          type: 'info/getOne',
+          payload: {
+            id: this.props.location.data.id
+          },
+          callback: (res) => {
+            if (res.ret) {
+              this.setState({
+                formData: res.data
+              })
+            } else if (res.msg) {
+              message.error(res.msg);
+            }
           }
-        }
-      });
+        });
+      }
     }
   }
 

@@ -82,15 +82,15 @@ export const getNavData = app => [{
               path: 'setUpList',
               component: dynamicWrapper(app, ['club/setUpList'], () => import('../routes/club/SetUpList/SetUpListTable')),
             },
-            {
-              name: '注销',
-              path: 'logout',
-              component: dynamicWrapper(app, ['login'], () => import('../routes/new/test')),
-            },
+            // {
+            //   name: '注销',
+            //   path: 'logout',
+            //   component: dynamicWrapper(app, ['login'], () => import('../routes/new/test')),
+            // },
             {
               name: '注销列表',
               path: 'logoutList',
-              component: dynamicWrapper(app, ['club/logoutList'], () => import('../routes/club/LogoutList/LogoutListTable')),
+              component: dynamicWrapper(app, ['club/logout'], () => import('../routes/club/Logout/LogoutTable')),
             },
           ]
         },

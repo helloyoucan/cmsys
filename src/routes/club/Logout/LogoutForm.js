@@ -6,7 +6,7 @@ import {
 } from 'antd';
 const FormItem = Form.Item;
 @Form.create()
-export default class LogoutListForm extends PureComponent {
+export default class LogoutForm extends PureComponent {
   state = {
     formValues: {},
   };

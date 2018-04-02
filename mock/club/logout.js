@@ -86,7 +86,7 @@ export function update(req, res) {
 export function queryList(req, res, u) {
 
   let list = new Array();
-  for (let i = (req.body.pageNo - 1) * req.body.pageSize; i < req.body.pageNo * req.body.pageSize; i++) {
+  for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
     list.push(
       {
         "position": "正主席",
@@ -114,8 +114,8 @@ export function queryList(req, res, u) {
         "list": list,
         pagination: {
           "total": 100,
-          "currentPage": parseInt(req.body.pageNo),
-          "pageSize": parseInt(req.body.pageSize)
+          "currentPage": parseInt(req.query.pageNo),
+          "pageSize": parseInt(req.query.pageSize)
         }
 
       }
@@ -177,7 +177,7 @@ export function getOne(req, res) {
    */
 }
 
-export function dels(req, res) {
+export function del(req, res) {
   /* ids：id数组*/
   res.send(
     {
@@ -195,5 +195,5 @@ export function dels(req, res) {
    */
 }
 export default {
-  add, enable, disable, update, queryList, getOne, dels
+  add, enable, disable, update, queryList, getOne, del
 };

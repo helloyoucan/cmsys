@@ -12,7 +12,7 @@ import {
 } from '../../services/club/logout';
 
 export default {
-  namespace: 'logout',
+  namespace: 'clubLogout',
   state: {
     data: {
       list: [],
