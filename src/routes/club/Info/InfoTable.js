@@ -10,7 +10,6 @@ import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import InfoForm from './InfoForm';
 import InfoModal from './InfoModal';
-import {routerRedux} from 'dva/router';
 
 @connect(state => ({
   info: state.info,

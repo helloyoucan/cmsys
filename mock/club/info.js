@@ -4,7 +4,7 @@ export function getAll(req, res) {
   res.send(
     {
       "ret": true,
-      "msg": "保存会员信息成功",
+      "msg": "获取全部社团信息成功",
       "data": [
         {
           id: 1,

@@ -83,26 +83,15 @@ export function update(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
    */
 }
-export function queryList(req, res, u) {
-
+export function queryList(req, res) {
   let list = new Array();
   for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
     list.push(
       {
-        "position": "正主席",
-        "sex": i % 2 == 1 ? "MAN" : "WOMAN",
-        "annual": "2015-2016",
-        "status": i % 2,
-        "college": "KUAIJI",
-        "remarks": "",
-        "sanction": "无",
-        "id": i,
-        "insertTime": 1513156716000,
-        "name": "小王" + i,
-        "dept": "主席团",
-        "insertMan": "admin",
-        "major": "财务管理专业",
-        "stuNum": "201411888999"
+        "id": "id" + i,
+        "assId": i,
+        "cancelReasons": "注销理由" + i,
+        "assSituation": "社团情况"
       }
     );
   }
@@ -149,22 +138,10 @@ export function getOne(req, res) {
     {
       "ret": true, "msg": "获取用户信息成功",
       "data": {
-        "id": 4,
-        "stuNum": "201411888777",
-        "name": "小丽",
-        "sex": "MAN",
-        "annual": "2016-2017",
-        "college": "KUAIJI",
-        "major": "财务管理专业",
-        "dept": "主席团",
-        "position": "正主席",
-        "sanction": "无",
-        "remarks": "这是备注",
-        "status": 1,
-        "insertTime": 1513156359000,
-        "insertMan": "admin",
-        "lastupdTime": 1513156737000,
-        "lastupdMan": "admin"
+        "id": "id555",
+        "assId": "assId555",
+        "cancelReasons": "注销理由55",
+        "assSituation": "社团情况"
       }
     }
   );
@@ -176,7 +153,6 @@ export function getOne(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
    */
 }
-
 export function del(req, res) {
   /* ids：id数组*/
   res.send(

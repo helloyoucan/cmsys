@@ -5,10 +5,6 @@ import {
   Button,
   message,
   Divider,
-  Switch,
-  Dropdown,
-  Menu,
-  Icon,
   Modal
 } from 'antd';
 const confirm = Modal.confirm;
@@ -19,6 +15,7 @@ import LogoutModal from './LogoutModal';
 
 @connect(state => ({
   clubLogout: state.clubLogout,
+  currentUser: state.login.currentUser
 }))
 export default class LogoutTable extends PureComponent {
   state = {
@@ -41,13 +38,26 @@ export default class LogoutTable extends PureComponent {
   };
 
   componentDidMount() {
-    const {dispatch} = this.props;
+    this.getData({})
+  }
+
+  getData(params, isRefresh) {
+    const {dispatch, currentUser} = this.props;
+    if (isRefresh) {
+      params = {
+        keyword: '',
+        pageNo: 1,
+        pageSize: 10,
+      }
+    }
     dispatch({
       type: 'clubLogout/queryList',
       payload: {
+        assId: currentUser.assId || '',
         keyword: '',
         pageNo: 1,
-        pageSize: 10
+        pageSize: 10,
+        ...params
       }
     });
   }
@@ -61,57 +71,66 @@ export default class LogoutTable extends PureComponent {
       pageNo: pagination.current,
       pageSize: pagination.pageSize,
     };
-    dispatch({
-      type: 'clubLogout/queryList',
-      payload: params,
-    });
+    this.getData(params);
   }
 
   handelModal(key, id) {
-    switch (key) {
-      case 'add':
-        this.setState({
-          modalVisible: true,
-          modalData: {
-            key,
-            id: ''
-          }
-        });
-        break;
-      case 'read':
-      case 'edit':
-        this.setState({
-          modalVisible: true,
-          modalLoading: true,
-          modalData: {
-            key,
-          }
-        });
-        this.props.dispatch({
-          type: 'clubLogout/getOne',
-          payload: {
-            id
-          },
-          callback: (res) => {
-            if (res.ret) {
-              var old = this.state.modalData;
-              this.setState({
-                modalData: {
-                  ...old,
-                  data: res.data,
-                },
-                modalLoading: false,
-              });
-            } else if (res.msg) {
-              message.error(res.msg);
-            }
-          }
-        });
+    /* switch (key) {
+     case 'add':
+     break;
+     case 'edit':
+     break;
+     }*/
+    this.props.dispatch({
+      type: 'clubLogout/goToPage',
+      payload: {
+        id: id
+      }
+    });
+    /*switch (key) {
+     case 'add':
+     this.setState({
+     modalVisible: true,
+     modalData: {
+     key,
+     id: ''
+     }
+     });
+     break;
+     case 'read':
+     case 'edit':
+     this.setState({
+     modalVisible: true,
+     modalLoading: true,
+     modalData: {
+     key,
+     }
+     });
+     this.props.dispatch({
+     type: 'clubLogout/getOne',
+     payload: {
+     id
+     },
+     callback: (res) => {
+     if (res.ret) {
+     var old = this.state.modalData;
+     this.setState({
+     modalData: {
+     ...old,
+     data: res.data,
+     },
+     modalLoading: false,
+     });
+     } else if (res.msg) {
+     message.error(res.msg);
+     }
+     }
+     });
 
-        break;
-      default:
-        return;
-    }
+     break;
+     default:
+     return;
+     }*/
   }
 
   handleModalVisible() {
@@ -135,14 +154,9 @@ export default class LogoutTable extends PureComponent {
       selectedRows: [],
     });
     const {dispatch} = this.props;
-    dispatch({
-      type: 'clubLogout/queryList',
-      payload: {
-        keyword: value.keyword,
-        pageNo: 1,
-        pageSize: 10
-      }
-    });
+    this.getData(({
+      ...value,
+    }))
   }
 
   handleFormReset() {
@@ -157,12 +171,11 @@ export default class LogoutTable extends PureComponent {
      * */
     const {dispatch, clubLogout: {data: {pagination}}} = this.props;
     let {selectedRows, formValues} = this.state;
+    // let ids = selectedRows.map((item) => (item.id));
     // if (arguments.length > 1) {//删除单个
-    //   selectedRows.push({
-    //     id: delOneId
-    //   });
+    //   ids.push(delOneId);
     // }
-    // if (!selectedRows) return;
+    // if (!ids) return;
     confirm({
       title: '你确定要删除这些信息吗?',
       content: '删除后不可恢复',
@@ -179,7 +192,6 @@ export default class LogoutTable extends PureComponent {
         dispatch({
           type: 'clubLogout/del',
           payload: {
-            // ids: selectedRows.map((item) => (item.id))
             id: delOneId
           },
           callback: () => {
@@ -191,9 +203,6 @@ export default class LogoutTable extends PureComponent {
                 pageSize: pagination.pageSize,
               },
             });
-            this.setState({
-              selectedRows: [],
-            });
           }
         });
       },
@@ -201,7 +210,6 @@ export default class LogoutTable extends PureComponent {
         message.warning('您取消了操作');
       },
     });
-
   }
 
   render() {
@@ -209,24 +217,16 @@ export default class LogoutTable extends PureComponent {
     const {selectedRows} = this.state;
     const columns = [
       {
-        title: '姓名',
-        dataIndex: 'name',
+        title: '社团id',
+        dataIndex: 'assId',
       },
       {
-        title: '部门',
-        dataIndex: 'dept',
+        title: '社团情况',
+        dataIndex: 'assSituation',
       },
       {
-        title: '现任职位',
-        dataIndex: 'position',
-      },
-      {
-        title: '学号',
-        dataIndex: 'stuNum',
-      },
-      {
-        title: '所属专业',
-        dataIndex: 'major',
+        title: '注销理由',
+        dataIndex: 'cancelReasons',
       },
       {
         title: '操作',
@@ -254,8 +254,7 @@ export default class LogoutTable extends PureComponent {
               />
             </div>
             <div className="tableListOperator">
-              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add')}>新建</Button>
-
+              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add', null)}>新建</Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}

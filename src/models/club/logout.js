@@ -10,7 +10,7 @@ import {
   viewHisComment,
   viewTaskFrom
 } from '../../services/club/logout';
-
+import {routerRedux} from 'dva/router';
 export default {
   namespace: 'clubLogout',
   state: {
@@ -27,6 +27,12 @@ export default {
   },
 
   effects: {
+    *goToPage({payload}, {call, put}) {
+      yield put(routerRedux.push({
+        pathname: '/clubManagement/clubApproval/clubLogoutPage',
+        data: payload
+      }));
+    },
     *changeLoading({payload}, {call, put}) {
       yield put({
         type: 'changeLoadingReducers',
@@ -138,7 +144,7 @@ export default {
     },
     delReducers(state, {payload}) {
       const newList = state.data.list.filter((item) => {
-        return payload.id == item.id;
+        return payload.id != item.id;
       });
       return {
         ...state,

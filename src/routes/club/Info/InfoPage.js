@@ -44,10 +44,17 @@ export default class InfoPage extends PureComponent {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.dispatch({
-          type: 'info/update',
-          payload: values,
-        });
+        if (this.props.location.data != undefined && this.props.location.data.id != null) {
+          this.props.dispatch({
+            type: 'info/update',
+            payload: values,
+          });
+        } else {
+          this.props.dispatch({
+            type: 'info/add',
+            payload: values,
+          });
+        }
       }
     });
   }

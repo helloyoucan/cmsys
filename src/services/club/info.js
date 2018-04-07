@@ -2,12 +2,6 @@ import request from '../../utils/request';
 import {stringify} from 'qs';
 
 export async function getAll(params) {
-  /*
-   *username	用户名	是	String
-   categoryId	用户类型	是	String
-   associationId	社团ID，只有社团管理员才需要传	否	int
-   status	用户状态，可不传，后端默认设置为启用	否	int
-   * */
   return request(`/sys/ass/getAll?${stringify(params)}`);
 }
 export async function add(params) {
