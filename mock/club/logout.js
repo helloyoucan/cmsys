@@ -138,8 +138,8 @@ export function getOne(req, res) {
     {
       "ret": true, "msg": "获取用户信息成功",
       "data": {
-        "id": "id555",
-        "assId": "assId555",
+        "id": "1",
+        "assId": "1",
         "cancelReasons": "注销理由55",
         "assSituation": "社团情况"
       }

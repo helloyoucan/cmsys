@@ -24,8 +24,8 @@ export default class LogoutPage extends PureComponent {
       assId: '',
       cancelReasons: '',
       assSituation: '',
-      clubList: []
-    }
+    },
+    clubList: []
   }
   handleSubmit = (e) => {
     e.preventDefault();
@@ -56,9 +56,7 @@ export default class LogoutPage extends PureComponent {
       payload: {},
       callback: (res) => {
         this.setState({
-          formData: {
-            clubList: res.data
-          }
+          clubList: res.data
         });
       }
     });
@@ -76,7 +74,7 @@ export default class LogoutPage extends PureComponent {
                 formData: {
                   ...res.data
                 }
-              })
+              });
             } else if (res.msg) {
               message.error(res.msg);
             }
@@ -90,8 +88,7 @@ export default class LogoutPage extends PureComponent {
     const {clubLogout} = this.props;
     const {getFieldDecorator, getFieldValue} = this.props.form;
     //const formData = clubLogout.oneData == undefined ? {} : clubLogout.oneData;
-    const formData = this.state.formData
-    console.log(formData)
+    const {formData, clubList} = this.state
     const uploadSetting = {
       name: 'file',
       action: '//jsonplaceholder.typicode.com/posts/',
@@ -152,7 +149,7 @@ export default class LogoutPage extends PureComponent {
               })(
                 <Select filterOption showSearch>
                   {
-                    formData.clubList && formData.clubList.map((item) => {
+                    clubList && clubList.map((item) => {
                       return <Option value={item.id} key={item.id}>{item.name}</Option>
                     })
                   }
