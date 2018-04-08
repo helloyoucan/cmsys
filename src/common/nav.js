@@ -32,13 +32,18 @@ export const getNavData = app => [{
       ]
     },
     {
-      name: '审批任务管理',
+      name: '任务管理',
       path: 'task',
       icon: 'usergroup-add',
       children: [
         {
-          name: '注销审批',
-          path: 'cinfo',
+          name: '注销任务',
+          path: 'tSClubLogout',
+          component: dynamicWrapper(app, ['login', 'club/info'], () => import('../routes/club/Info/InfoPage')),
+        },
+        {
+          name: '注销任务',
+          path: 'tHClubLogout',
           component: dynamicWrapper(app, ['login', 'club/info'], () => import('../routes/club/Info/InfoPage')),
         }
       ]
