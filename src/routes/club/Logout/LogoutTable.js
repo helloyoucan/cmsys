@@ -1,5 +1,5 @@
-import React, {PureComponent} from 'react';
-import {connect} from 'dva';
+import React, { PureComponent } from 'react';
+import { connect } from 'dva';
 import {
   Card,
   Button,
@@ -8,6 +8,7 @@ import {
   Modal
 } from 'antd';
 const confirm = Modal.confirm;
+import { Link } from 'dva/router';
 import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import LogoutForm from './LogoutForm';
@@ -42,7 +43,7 @@ export default class LogoutTable extends PureComponent {
   }
 
   getData(params, isRefresh) {
-    const {dispatch, currentUser} = this.props;
+    const { dispatch, currentUser } = this.props;
     if (isRefresh) {
       params = {
         keyword: '',
@@ -63,8 +64,8 @@ export default class LogoutTable extends PureComponent {
   }
 
   handleStandardTableChange = (pagination) => {
-    const {dispatch} = this.props;
-    const {formValues} = this.state;
+    const { dispatch } = this.props;
+    const { formValues } = this.state;
 
     const params = {
       keyword: formValues.keyword,
@@ -153,7 +154,7 @@ export default class LogoutTable extends PureComponent {
       },
       selectedRows: [],
     });
-    const {dispatch} = this.props;
+    const { dispatch } = this.props;
     this.getData(({
       ...value,
     }))
@@ -169,8 +170,8 @@ export default class LogoutTable extends PureComponent {
     /*
      * delOneId：删除单个时的传参
      * */
-    const {dispatch, clubLogout: {data: {pagination}}} = this.props;
-    let {selectedRows, formValues} = this.state;
+    const { dispatch, clubLogout: { data: { pagination } } } = this.props;
+    let { selectedRows, formValues } = this.state;
     // let ids = selectedRows.map((item) => (item.id));
     // if (arguments.length > 1) {//删除单个
     //   ids.push(delOneId);
@@ -213,8 +214,8 @@ export default class LogoutTable extends PureComponent {
   }
 
   render() {
-    const {clubLogout: {loading: userLoading, data}} = this.props;
-    const {selectedRows} = this.state;
+    const { clubLogout: { loading: userLoading, data } } = this.props;
+    const { selectedRows } = this.state;
     const columns = [
       {
         title: '社团id',
@@ -233,9 +234,21 @@ export default class LogoutTable extends PureComponent {
         dataIndex: 'id',
         render: (val) => (
           <div>
-            <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
+            <Link to={{
+              pathname: '/clubManagement/clubApproval/logoutRead',
+              data: {
+                id: val
+              }
+            }
+            }> 查看详细</Link>
             <Divider type="vertical"/>
-            <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
+            <Link to={{
+              pathname: '/clubManagement/clubApproval/clubLogoutPage',
+              data: {
+                id: val
+              }
+            }
+            }> 修改</Link>
             <Divider type="vertical"/>
             <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
           </div>
@@ -254,7 +267,9 @@ export default class LogoutTable extends PureComponent {
               />
             </div>
             <div className="tableListOperator">
-              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add', null)}>新建</Button>
+              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add', null)}>
+                新建
+              </Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}
