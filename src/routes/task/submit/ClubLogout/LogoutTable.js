@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
+import React, {PureComponent} from 'react';
+import {connect} from 'dva';
 import {
   Card,
   Button,
@@ -8,12 +8,12 @@ import {
   Modal
 } from 'antd';
 const confirm = Modal.confirm;
-import { Link } from 'dva/router';
-import StandardTable from '../../../components/StandardTable/index';
-import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
+import {Link} from 'dva/router';
+import StandardTable from '../../../../components/StandardTable/index';
+import PageHeaderLayout from '../../../../layouts/PageHeaderLayout';
 import LogoutForm from './LogoutForm';
 import LogoutModal from './LogoutModal';
-
+import moment from 'moment';
 @connect(state => ({
   clubLogout: state.clubLogout,
   currentUser: state.login.currentUser
@@ -43,7 +43,7 @@ export default class LogoutTable extends PureComponent {
   }
 
   getData(params, isRefresh) {
-    const { dispatch, currentUser } = this.props;
+    const {dispatch, currentUser} = this.props;
     if (isRefresh) {
       params = {
         keyword: '',
@@ -52,7 +52,7 @@ export default class LogoutTable extends PureComponent {
       }
     }
     dispatch({
-      type: 'clubLogout/queryList',
+      type: 'clubLogout/getTaskList',
       payload: {
         assId: currentUser.assId || '',
         keyword: '',
@@ -64,8 +64,8 @@ export default class LogoutTable extends PureComponent {
   }
 
   handleStandardTableChange = (pagination) => {
-    const { dispatch } = this.props;
-    const { formValues } = this.state;
+    const {dispatch} = this.props;
+    const {formValues} = this.state;
 
     const params = {
       keyword: formValues.keyword,
@@ -154,7 +154,7 @@ export default class LogoutTable extends PureComponent {
       },
       selectedRows: [],
     });
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     this.getData(({
       ...value,
     }))
@@ -170,8 +170,8 @@ export default class LogoutTable extends PureComponent {
     /*
      * delOneId：删除单个时的传参
      * */
-    const { dispatch, clubLogout: { data: { pagination } } } = this.props;
-    let { selectedRows, formValues } = this.state;
+    const {dispatch, clubLogout: {taskSubmit: {pagination}}} = this.props;
+    let {selectedRows, formValues} = this.state;
     // let ids = selectedRows.map((item) => (item.id));
     // if (arguments.length > 1) {//删除单个
     //   ids.push(delOneId);
@@ -197,7 +197,7 @@ export default class LogoutTable extends PureComponent {
           },
           callback: () => {
             dispatch({
-              type: 'clubLogout/queryList',
+              type: 'clubLogout/getTaskList',
               payload: {
                 ...formValues,
                 pageNo: pagination.currentPage,
@@ -214,20 +214,23 @@ export default class LogoutTable extends PureComponent {
   }
 
   render() {
-    const { clubLogout: { loading: userLoading, data } } = this.props;
-    const { selectedRows } = this.state;
+    const {clubLogout: {loading: userLoading, taskSubmit}} = this.props;
+    const {selectedRows} = this.state;
     const columns = [
       {
-        title: '社团id',
-        dataIndex: 'assId',
+        title: '任务名称',
+        dataIndex: 'name',
       },
       {
-        title: '社团情况',
-        dataIndex: 'assSituation',
+        title: '创建日期',
+        dataIndex: 'createTime',
+        render: (val) => {
+          return moment(val).format('YYYY-MM-DD hh:mm')
+        }
       },
       {
-        title: '注销理由',
-        dataIndex: 'cancelReasons',
+        title: '任务办理人',
+        dataIndex: 'assignee',
       },
       {
         title: '操作',
@@ -235,7 +238,7 @@ export default class LogoutTable extends PureComponent {
         render: (val) => (
           <div>
             <Link to={{
-              pathname: '/clubManagement/clubApproval/logoutRead',
+              pathname: '/task/tSClubLogoutPage',
               data: {
                 id: val
               }
@@ -243,7 +246,7 @@ export default class LogoutTable extends PureComponent {
             }> 查看详细</Link>
             <Divider type="vertical"/>
             <Link to={{
-              pathname: '/clubManagement/clubApproval/clubLogoutPage',
+              pathname: '/task/tSClubLogoutPage',
               data: {
                 id: val
               }
@@ -275,7 +278,7 @@ export default class LogoutTable extends PureComponent {
               selectedRows={selectedRows}
               loading={userLoading}
               columns={columns}
-              data={data}
+              data={taskSubmit}
               isSelect={false}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}

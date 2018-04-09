@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Row, Col, Icon, Steps, Card } from 'antd';
-import Result from '../../../components/Result';
-import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
+import Result from '../../../../components/Result/index';
+import PageHeaderLayout from '../../../../layouts/PageHeaderLayout';
 import {Link} from 'dva/router';
 const { Step } = Steps;
 

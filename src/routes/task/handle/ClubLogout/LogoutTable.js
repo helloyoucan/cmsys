@@ -9,8 +9,8 @@ import {
 } from 'antd';
 const confirm = Modal.confirm;
 import { Link } from 'dva/router';
-import StandardTable from '../../../components/StandardTable/index';
-import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
+import StandardTable from '../../../../components/StandardTable/index';
+import PageHeaderLayout from '../../../../layouts/PageHeaderLayout';
 import LogoutForm from './LogoutForm';
 import LogoutModal from './LogoutModal';
 

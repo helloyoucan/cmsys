@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import {
   message, Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Upload,
 } from 'antd';
-import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
+import PageHeaderLayout from '../../../../layouts/PageHeaderLayout';
 // import styles from './style.less';
 import { Link } from 'dva/router';
 const FormItem = Form.Item;

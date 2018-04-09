@@ -37,15 +37,20 @@ export const getNavData = app => [{
       icon: 'usergroup-add',
       children: [
         {
-          name: '注销任务',
+          name: '注销任务申请列表',
           path: 'tSClubLogout',
-          component: dynamicWrapper(app, ['login', 'club/info'], () => import('../routes/club/Info/InfoPage')),
+          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/task/submit/ClubLogout/LogoutTable')),
         },
         {
-          name: '注销任务',
+          name: '注销任务申请',
+          path: 'tSClubLogoutPage',
+          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/task/submit/ClubLogout/LogoutPage')),
+        },
+        {
+          name: '注销任务审批列表',
           path: 'tHClubLogout',
-          component: dynamicWrapper(app, ['login', 'club/info'], () => import('../routes/club/Info/InfoPage')),
-        }
+          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/task/handle/ClubLogout/LogoutTable')),
+        },
       ]
     },
     {
