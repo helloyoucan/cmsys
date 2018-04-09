@@ -120,7 +120,7 @@ export default class LogoutListModal extends PureComponent {
       <Button onClick={() => this.props.handleModalVisible()}>关闭</Button>
       {
         data.data && data.data.id && data.data.status === 1 ?
-          <Button type="danger" onClick={() => this.props.handleModalVisible(data.data.id)}>提交到任务</Button> : ''
+          <Button type="danger" onClick={() => this.props.startProcess(data.data.id)}>提交到任务</Button> : ''
       }
       <Button type="primary" onClick={this.handleOK.bind(this)}>确定</Button>
     </div>)

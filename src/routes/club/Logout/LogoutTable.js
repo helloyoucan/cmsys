@@ -165,6 +165,8 @@ export default class LogoutTable extends PureComponent {
   }
 
   startProcess(id) {
+    console.log(id)
+    this.state.modalVisible = false
     const {formValues} = this.state;
     const that = this;
     this.props.dispatch({
@@ -173,8 +175,7 @@ export default class LogoutTable extends PureComponent {
         id: id
       },
       callback: (res) => {
-        const pagination= that.props.clubLogout.data.pagination;
-        console.log(pagination)
+        const pagination = that.props.clubLogout.data.pagination;
         const params = {
           keyword: formValues.keyword,
           pageNo: pagination.currentPage,
