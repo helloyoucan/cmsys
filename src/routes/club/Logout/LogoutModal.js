@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
+import React, {PureComponent} from 'react';
+import {connect} from 'dva';
 import LineMessage from '../../../components/LineMessage/index';
 import moment from 'moment';
 import {
@@ -9,12 +9,13 @@ import {
   Select,
   Modal,
   Spin,
-  Radio
+  Radio,
+  Button
 } from 'antd';
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
-const { Option } = Select;
-const { TextArea } = Input;
+const {Option} = Select;
+const {TextArea} = Input;
 @Form.create()
 export default class LogoutListModal extends PureComponent {
 
@@ -35,7 +36,7 @@ export default class LogoutListModal extends PureComponent {
 
 
   handleOK() {
-    const { data } = this.props;
+    const {data} = this.props;
     switch (data.key) {
       case 'read':
         this.props.handleModalVisible();
@@ -96,10 +97,9 @@ export default class LogoutListModal extends PureComponent {
 
   }
 
-
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const { data, modalLoading, clubList } = this.props;
+    const {getFieldDecorator} = this.props.form;
+    const {data, modalLoading, clubList} = this.props;
     const formData = data.data == undefined ? {} : data.data;
     let title = '';
     switch (data.key) {
@@ -116,6 +116,14 @@ export default class LogoutListModal extends PureComponent {
         break;
     }
     const status = ['', '初始录入', '审核中', '审核完成']
+    const footer = (<div>
+      <Button onClick={() => this.props.handleModalVisible()}>关闭</Button>
+      {
+        data.data && data.data.id && data.data.status === 1 ?
+          <Button type="danger" onClick={() => this.props.handleModalVisible(data.data.id)}>提交到任务</Button> : ''
+      }
+      <Button type="primary" onClick={this.handleOK.bind(this)}>确定</Button>
+    </div>)
     return (
       <Modal
         title={title + '注销信息'}
@@ -123,6 +131,7 @@ export default class LogoutListModal extends PureComponent {
         onOk={this.handleOK.bind(this)}
         onCancel={() => this.props.handleModalVisible()}
         confirmLoading={this.state.confirmLoading}
+        footer={footer}
       >
         {data.key == "read" ?
           <Card loading={modalLoading} bordered={false}>
@@ -142,8 +151,8 @@ export default class LogoutListModal extends PureComponent {
           :
           <Spin spinning={modalLoading}>
             <FormItem
-              labelCol={{ span: 5 }}
-              wrapperCol={{ span: 15 }}
+              labelCol={{span: 5}}
+              wrapperCol={{span: 15}}
               label="选择社团"
             >
               {getFieldDecorator('assId', {
@@ -161,8 +170,8 @@ export default class LogoutListModal extends PureComponent {
               )}
             </FormItem>
             <FormItem
-              labelCol={{ span: 5 }}
-              wrapperCol={{ span: 15 }}
+              labelCol={{span: 5}}
+              wrapperCol={{span: 15}}
               label="注销理由"
             >
               {getFieldDecorator('cancelReasons', {
@@ -174,8 +183,8 @@ export default class LogoutListModal extends PureComponent {
               )}
             </FormItem>
             <FormItem
-              labelCol={{ span: 5 }}
-              wrapperCol={{ span: 15 }}
+              labelCol={{span: 5}}
+              wrapperCol={{span: 15}}
               label="社团情况"
             >
               {getFieldDecorator('assSituation', {

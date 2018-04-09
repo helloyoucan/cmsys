@@ -1,5 +1,5 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
+import React, {PureComponent} from 'react';
+import {connect} from 'dva';
 import {
   Card,
   Button,
@@ -8,7 +8,7 @@ import {
   Modal
 } from 'antd';
 const confirm = Modal.confirm;
-import { Link } from 'dva/router';
+import {Link} from 'dva/router';
 import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import LogoutForm from './LogoutForm';
@@ -54,7 +54,7 @@ export default class LogoutTable extends PureComponent {
         });
       }
     });
-    const { dispatch, currentUser } = this.props;
+    const {dispatch, currentUser} = this.props;
     if (isRefresh) {
       params = {
         keyword: '',
@@ -75,8 +75,8 @@ export default class LogoutTable extends PureComponent {
   }
 
   handleStandardTableChange = (pagination) => {
-    const { dispatch } = this.props;
-    const { formValues } = this.state;
+    const {dispatch} = this.props;
+    const {formValues} = this.state;
 
     const params = {
       keyword: formValues.keyword,
@@ -152,7 +152,7 @@ export default class LogoutTable extends PureComponent {
       },
       selectedRows: [],
     });
-    const { dispatch } = this.props;
+    const {dispatch} = this.props;
     this.getData(({
       ...value,
     }))
@@ -164,9 +164,30 @@ export default class LogoutTable extends PureComponent {
     });
   }
 
+  startProcess(id) {
+    const {formValues} = this.state;
+    const that = this;
+    this.props.dispatch({
+      type: 'clubLogout/startProcess',
+      payload: {
+        id: id
+      },
+      callback: (res) => {
+        const pagination= that.props.clubLogout.data.pagination;
+        console.log(pagination)
+        const params = {
+          keyword: formValues.keyword,
+          pageNo: pagination.currentPage,
+          pageSize: pagination.pageSize,
+        };
+        that.getData(params);
+      }
+    })
+  }
+
   render() {
-    const { clubLogout: { loading: userLoading, data } } = this.props;
-    const { selectedRows, clubList } = this.state;
+    const {clubLogout: {loading: userLoading, data}} = this.props;
+    const {selectedRows, clubList} = this.state;
     const columns = [
       {
         title: '社团名称',
@@ -193,11 +214,17 @@ export default class LogoutTable extends PureComponent {
       {
         title: '操作',
         dataIndex: 'id',
-        render: (val) => (
-          <div>
+        render: (val) => {
+          let status = (data.list.find((item) => {
+            return item.id == val
+          })).status
+          return ( <div>
+            <Button disabled={status == 1} size="small" onClick={this.startProcess.bind(this, 'edit', val)}
+                    type="danger">提交到任务</Button>
+            <Divider type="vertical"/>
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
-          </div>
-        ),
+          </div>)
+        },
       },
     ];
     return (
@@ -232,6 +259,7 @@ export default class LogoutTable extends PureComponent {
                      data={this.state.modalData}
                      clubList={clubList}
                      dispatch={this.props.dispatch}
+                     startProcess={this.startProcess.bind(this)}
                      handleModalVisible={this.handleModalVisible.bind(this)}
         />
 

@@ -18,7 +18,7 @@ export default {
       list: [],
       pagination: {},
     },
-    task: {
+    taskSubmit: {
       list: [],
       pagination: {},
     },
@@ -91,11 +91,11 @@ export default {
     },
     *startProcess({payload, callback}, {call, put}) {
       const response = yield call(startProcess, payload);
-      if (response.ret) {
+      /*if (response.ret) {
         yield put({
           payload: payload
         });
-      }
+      }*/
       if (callback) callback(response);
     },
     *submitTask({payload, callback}, {call, put}) {
@@ -163,7 +163,7 @@ export default {
     getTaskListReducers(state, {payload}) {
       return {
         ...state,
-        task: payload,
+        taskSubmit: payload,
       };
     },
   },

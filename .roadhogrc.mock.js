@@ -36,7 +36,7 @@ const proxy = {
   'DELETE /sys/asscancel/delete': clubLogout.del,//删除社团注销申请单接口*
   'GET /sys/asscancel/getOne': clubLogout.getOne,//根据申请单id获取社团注销信息*
   'GET /sys/asscancel/getPage': clubLogout.queryList,//获取社团注销申请单列表接口*
-  'GET /sys/asscancel/getTaskList': clubLogout.getTaskList,//获取社团注销申请任务列表接口
+  'GET /sys/asscancel/getTaskList': clubLogout.getTaskList,//获取社团注销申请任务列表接口*
   'POST /sys/asscancel/save': clubLogout.add,//保存社团注销申请单接口*
   'PUT /sys/asscancel/startProcess': clubLogout.startProcess,//启动社团注销流程接口
   'PUT /sys/asscancel/submitTask': clubLogout.submitTask,//提交任务接口
