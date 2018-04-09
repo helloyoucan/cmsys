@@ -16,8 +16,7 @@ import LogoutModal from './LogoutModal';
 
 @connect(state => ({
   clubLogout: state.clubLogout,
-  currentUser: state.login.currentUser,
-  info: state.info
+  currentUser: state.login.currentUser
 }))
 export default class LogoutTable extends PureComponent {
   state = {
@@ -29,7 +28,6 @@ export default class LogoutTable extends PureComponent {
       id: '',
       data: {}
     },
-    clubList: [],
     expandForm: false,
     selectedRows: [],
     formValues: {
@@ -45,15 +43,6 @@ export default class LogoutTable extends PureComponent {
   }
 
   getData(params, isRefresh) {
-    this.props.dispatch({
-      type: 'info/getAll',
-      payload: {},
-      callback: (res) => {
-        this.setState({
-          clubList: res.data
-        });
-      }
-    });
     const { dispatch, currentUser } = this.props;
     if (isRefresh) {
       params = {
@@ -87,49 +76,62 @@ export default class LogoutTable extends PureComponent {
   }
 
   handelModal(key, id) {
-    switch (key) {
-      case 'add':
-        this.setState({
-          modalVisible: true,
-          modalData: {
-            key,
-            id: ''
-          }
-        });
-        break;
-      case 'read':
-        this.setState({
-          modalVisible: true,
-          modalLoading: true,
-          modalData: {
-            key,
-          }
-        });
-        this.props.dispatch({
-          type: 'clubLogout/getOne',
-          payload: {
-            id
-          },
-          callback: (res) => {
-            if (res.ret) {
-              var old = this.state.modalData;
-              this.setState({
-                modalData: {
-                  ...old,
-                  data: res.data,
-                },
-                modalLoading: false,
-              });
-            } else if (res.msg) {
-              message.error(res.msg);
-            }
-          }
-        });
+    /* switch (key) {
+     case 'add':
+     break;
+     case 'edit':
+     break;
+     }*/
+    this.props.dispatch({
+      type: 'clubLogout/goToPage',
+      payload: {
+        id: id
+      }
+    });
+    /*switch (key) {
+     case 'add':
+     this.setState({
+     modalVisible: true,
+     modalData: {
+     key,
+     id: ''
+     }
+     });
+     break;
+     case 'read':
+     case 'edit':
+     this.setState({
+     modalVisible: true,
+     modalLoading: true,
+     modalData: {
+     key,
+     }
+     });
+     this.props.dispatch({
+     type: 'clubLogout/getOne',
+     payload: {
+     id
+     },
+     callback: (res) => {
+     if (res.ret) {
+     var old = this.state.modalData;
+     this.setState({
+     modalData: {
+     ...old,
+     data: res.data,
+     },
+     modalLoading: false,
+     });
+     } else if (res.msg) {
+     message.error(res.msg);
+     }
+     }
+     });
 
-        break;
-      default:
-        return;
-    }
+     break;
+     default:
+     return;
+     }*/
   }
 
   handleModalVisible() {
@@ -164,38 +166,91 @@ export default class LogoutTable extends PureComponent {
     });
   }
 
+  handleDelete(delOneId) {
+    /*
+     * delOneId：删除单个时的传参
+     * */
+    const { dispatch, clubLogout: { data: { pagination } } } = this.props;
+    let { selectedRows, formValues } = this.state;
+    // let ids = selectedRows.map((item) => (item.id));
+    // if (arguments.length > 1) {//删除单个
+    //   ids.push(delOneId);
+    // }
+    // if (!ids) return;
+    confirm({
+      title: '你确定要删除这些信息吗?',
+      content: '删除后不可恢复',
+      okText: '是的',
+      okType: 'danger',
+      cancelText: '不，取消',
+      onOk: () => {
+        dispatch({
+          type: 'clubLogout/changeLoading',
+          payload: {
+            bool: true,
+          },
+        });
+        dispatch({
+          type: 'clubLogout/del',
+          payload: {
+            id: delOneId
+          },
+          callback: () => {
+            dispatch({
+              type: 'clubLogout/queryList',
+              payload: {
+                ...formValues,
+                pageNo: pagination.currentPage,
+                pageSize: pagination.pageSize,
+              },
+            });
+          }
+        });
+      },
+      onCancel() {
+        message.warning('您取消了操作');
+      },
+    });
+  }
+
   render() {
     const { clubLogout: { loading: userLoading, data } } = this.props;
-    const { selectedRows, clubList } = this.state;
+    const { selectedRows } = this.state;
     const columns = [
       {
-        title: '社团名称',
+        title: '社团id',
         dataIndex: 'assId',
-        render: (val) => {
-          const data = (clubList.find((item) => {
-            return item.id == val
-          }))
-          return data == undefined ? '' : data.name
-        },
       },
       {
-        title: '复核次数',
-        dataIndex: 'recheckNum',
+        title: '社团情况',
+        dataIndex: 'assSituation',
       },
       {
-        title: '状态',
-        dataIndex: 'status',
-        render: (val) => {
-          const status = ['', '初始录入', '审核中', '审核完成']
-          return status[val]
-        },
+        title: '注销理由',
+        dataIndex: 'cancelReasons',
       },
       {
         title: '操作',
         dataIndex: 'id',
         render: (val) => (
           <div>
-            <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
+            <Link to={{
+              pathname: '/clubManagement/clubApproval/logoutRead',
+              data: {
+                id: val
+              }
+            }
+            }> 查看详细</Link>
+            <Divider type="vertical"/>
+            <Link to={{
+              pathname: '/clubManagement/clubApproval/clubLogoutPage',
+              data: {
+                id: val
+              }
+            }
+            }> 修改</Link>
+            <Divider type="vertical"/>
+            <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
           </div>
         ),
       },
@@ -230,7 +285,6 @@ export default class LogoutTable extends PureComponent {
         <LogoutModal modalVisible={this.state.modalVisible}
                      modalLoading={this.state.modalLoading}
                      data={this.state.modalData}
-                     clubList={clubList}
                      dispatch={this.props.dispatch}
                      handleModalVisible={this.handleModalVisible.bind(this)}
         />

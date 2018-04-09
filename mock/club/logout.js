@@ -1,4 +1,4 @@
-import {getUrlParams} from '../utils';
+import { getUrlParams } from '../utils';
 export function del(req, res) {
   /* ids：id数组*/
   res.send(
@@ -24,7 +24,9 @@ export function getOne(req, res) {
         "id": "1",
         "assId": "1",
         "cancelReasons": "注销理由55",
-        "assSituation": "社团情况"
+        "assSituation": "社团情况",
+        recheckNum: 5,
+        status: 1
       }
     }
   );
@@ -49,11 +51,11 @@ export function queryList(req, res) {
     list.push(
       {
         "id": "id" + i,
-        "assId": i,
+        "assId": (i % 4) + 1,
         "cancelReasons": "注销理由" + i,
         "assSituation": "社团情况",
         recheckNum: 1,
-        status: i % 3
+        status: (i % 3) + 1
       }
     );
   }
@@ -87,7 +89,7 @@ export function getTaskList(req, res) {
         "id": "id" + i,
         "name": `任务名称` + i,
         "createTime": new Date(),
-        "assignee": "任务办理人"
+        "assignee": "任务办理人",
       }
     );
   }
