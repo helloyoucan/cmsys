@@ -234,21 +234,9 @@ export default class LogoutTable extends PureComponent {
         dataIndex: 'id',
         render: (val) => (
           <div>
-            <Link to={{
-              pathname: '/clubManagement/clubApproval/logoutRead',
-              data: {
-                id: val
-              }
-            }
-            }> 查看详细</Link>
+            <Link to={{pathname: '/task/tHClubLogoutProgress', data: {taskId: val}}}> 查看进度</Link>
             <Divider type="vertical"/>
-            <Link to={{
-              pathname: '/clubManagement/clubApproval/clubLogoutPage',
-              data: {
-                id: val
-              }
-            }
-            }> 修改</Link>
+            <Link to={{pathname: '/task/tHClubLogoutPage', data: {id: val}}}> 审批</Link>
             <Divider type="vertical"/>
             <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
           </div>

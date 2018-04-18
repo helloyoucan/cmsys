@@ -76,62 +76,56 @@ export default class LogoutTable extends PureComponent {
   }
 
   handelModal(key, id) {
-    /* switch (key) {
-     case 'add':
-     break;
-     case 'edit':
-     break;
-     }*/
-    this.props.dispatch({
-      type: 'clubLogout/goToPage',
-      payload: {
-        id: id
-      }
-    });
-    /*switch (key) {
-     case 'add':
-     this.setState({
-     modalVisible: true,
-     modalData: {
-     key,
-     id: ''
-     }
-     });
-     break;
-     case 'read':
-     case 'edit':
-     this.setState({
-     modalVisible: true,
-     modalLoading: true,
-     modalData: {
-     key,
-     }
-     });
-     this.props.dispatch({
-     type: 'clubLogout/getOne',
-     payload: {
-     id
-     },
-     callback: (res) => {
-     if (res.ret) {
-     var old = this.state.modalData;
-     this.setState({
-     modalData: {
-     ...old,
-     data: res.data,
-     },
-     modalLoading: false,
-     });
-     } else if (res.msg) {
-     message.error(res.msg);
-     }
-     }
-     });
+    switch (key) {
+      case 'add':
+        break;
+      case 'edit':
+        break;
+    }
+    switch (key) {
+      case 'add':
+        this.setState({
+          modalVisible: true,
+          modalData: {
+            key,
+            id: ''
+          }
+        });
+        break;
+      case 'read':
+      case 'edit':
+        this.setState({
+          modalVisible: true,
+          modalLoading: true,
+          modalData: {
+            key,
+          }
+        });
+        this.props.dispatch({
+          type: 'clubLogout/getOne',
+          payload: {
+            id
+          },
+          callback: (res) => {
+            if (res.ret) {
+              var old = this.state.modalData;
+              this.setState({
+                modalData: {
+                  ...old,
+                  data: res.data,
+                },
+                modalLoading: false,
+              });
+            } else if (res.msg) {
+              message.error(res.msg);
+            }
+          }
+        });
 
-     break;
-     default:
-     return;
-     }*/
+        break;
+      default:
+        return;
+    }
   }
 
   handleModalVisible() {
@@ -213,6 +207,27 @@ export default class LogoutTable extends PureComponent {
     });
   }
 
+  submitTask(id) {
+    this.state.modalVisible = false
+    const {formValues} = this.state;
+    const that = this;
+    this.props.dispatch({
+      type: 'clubLogout/submitTask',
+      payload: {
+        id: id
+      },
+      callback: (res) => {
+        const pagination = that.props.clubLogout.taskSubmit.pagination;
+        const params = {
+          keyword: formValues.keyword,
+          pageNo: pagination.currentPage,
+          pageSize: pagination.pageSize,
+        };
+        that.getData(params);
+      }
+    })
+  }
+
   render() {
     const {clubLogout: {loading: userLoading, taskSubmit}} = this.props;
     const {selectedRows} = this.state;
@@ -237,21 +252,13 @@ export default class LogoutTable extends PureComponent {
         dataIndex: 'id',
         render: (val) => (
           <div>
-            <Link to={{
-              pathname: '/task/tSClubLogoutPage',
-              data: {
-                id: val
-              }
-            }
-            }> 查看详细</Link>
+            <a href="javascript:;" onClick={this.submitTask.bind(this, val)}>发起审批任务</a>
             <Divider type="vertical"/>
-            <Link to={{
-              pathname: '/task/tSClubLogoutPage',
-              data: {
-                id: val
-              }
-            }
-            }> 修改</Link>
+            <Link to={{pathname: '/task/tSClubLogoutProgress',data: {taskId: val}}}> 查看进度</Link>
+            <Divider type="vertical"/>
+            <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
+            <Divider type="vertical"/>
+            <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
             <Divider type="vertical"/>
             <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
           </div>
@@ -289,6 +296,7 @@ export default class LogoutTable extends PureComponent {
                      modalLoading={this.state.modalLoading}
                      data={this.state.modalData}
                      dispatch={this.props.dispatch}
+                     submitTask={this.submitTask.bind(this)}
                      handleModalVisible={this.handleModalVisible.bind(this)}
         />
 

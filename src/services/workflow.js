@@ -51,4 +51,6 @@ export async function getImageUrl(params) {
   diagramResourceName=${params.diagramResourceName}
   `);
 }
-
+export async function viewCurrentImage(params) {
+  return request(`/sys/workflow/viewCurrentImage?taskId=${params.taskId}`);
+}

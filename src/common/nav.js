@@ -42,14 +42,24 @@ export const getNavData = app => [{
           component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/task/submit/ClubLogout/LogoutTable')),
         },
         {
-          name: '注销任务申请',
-          path: 'tSClubLogoutPage',
-          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/task/submit/ClubLogout/LogoutPage')),
+          name: '注销任务申请进度查看',
+          path: 'tSClubLogoutProgress',
+          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info','workflow'], () => import('../routes/task/submit/ClubLogout/clubLogoutProgress')),
         },
         {
           name: '注销任务审批列表',
           path: 'tHClubLogout',
           component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/task/handle/ClubLogout/LogoutTable')),
+        },
+        {
+          name: '注销任务审批',
+          path: 'tHClubLogoutPage',
+          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/task/handle/ClubLogout/LogoutPage')),
+        },
+        {
+          name: '注销任务审批进度查看',
+          path: 'tHClubLogoutProgress',
+          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info','workflow'], () => import('../routes/task/handle/ClubLogout/clubLogoutProgress')),
         },
       ]
     },

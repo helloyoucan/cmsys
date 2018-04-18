@@ -50,7 +50,7 @@ const proxy = {
   'GET /sys/workflow/getImageUrl': Workflow.getImageUrl,//获取图片url
   'POST /sys/workflow/saveDeployment': Workflow.saveDeployment,//发布流程接口
   'GET /sys/workflow/viewImage': Workflow.viewImage,//查看流程图接口
-  'GET /sys/workflow/viewCurrentImage': '',//查看当前流程图接口（提交或审批的相关人员查看）
+  'GET /sys/workflow/viewCurrentImage': Workflow.viewCurrentImage,//查看当前流程图接口（提交或审批的相关人员查看）
 
   //社团信息-社团列表接口（已完成接口对接）
   'POST /sys/ass/save': clubInfo.add,//保存社团信息接口（超级管理员）
@@ -88,8 +88,6 @@ const proxy = {
   'POST /sys/user/save': User.add,//保存系统用户接口（超级管理员）
   'PUT /sys/user/update': User.update,//更新系统用户接口（超级管理员）
   'PUT /sys/user/updatePsw': User.updatePsw,//修改密码接口（已登录的用户）
-
-
 
 
   //社团干部管理（已完成接口对接-页面修改完成)

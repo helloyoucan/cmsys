@@ -22,7 +22,7 @@ export function getOne(req, res) {
       "ret": true, "msg": "获取用户信息成功",
       "data": {
         "id": "1",
-        "assId": "1",
+        "assId": "2",
         "cancelReasons": "注销理由55",
         "assSituation": "社团情况",
         recheckNum: 5,
@@ -225,7 +225,7 @@ export function viewTaskFrom(req, res) {
     {
       "ret": true, "msg": "获取用户信息成功",
       "data": {
-        "sysAssCancel": "sysAssCancel",
+        "sysAssCancel": "id1",
         "commentVoList": {
           time: new Date(),
           userId: 'userId',

@@ -100,11 +100,11 @@ export default {
     },
     *submitTask({payload, callback}, {call, put}) {
       const response = yield call(submitTask, payload);
-      if (response.ret) {
+      /*if (response.ret) {
         yield put({
           payload: payload
         });
-      }
+      }*/
       if (callback) callback(response);
     },
     *update({payload, callback}, {call}) {

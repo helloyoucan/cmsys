@@ -103,10 +103,19 @@ export function getImageUrl(req, res) {
     {
       "ret": true,
       "msg": "获取图片链接成功",
-      "data": "http://localhost:8080/sausys/sys/workflow/viewImage?deploymentId=7509&diagramResourceName=act-art.png"
+      "data": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524047622841&di=be387467353d487e2d82176895f155f5&imgtype=0&src=http%3A%2F%2Fwww.hqew.com%2Ffile%2Ftech2%2Fsheji%2F2010%2F0108%2F2011011214405221420110508211632938.gif"
+    }
+  );
+}
+export function viewCurrentImage(req, res) {
+  res.send(
+    {
+      "ret": true,
+      "msg": "获取图片链接成功",
+      "data": "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1524047622841&di=be387467353d487e2d82176895f155f5&imgtype=0&src=http%3A%2F%2Fwww.hqew.com%2Ffile%2Ftech2%2Fsheji%2F2010%2F0108%2F2011011214405221420110508211632938.gif"
     }
   );
 }
 export default {
-  saveDeployment, getDeployInfo, delDeployment, viewImage, getImageUrl
+  saveDeployment, getDeployInfo, delDeployment, viewImage, getImageUrl, viewCurrentImage
 };

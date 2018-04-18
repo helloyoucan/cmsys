@@ -1,7 +1,7 @@
-import {saveDeployment, getDeployInfo, delDeployment, viewImage, getImageUrl} from '../services/workflow';
+import {saveDeployment, getDeployInfo, delDeployment, viewImage, getImageUrl,viewCurrentImage} from '../services/workflow';
 
 export default {
-  namespace: 'file',
+  namespace: 'workflow',
   state: {
     loading: false,
   },
@@ -33,6 +33,10 @@ export default {
       if (callback) callback(response);
     },
     *getImageUrl({payload, callback}, {call, put}) {
+      const response = yield call(getImageUrl, payload);
+      if (callback) callback(response);
+    },
+    *viewCurrentImage({payload, callback}, {call, put}) {
       const response = yield call(getImageUrl, payload);
       if (callback) callback(response);
     },

@@ -1,15 +1,15 @@
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
+import React, {PureComponent} from 'react';
+import {connect} from 'dva';
 import {
   message, Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Upload,
 } from 'antd';
 import PageHeaderLayout from '../../../../layouts/PageHeaderLayout';
 // import styles from './style.less';
-import { Link } from 'dva/router';
+import {Link} from 'dva/router';
 const FormItem = Form.Item;
-const { Option } = Select;
-const { RangePicker } = DatePicker;
-const { TextArea } = Input;
+const {Option} = Select;
+const {RangePicker} = DatePicker;
+const {TextArea} = Input;
 
 @connect(state => ({
   clubLogout: state.clubLogout,
@@ -21,9 +21,22 @@ export default class LogoutPage extends PureComponent {
     confirmLoading: false,
     uploadLoading: false,
     formData: {
-      assId: '',
-      cancelReasons: '',
-      assSituation: '',
+      "sysAssCancel": "",
+      "commentVoList": {
+        time: new Date(),
+        userId: '',
+        fullMessage: ''
+      },
+      outcomeList: '',
+      taskId: ''
+    },
+    logoutData: {
+      "id": "",
+      "assId": "",
+      "cancelReasons": "",
+      "assSituation": "",
+      recheckNum: 0,
+      status: 0
     },
     clubList: []
   }
@@ -71,7 +84,7 @@ export default class LogoutPage extends PureComponent {
           callback: (res) => {
             if (res.ret) {
               this.setState({
-                formData: {
+                logoutData: {
                   ...res.data
                 }
               });
@@ -85,10 +98,14 @@ export default class LogoutPage extends PureComponent {
   }
 
   render() {
-    const { clubLogout } = this.props;
-    const { getFieldDecorator, getFieldValue } = this.props.form;
+    const {clubLogout} = this.props;
+    const {getFieldDecorator, getFieldValue} = this.props.form;
     //const formData = clubLogout.oneData == undefined ? {} : clubLogout.oneData;
-    const { formData, clubList } = this.state
+    const {formData, clubList, logoutData} = this.state;
+    let clubName = clubList.find(item => {
+      return logoutData.assId == item.id
+    })
+    clubName = clubName && clubName.name
     const uploadSetting = {
       name: 'file',
       action: '//jsonplaceholder.typicode.com/posts/',
@@ -109,19 +126,19 @@ export default class LogoutPage extends PureComponent {
     }
     const formItemLayout = {
       labelCol: {
-        xs: { span: 24 },
-        sm: { span: 7 },
+        xs: {span: 24},
+        sm: {span: 7},
       },
       wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 12 },
-        md: { span: 10 },
+        xs: {span: 24},
+        sm: {span: 12},
+        md: {span: 10},
       },
     };
     const submitFormLayout = {
       wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 10, offset: 7 },
+        xs: {span: 24, offset: 0},
+        sm: {span: 10, offset: 7},
       },
     };
     /*const uploadButton = (
@@ -131,62 +148,36 @@ export default class LogoutPage extends PureComponent {
      </div>
      );*/
     return (
-      <PageHeaderLayout title="社团注销表" content="">
+      <PageHeaderLayout title="社团注销审批" content="">
         <Card bordered={false}>
           <Form
             onSubmit={this.handleSubmit}
             hideRequiredMark
-            style={{ marginTop: 8 }}
+            style={{marginTop: 8}}
           >
+
             <FormItem
               {...formItemLayout}
-              label="选择社团"
-            >
-              {getFieldDecorator('assId', {
-                rules: [{
-                  required: true, message: '请选择',
-                }], initialValue: formData.assId
-              })(
-                <Select filterOption showSearch>
-                  {
-                    clubList && clubList.map((item) => {
-                      return <Option value={item.id} key={item.id}>{item.name}</Option>
-                    })
-                  }
-                </Select>
-              )}
+              label="社团名称"
+            > {clubName}
             </FormItem>
             <FormItem
               {...formItemLayout}
               label="注销理由"
-            >
-              {getFieldDecorator('cancelReasons', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.cancelReasons
-              })(
-                <TextArea rows={4}/>
-              )}
+            > {logoutData.cancelReasons}
             </FormItem>
             <FormItem
               {...formItemLayout}
               label="社团情况"
-            >
-              {getFieldDecorator('assSituation', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.assSituation
-              })(
-                <TextArea rows={4}/>
-              )}
+            >  {logoutData.assSituation}
             </FormItem>
-            <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
+            <FormItem {...submitFormLayout} style={{marginTop: 32}}>
               <Button type="primary" htmlType="submit" loading={this.state.confirmLoading}>
-                保存
+                提交审批意见
               </Button>
               <Button>
                 <Link to={{
-                  pathname: '/clubManagement/clubApproval/logoutList',
+                  pathname: '/task/tHClubLogout',
                 }
                 }> 返回列表</Link> </Button>
             </FormItem>
