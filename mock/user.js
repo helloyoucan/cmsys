@@ -65,7 +65,7 @@ export function queryList(req, res) {
         "insertTime": 1513064417000,
         "status": i % 2,
         "categoryId": "chaojiguanliyuan",
-        "assId": (i+1) % 2,
+        "assId": (i+1) % 4,
         "lastupdMan": "admin",
         "insertMan": "admin"
       });

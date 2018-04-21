@@ -29,46 +29,6 @@ const proxy = {
   'GET /login': login,//系统用户登录接口
   // 'GET /api/currentUser': login,
   'GET /logout': logout,//系统用户注销登录接口
-  //文件上传
-  'POST /sys/file/upload': File.uploadFile,
-
-  //社团注销（已完成接口对接）
-  'DELETE /sys/asscancel/delete': clubLogout.del,//删除社团注销申请单接口*
-  'GET /sys/asscancel/getOne': clubLogout.getOne,//根据申请单id获取社团注销信息*
-  'GET /sys/asscancel/getPage': clubLogout.queryList,//获取社团注销申请单列表接口*
-  'GET /sys/asscancel/getTaskList': clubLogout.getTaskList,//获取社团注销申请任务列表接口*
-  'POST /sys/asscancel/save': clubLogout.add,//保存社团注销申请单接口*
-  'PUT /sys/asscancel/startProcess': clubLogout.startProcess,//启动社团注销流程接口*
-  'PUT /sys/asscancel/submitTask': clubLogout.submitTask,//提交任务接口
-  'PUT /sys/asscancel/update': clubLogout.update,//修改社团注销申请单接口*
-  'GET /sys/asscancel/viewHisComment': clubLogout.viewHisComment,//查看历史的审批信息接口
-  'GET /sys/asscancel/viewTaskFrom': clubLogout.viewTaskFrom,//办理任务，获取审批信息接口
-
-  //工作流相关
-  'DELETE /sys/workflow/delDeployment': Workflow.delDeployment,//删除部署信息接口
-  'GET /sys/workflow/getDeployInfo': Workflow.getDeployInfo,//获取部署信息接口
-  'GET /sys/workflow/getImageUrl': Workflow.getImageUrl,//获取图片url
-  'POST /sys/workflow/saveDeployment': Workflow.saveDeployment,//发布流程接口
-  'GET /sys/workflow/viewImage': Workflow.viewImage,//查看流程图接口
-  'GET /sys/workflow/viewCurrentImage': Workflow.viewCurrentImage,//查看当前流程图接口（提交或审批的相关人员查看）
-
-  //社团信息-社团列表接口（已完成接口对接）
-  'POST /sys/ass/save': clubInfo.add,//保存社团信息接口（超级管理员）
-  'POST /sys/ass/update': clubInfo.update,//更新社团信息接口（超级管理员）
-  'GET /sys/ass/getPage': clubInfo.queryList,//获取社团列表（超级管理员）
-  'GET /sys/ass/getOne': clubInfo.getOne,//根据id获取社团信息接口
-  'GET /sys/ass/getAll': clubInfo.getAll,//获取所有社团的接口
-
-
-  //字典管理
-  'GET /sys/dic/getDic': Dictionary.queryCategory,//根据字典分类名称获取字典数据（除了字典类型）接口
-  'GET /sys/dic/getDisCategoryForPage': '',//分页获取所有的字典类型接口
-  'GET /sys/dic/getDisCategoryIsEnable': '',//获取所有启用状态的字典类型接口
-  'GET /sys/dic/getDisForPage': Dictionary.queryList,//分页获取所有的字典数据（除了字典类型）接口
-  /*-------*/
-  'POST /sys/dic/save': Dictionary.add,
-  'POST /sys/dic/update': Dictionary.update,
-  'GET /sys/dic/getOne': Dictionary.getOne,
 
   //社联干部管理(完成接口对接-页面修改完成)
   'DELETE /sys/saucadre/delete': clubUnionCadre.dels,//删除社联干部接口
@@ -105,6 +65,49 @@ const proxy = {
   'GET /sys/assmember/getPage': clubMember.queryList,//分页获取社团会员列表接口
   'POST /sys/assmember/save': clubMember.add,//添加社团会员信息接口(社团管理员
   'PUT /sys/assmember/update': clubMember.update,//更新社团会员信息接口（社团管理员）
+
+  /*--------上面为已经完成-------*/
+  //文件上传
+  'POST /sys/file/upload': File.uploadFile,
+
+  //社团注销（已完成接口对接）
+  'DELETE /sys/asscancel/delete': clubLogout.del,//删除社团注销申请单接口*
+  'GET /sys/asscancel/getOne': clubLogout.getOne,//根据申请单id获取社团注销信息*
+  'GET /sys/asscancel/getPage': clubLogout.queryList,//获取社团注销申请单列表接口*
+  'GET /sys/asscancel/getTaskList': clubLogout.getTaskList,//获取社团注销申请任务列表接口*
+  'POST /sys/asscancel/save': clubLogout.add,//保存社团注销申请单接口*
+  'PUT /sys/asscancel/startProcess': clubLogout.startProcess,//启动社团注销流程接口*
+  'PUT /sys/asscancel/submitTask': clubLogout.submitTask,//提交任务接口
+  'PUT /sys/asscancel/update': clubLogout.update,//修改社团注销申请单接口*
+  'GET /sys/asscancel/viewHisComment': clubLogout.viewHisComment,//查看历史的审批信息接口
+  'GET /sys/asscancel/viewTaskFrom': clubLogout.viewTaskFrom,//办理任务，获取审批信息接口
+
+  //工作流相关
+  'DELETE /sys/workflow/delDeployment': Workflow.delDeployment,//删除部署信息接口
+  'GET /sys/workflow/getDeployInfo': Workflow.getDeployInfo,//获取部署信息接口
+  'GET /sys/workflow/getImageUrl': Workflow.getImageUrl,//获取图片url
+  'POST /sys/workflow/saveDeployment': Workflow.saveDeployment,//发布流程接口
+  'GET /sys/workflow/viewImage': Workflow.viewImage,//查看流程图接口
+  'GET /sys/workflow/viewCurrentImage': Workflow.viewCurrentImage,//查看当前流程图接口（提交或审批的相关人员查看）
+
+  //社团信息-社团列表接口（已完成接口对接）
+  'POST /sys/ass/save': clubInfo.add,//保存社团信息接口（超级管理员）
+  'POST /sys/ass/update': clubInfo.update,//更新社团信息接口（超级管理员）
+  'GET /sys/ass/getPage': clubInfo.queryList,//获取社团列表（超级管理员）
+  'GET /sys/ass/getOne': clubInfo.getOne,//根据id获取社团信息接口
+  'GET /sys/ass/getAllIdAndName': clubInfo.getAll,//获取所有社团的接口
+
+  //字典管理
+  'GET /sys/dic/getDic': Dictionary.queryCategory,//根据字典分类名称获取字典数据（除了字典类型）接口
+  'GET /sys/dic/getDisCategoryForPage': '',//分页获取所有的字典类型接口
+  'GET /sys/dic/getDisCategoryIsEnable': '',//获取所有启用状态的字典类型接口
+  'GET /sys/dic/getDisForPage': Dictionary.queryList,//分页获取所有的字典数据（除了字典类型）接口
+  /*-------*/
+  'POST /sys/dic/save': Dictionary.add,
+  'POST /sys/dic/update': Dictionary.update,
+  'GET /sys/dic/getOne': Dictionary.getOne,
+
+
 
 
   /*---------------上面是已确定的----------*/

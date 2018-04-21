@@ -2,7 +2,7 @@ import request from '../../utils/request';
 import {stringify} from 'qs';
 
 export async function getAll(params) {
-  return request(`/sys/ass/getAll?${stringify(params)}`);
+  return request(`/sys/ass/getAllIdAndName?${stringify(params)}`);
 }
 export async function add(params) {
   /*

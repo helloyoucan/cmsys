@@ -7,6 +7,10 @@ export function getAll(req, res) {
       "msg": "获取全部社团信息成功",
       "data": [
         {
+          id: 0,
+          name: '社团0'
+        },
+        {
           id: 1,
           name: '社团1'
         },

@@ -108,9 +108,13 @@ export default class UserModal extends PureComponent {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {data, userCategory,clubsNames,userCategoryObj,clubsNames_obj, modalLoading} = this.props;
+    const {data, userCategory, clubsNames, userCategoryObj, modalLoading} = this.props;
     const {username, categoryId, assId} = data.data == undefined ? this.state.formData : data.data;
     const formData = data.data == undefined ? {} : data.data;
+    const clubsNamesMap = {}
+    for (let key in clubsNames) {
+      clubsNamesMap[clubsNames[key].id] = clubsNames[key].name
+    }
     let title = '';
     switch (data.key) {
       case 'read':
@@ -142,7 +146,7 @@ export default class UserModal extends PureComponent {
               {userCategoryObj[formData.categoryId]}
             </LineMessage>
             <LineMessage label="所属社团">
-              {formData.assId == -1 ? "" : clubsNames_obj[formData.assId]}
+              {formData.assId == -1 ? "" : clubsNamesMap[formData.assId]}
             </LineMessage>
             <LineMessage label="用户状态">
               {formData.status == 1 ? '启用' : '禁用'}
@@ -196,7 +200,7 @@ export default class UserModal extends PureComponent {
             >  {getFieldDecorator('assId', {
               initialValue: assId
             })(
-              <Select placeholder="用户类型" style={{width: '100%'}}>
+              <Select placeholder="所属社团" style={{width: '100%'}}>
                 {clubsNames.map((item) => {
                   return ( <Option key={item.id} value={item.id}>{item.name}</Option>)
                 })}

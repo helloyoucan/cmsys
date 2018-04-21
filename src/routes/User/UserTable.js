@@ -35,9 +35,8 @@ export default class UserTable extends PureComponent {
     selectedRows: [],
     formValues: {},
     SwitchLoadingId: '',
-    resetPsId: ''
-
-
+    resetPsId: '',
+    clubsNames: []
   };
 
   componentDidMount() {
@@ -46,7 +45,13 @@ export default class UserTable extends PureComponent {
       type: 'dictionary/queryUserCategory'
     });
     dispatch({
-      type: 'info/getAll'
+      type: 'info/getAll',
+      payload: {},
+      callback: (res) => {
+        this.setState({
+          clubsNames: res.data
+        })
+      }
     });
     this.getData({});
   }
@@ -210,14 +215,11 @@ export default class UserTable extends PureComponent {
   }
 
   render() {
-    const {user: {loading: userLoading, data}, info: {clubsNames}, dictionary: {userCategory}} = this.props;
+    const {user: {loading: userLoading, data}, dictionary: {userCategory}} = this.props;
+    const {clubsNames} = this.state
     let userCategory_obj = {};
     userCategory.forEach((item) => {
       userCategory_obj[item.pmname] = item.pmvalue;
-    });
-    let clubsNames_obj = {};
-    clubsNames.forEach((item) => {
-      clubsNames_obj[item.id] = item.name;
     });
     const {selectedRows} = this.state;
     const columns = [
@@ -252,7 +254,13 @@ export default class UserTable extends PureComponent {
         dataIndex: 'assId',
         render(val) {
           if (val == -1) return '';
-          return clubsNames_obj[val];
+          const club = clubsNames.find((item => {
+            return item.id === val
+          }));
+          if (club != undefined) {
+            return club.name;
+          }
+          return ''
         },
       },
       {
@@ -329,7 +337,6 @@ export default class UserTable extends PureComponent {
                    handleModalVisible={this.handleModalVisible.bind(this)}
                    userCategoryObj={userCategory_obj}
                    clubsNames={clubsNames}
-                   clubsNames_obj={clubsNames_obj}
                    handelGetData={this.getData.bind(this)}/>
 
       </PageHeaderLayout>
