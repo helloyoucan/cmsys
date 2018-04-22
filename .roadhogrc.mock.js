@@ -98,16 +98,26 @@ const proxy = {
   'GET /sys/ass/getAllIdAndName': clubInfo.getAll,//获取所有社团的接口
 
   //字典管理
+  'DELETE /sys/dic/deleteDicType': '',//根据id删除字典分类接口
+  'GET /sys/dic/getDicParamsForPage': '',//分页获取字典数据接口
+  'GET /sys/dic/getDicTypeForPage': '',//分页获取字典分类接口
+  'GET /sys/dic/getOne': '',//根据id获取字典表数据接口
+  'POST /sys/dic/saveDicParams': '',//新增字典数据接口
+  'POST /sys/dic/saveDicType': '',//新增字典分类接口
+  'PUT /sys/dic/setDicParamsIsDisable': '',//根据id禁用字典表数据接口
+  'PUT /sys/dic/setDicParamsIsEnable': '',//根据id启用字典表数据接口
+  'PUT /sys/dic/updateDicParams': '',//修改字典数据接口
+  'PUT /sys/dic/updateDicType': '',//修改字典分类接口
   'GET /sys/dic/getDic': Dictionary.queryCategory,//根据字典分类名称获取字典数据（除了字典类型）接口
+  /*-------*/
+
+
   'GET /sys/dic/getDisCategoryForPage': '',//分页获取所有的字典类型接口
   'GET /sys/dic/getDisCategoryIsEnable': '',//获取所有启用状态的字典类型接口
   'GET /sys/dic/getDisForPage': Dictionary.queryList,//分页获取所有的字典数据（除了字典类型）接口
-  /*-------*/
   'POST /sys/dic/save': Dictionary.add,
   'POST /sys/dic/update': Dictionary.update,
   'GET /sys/dic/getOne': Dictionary.getOne,
-
-
 
 
   /*---------------上面是已确定的----------*/

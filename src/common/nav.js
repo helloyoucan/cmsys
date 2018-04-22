@@ -44,7 +44,7 @@ export const getNavData = app => [{
         {
           name: '注销任务申请进度查看',
           path: 'tSClubLogoutProgress',
-          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info','workflow'], () => import('../routes/task/submit/ClubLogout/clubLogoutProgress')),
+          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info', 'workflow'], () => import('../routes/task/submit/ClubLogout/clubLogoutProgress')),
         },
         {
           name: '注销任务审批列表',
@@ -59,7 +59,7 @@ export const getNavData = app => [{
         {
           name: '注销任务审批进度查看',
           path: 'tHClubLogoutProgress',
-          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info','workflow'], () => import('../routes/task/handle/ClubLogout/clubLogoutProgress')),
+          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info', 'workflow'], () => import('../routes/task/handle/ClubLogout/clubLogoutProgress')),
         },
       ]
     },
@@ -175,7 +175,18 @@ export const getNavData = app => [{
       name: '数据管理',
       path: 'dataManagement',
       icon: 'database',
-      component: dynamicWrapper(app, ['dictionary'], () => import('../routes/Dictionary/DictionaryTable')),
+      children: [
+        {
+          name: '字典表管理',
+          path: 'dictionary',
+          component: dynamicWrapper(app, ['dictionary'], () => import('../routes/Dictionary/DictionaryTable')),
+        },
+        {
+          name: '字典类型管理',
+          path: 'type',
+          component: dynamicWrapper(app, ['dictionary'], () => import('../routes/Dictionary/DictionaryTable')),
+        }
+      ]
     },
     {
       path: 'success',
