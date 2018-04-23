@@ -5,7 +5,7 @@ import {login, logout} from './mock/login';
 import File from './mock/file';
 import Workflow from './mock/workflow';
 
-import Dictionary from './mock/dictionary';
+import dataManagement from './mock/dataManagement';
 import User from './mock/user';
 import clubUnionCadre from './mock/clubUnion/cadre';
 import clubUnionDepartment from './mock/clubUnion/department';
@@ -98,17 +98,17 @@ const proxy = {
   'GET /sys/ass/getAllIdAndName': clubInfo.getAll,//获取所有社团的接口
 
   //字典管理
-  'DELETE /sys/dic/deleteDicType': '',//根据id删除字典分类接口
-  'GET /sys/dic/getDicParamsForPage': '',//分页获取字典数据接口
-  'GET /sys/dic/getDicTypeForPage': '',//分页获取字典分类接口
-  'GET /sys/dic/getOne': '',//根据id获取字典表数据接口
-  'POST /sys/dic/saveDicParams': '',//新增字典数据接口
-  'POST /sys/dic/saveDicType': '',//新增字典分类接口
-  'PUT /sys/dic/setDicParamsIsDisable': '',//根据id禁用字典表数据接口
-  'PUT /sys/dic/setDicParamsIsEnable': '',//根据id启用字典表数据接口
-  'PUT /sys/dic/updateDicParams': '',//修改字典数据接口
-  'PUT /sys/dic/updateDicType': '',//修改字典分类接口
-  'GET /sys/dic/getDic': Dictionary.queryCategory,//根据字典分类名称获取字典数据（除了字典类型）接口
+  'DELETE /sys/dic/deleteDicType': dataManagement.deleteDicType,//根据id删除字典分类接口
+  'GET /sys/dic/getDicParamsForPage': dataManagement.getDicParamsForPage,//分页获取字典数据接口
+  'GET /sys/dic/getDicTypeForPage': dataManagement.getDicTypeForPage,//分页获取字典分类接口
+  'GET /sys/dic/getOne': dataManagement.getOne,//根据id获取字典表数据接口
+  'POST /sys/dic/saveDicParams': dataManagement.saveDicParams,//新增字典数据接口
+  'POST /sys/dic/saveDicType': dataManagement.saveDicType,//新增字典分类接口
+  'PUT /sys/dic/setDicParamsIsDisable': dataManagement.setDicParamsIsDisable,//根据id禁用字典表数据接口
+  'PUT /sys/dic/setDicParamsIsEnable': dataManagement.setDicParamsIsEnable,//根据id启用字典表数据接口
+  'PUT /sys/dic/updateDicParams': dataManagement.updateDicParams,//修改字典数据接口
+  'PUT /sys/dic/updateDicType': dataManagement.updateDicType,//修改字典分类接口
+  'GET /sys/dic/getDic': dataManagement.queryCategory,//根据字典分类名称获取字典数据（除了字典类型）接口
   /*-------*/
 
 

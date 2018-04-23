@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'dva';
-import LineMessage from '../../components/LineMessage/index';
+import LineMessage from '../../../components/LineMessage/index';
 import moment from 'moment';
 import {
   Row,

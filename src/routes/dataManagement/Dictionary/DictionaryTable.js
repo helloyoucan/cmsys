@@ -6,8 +6,8 @@ import {
   message,
   Divider,
 } from 'antd';
-import StandardTable from '../../components/StandardTable';
-import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import StandardTable from '../../../components/StandardTable/index';
+import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import DictionaryForm from './DictionaryForm';
 import DictionaryModal from './DictionaryModal';
 import moment from 'moment';
@@ -37,11 +37,23 @@ export default class DictionaryTable extends PureComponent {
   componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
-      type: 'dictionary/queryList',
+      type: 'dataManagement/getDicParamsForPage',
       payload: {
-        categoryId: '',
+        pmappname: '',
         pageNo: 1,
         pageSize: 10
+      }
+    });
+  }
+
+  getData(params) {
+    this.props.dispatch({
+      type: 'dataManagement/getDicParamsForPage',
+      payload: {
+        pmappname: '',
+        pageNo: 1,
+        pageSize: 10,
+        ...params
       }
     });
   }
@@ -51,7 +63,7 @@ export default class DictionaryTable extends PureComponent {
     const {formValues} = this.state;
 
     const params = {
-      categoryId: formValues.categoryId,
+      pmappname: formValues.pmappname,
       pageNo: pagination.current,
       pageSize: pagination.pageSize,
     };
@@ -129,7 +141,7 @@ export default class DictionaryTable extends PureComponent {
     dispatch({
       type: 'dictionary/queryList',
       payload: {
-        categoryId: value.categoryId,
+        pmappname: value.pmappname,
         pageNo: 1,
         pageSize: 10
       }

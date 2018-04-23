@@ -138,8 +138,13 @@ export async function updateDicType(params) {
     },
   });
 }
+/*-----------------------------------------------------*/
+export async function queryforPmappname(params) {
+  return request(`/sys/dic/getDic?pmappname=${params.type}`);
+}
 
 /*---------下面的为旧接口--------*/
+/*
 export async function add(params) {
   return request('/sys/dic/save', {
     method: 'POST',
@@ -163,9 +168,6 @@ export async function queryList(params) {
 export async function getOne(params) {
   return request(`/sys/dic/getOne?id=${params.id}`);
 }
+*/
 
 
-/*-----------------------------------------------------*/
-export async function queryforPmappname(params) {
-  return request(`/sys/dic/getDic?pmappname=${params.type}`);
-}

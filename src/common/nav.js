@@ -179,12 +179,12 @@ export const getNavData = app => [{
         {
           name: '字典表管理',
           path: 'dictionary',
-          component: dynamicWrapper(app, ['dictionary'], () => import('../routes/Dictionary/DictionaryTable')),
+          component: dynamicWrapper(app, ['dataManagement'], () => import('../routes/dataManagement/Dictionary/DictionaryTable')),
         },
         {
           name: '字典类型管理',
           path: 'type',
-          component: dynamicWrapper(app, ['dictionary'], () => import('../routes/Dictionary/DictionaryTable')),
+          component: dynamicWrapper(app, ['dataManagement'], () => import('../routes/dataManagement/Dictionary/DictionaryTable')),
         }
       ]
     },

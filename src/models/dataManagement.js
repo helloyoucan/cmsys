@@ -1,18 +1,30 @@
 /*字典表*/
 import {
-  queryforPmappname,
-  queryList, add, getOne, update,
-} from '../services/dictionary';
+  deleteDicType,
+  getDicParamsForPage,
+  getDicTypeForPage,
+  getOne,
+  saveDicParams, saveDicType,
+  setDicParamsIsDisable,
+  setDicParamsIsEnable,
+  updateDicParams,
+  updateDicType,
+  queryforPmappname
+} from '../services/dataManagement';
 
 export default {
-  namespace: 'dictionary',
+  namespace: 'dataManagement',
   state: {
     userCategory: [],//用户类型
     association: [],//协会类别
     collegeName: [],//学院名称
     sex: [],//性别
     tweet: [],//推文类别
-    data: {
+    dicParams: {
+      list: [],
+      pagination: {},
+    },
+    dicType: {
       list: [],
       pagination: {},
     },
@@ -21,14 +33,18 @@ export default {
   },
 
   effects: {
-    *queryList({payload}, {call, put}) {
+    *deleteDicType({payload, callback}, {call}) {
+      const response = yield call(deleteDicType, payload);
+      if (callback) callback(response);
+    },
+    *getDicParamsForPage({payload}, {call, put}) {
       yield put({
         type: 'changeLoading',
         payload: true,
       });
-      const response = yield call(queryList, payload);
+      const response = yield call(getDicParamsForPage, payload);
       yield put({
-        type: 'queryListReducers',
+        type: 'getDicParamsForPageReducers',
         payload: response.data,
       });
       yield put({
@@ -36,20 +52,50 @@ export default {
         payload: false,
       });
     },
-    *add({payload, callback}, {call}) {
-      const response = yield call(add, payload);
-      if (callback) callback(response);
+    *getDicTypeForPage({payload}, {call, put}) {
+      yield put({
+        type: 'changeLoading',
+        payload: true,
+      });
+      const response = yield call(getDicTypeForPage, payload);
+      yield put({
+        type: 'getDicTypeForPageReducers',
+        payload: response.data,
+      });
+      yield put({
+        type: 'changeLoading',
+        payload: false,
+      });
     },
     *getOne({payload, callback}, {call}) {
       const response = yield call(getOne, payload);
       if (callback) callback(response);
     },
-
-    *update({payload, callback}, {call}) {
-      const response = yield call(update, payload);
+    *saveDicParams({payload, callback}, {call}) {
+      const response = yield call(saveDicParams, payload);
       if (callback) callback(response);
     },
-    /*--------------------------------------------*/
+
+    *saveDicType({payload, callback}, {call}) {
+      const response = yield call(saveDicType, payload);
+      if (callback) callback(response);
+    },
+    *setDicParamsIsDisable({payload, callback}, {call}) {
+      const response = yield call(setDicParamsIsDisable, payload);
+      if (callback) callback(response);
+    },
+    *setDicParamsIsEnable({payload, callback}, {call}) {
+      const response = yield call(setDicParamsIsEnable, payload);
+      if (callback) callback(response);
+    },
+    *updateDicParams({payload, callback}, {call}) {
+      const response = yield call(updateDicParams, payload);
+      if (callback) callback(response);
+    },
+    *updateDicType({payload, callback}, {call}) {
+      const response = yield call(updateDicType, payload);
+      if (callback) callback(response);
+    },
     *queryAssociation(_, {call, put}){
       const response = yield call(queryforPmappname, {
         type: "ASSOCIATION_CATEGORY",
@@ -89,10 +135,16 @@ export default {
   },
 
   reducers: {
-    queryListReducers(state, {payload}) {
+    getDicParamsForPageReducers(state, {payload}) {
       return {
         ...state,
-        data: payload,
+        dicParams: payload,
+      };
+    },
+    getDicTypeForPageReducers(state, {payload}) {
+      return {
+        ...state,
+        dicParams: payload,
       };
     },
     changeLoading(state, {payload}) {
