@@ -9,7 +9,8 @@ import {
   setDicParamsIsEnable,
   updateDicParams,
   updateDicType,
-  queryforPmappname
+  queryforPmappname,
+  getAll
 } from '../services/dataManagement';
 
 export default {
@@ -132,6 +133,10 @@ export default {
         payload: response.data,
       });
     },
+    *getAll({payload, callback}, {call}) {
+      const response = yield call(getAll, payload);
+      if (callback) callback(response);
+    }
   },
 
   reducers: {

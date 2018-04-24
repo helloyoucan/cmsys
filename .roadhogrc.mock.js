@@ -109,15 +109,16 @@ const proxy = {
   'PUT /sys/dic/updateDicParams': dataManagement.updateDicParams,//修改字典数据接口
   'PUT /sys/dic/updateDicType': dataManagement.updateDicType,//修改字典分类接口
   'GET /sys/dic/getDic': dataManagement.queryCategory,//根据字典分类名称获取字典数据（除了字典类型）接口
+  'GET /sys/dic/getAll': dataManagement.getAll,//根据字典分类名称获取字典数据（除了字典类型）接口
   /*-------*/
 
 
-  'GET /sys/dic/getDisCategoryForPage': '',//分页获取所有的字典类型接口
+/*  'GET /sys/dic/getDisCategoryForPage': '',//分页获取所有的字典类型接口
   'GET /sys/dic/getDisCategoryIsEnable': '',//获取所有启用状态的字典类型接口
   'GET /sys/dic/getDisForPage': Dictionary.queryList,//分页获取所有的字典数据（除了字典类型）接口
   'POST /sys/dic/save': Dictionary.add,
   'POST /sys/dic/update': Dictionary.update,
-  'GET /sys/dic/getOne': Dictionary.getOne,
+  'GET /sys/dic/getOne': Dictionary.getOne,*/
 
 
   /*---------------上面是已确定的----------*/

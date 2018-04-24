@@ -14,7 +14,7 @@ import moment from 'moment';
 
 @connect(state => ({
   user: state.user,
-  dictionary: state.dictionary
+  dataManagement: state.dataManagement
 }))
 export default class DictionaryTable extends PureComponent {
   state = {
@@ -35,15 +35,7 @@ export default class DictionaryTable extends PureComponent {
   };
 
   componentDidMount() {
-    const {dispatch} = this.props;
-    dispatch({
-      type: 'dataManagement/getDicParamsForPage',
-      payload: {
-        pmappname: '',
-        pageNo: 1,
-        pageSize: 10
-      }
-    });
+    this.getData()
   }
 
   getData(params) {
@@ -59,18 +51,12 @@ export default class DictionaryTable extends PureComponent {
   }
 
   handleStandardTableChange = (pagination) => {
-    const {dispatch} = this.props;
     const {formValues} = this.state;
-
-    const params = {
+    this.getData({
       pmappname: formValues.pmappname,
       pageNo: pagination.current,
       pageSize: pagination.pageSize,
-    };
-    dispatch({
-      type: 'dictionary/queryList',
-      payload: params,
-    });
+    })
   }
 
   handelModal(key, id) {
@@ -94,7 +80,7 @@ export default class DictionaryTable extends PureComponent {
           }
         });
         this.props.dispatch({
-          type: 'dictionary/getOne',
+          type: 'dataManagement/getOne',
           payload: {
             id
           },
@@ -137,25 +123,20 @@ export default class DictionaryTable extends PureComponent {
     this.setState({
       formValues: value
     });
-    const {dispatch} = this.props;
-    dispatch({
-      type: 'dictionary/queryList',
-      payload: {
-        pmappname: value.pmappname,
-        pageNo: 1,
-        pageSize: 10
-      }
-    });
+    this.getData({
+      pmappname: value.pmappname,
+    })
   }
 
   handleFormReset() {
     this.setState({
       formValues: {}
     });
+    this.getData()
   }
 
   render() {
-    const {dictionary: {loading: userLoading, data}} = this.props;
+    const {dataManagement: {loading: userLoading, dicParams}} = this.props;
     const {selectedRows} = this.state;
     const columns = [
       {
@@ -196,7 +177,8 @@ export default class DictionaryTable extends PureComponent {
       {
         title: '最后修改人',
         dataIndex: 'lastupdMan',
-      }, {
+      },
+      {
         title: '备注',
         dataIndex: 'remarks',
       },
@@ -237,7 +219,7 @@ export default class DictionaryTable extends PureComponent {
               selectedRows={selectedRows}
               loading={userLoading}
               columns={columns}
-              data={data}
+              data={dicParams}
               isSelect={false}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}

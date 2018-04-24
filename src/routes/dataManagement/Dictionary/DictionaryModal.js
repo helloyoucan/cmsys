@@ -51,7 +51,7 @@ export default class DictionaryTableModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'dictionary/add',
+              type: 'dataManagement/add',
               payload: values,
               callback: (res) => {
                 if (res.ret) {
@@ -74,7 +74,7 @@ export default class DictionaryTableModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'dictionary/update',
+              type: 'dataManagement/update',
               payload: {
                 ...values,
                 id: data.data.id
@@ -145,9 +145,7 @@ export default class DictionaryTableModal extends PureComponent {
             <LineMessage label="添加时间">
               {moment(formData.insertTime).format('YYYY-MM-DD')}
             </LineMessage>
-            <LineMessage label="添加时间">
-              {formData.insertTime}
-            </LineMessage>
+
             <LineMessage label="添加人">
               {formData.insertMan}
             </LineMessage>
@@ -157,7 +155,9 @@ export default class DictionaryTableModal extends PureComponent {
             <LineMessage label="最后修改人">
               {formData.lastupdMan}
             </LineMessage>
-
+            <LineMessage label="备注">
+              {formData.remarks}
+            </LineMessage>
           </Card>
           :
           <Spin spinning={modalLoading}>

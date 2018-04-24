@@ -1,4 +1,168 @@
 import {getUrlParams} from './utils';
+export function deleteDicType(req, res) {
+  res.send(
+    {
+      "ret": true,
+      "msg": "删除成功",
+      "data": null
+    }
+  );
+}
+export function getDicParamsForPage(req, res) {
+  let list = new Array();
+  for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
+    list.push(
+      {
+        "pmappname": "ASSOCIATION_CATEGORY",
+        "pmname": "CHUANGXINCHUANGYE",
+        "pmvalue": "创新创业类" + i,
+        "pmv2": null,
+        "pmv3": null,
+        "pmv4": null,
+        "pmv5": null,
+        "remarks": null,
+        "status": 1,
+        "insertTime": 1513061391000,
+        "insertMan": "admin",
+        "lastupdTime": 1513061391000,
+        "lastupdMan": "admin",
+      });
+  }
+  res.send(
+    {
+      "ret": true,
+      "msg": "获取信息成功",
+      "data": {
+        "list": list,
+        pagination: {
+          "total": 100,
+          "currentPage": parseInt(req.query.pageNo),
+          "pageSize": parseInt(req.query.pageSize)
+        }
+
+      }
+    }
+  );
+  /*res.send(
+   {
+   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
+   }
+   // 错误返回信息包括：用户权限不足，请重新登录
+   );*/
+}
+export function getDicTypeForPage(req, res) {
+  let list = new Array();
+  for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
+    list.push(
+      {
+        "pmappname": "ASSOCIATION_CATEGORY",
+        "pmname": "CHUANGXINCHUANGYE",
+        "pmvalue": "创新创业类" + i,
+        "pmv2": null,
+        "pmv3": null,
+        "pmv4": null,
+        "pmv5": null,
+        "remarks": null,
+        "status": 1,
+        "insertTime": 1513061391000,
+        "insertMan": "admin",
+        "lastupdTime": 1513061391000,
+        "lastupdMan": "admin",
+      });
+  }
+  res.send(
+    {
+      "ret": true,
+      "msg": "获取信息成功",
+      "data": {
+        "list": list,
+        pagination: {
+          "total": 100,
+          "currentPage": parseInt(req.query.pageNo),
+          "pageSize": parseInt(req.query.pageSize)
+        }
+
+      }
+    }
+  );
+  /*res.send(
+   {
+   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
+   }
+   // 错误返回信息包括：用户权限不足，请重新登录
+   );*/
+}
+export function getOne(req, res) {
+  res.send(
+    {
+      "ret": true, "msg": "获取信息成功",
+      "data": {
+        "pmappname": "ASSOCIATION_CATEGORY",
+        "pmname": "CHUANGXINCHUANGYE",
+        "pmvalue": "创新创业类",
+        "pmv2": null,
+        "pmv3": null,
+        "pmv4": null,
+        "pmv5": null,
+        "remarks": null,
+        "status": 1,
+        "insertTime": 1513061391000,
+        "insertMan": "admin",
+        "lastupdTime": 1513061391000,
+        "lastupdMan": "admin",
+      },
+    }
+  );
+  /* res.send(
+   {
+   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
+   }
+   );
+   //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
+   */
+}
+export function saveDicParams(req, res) {
+  res.send(
+    {
+      "ret": true, "msg": "添加成功", "data": null
+    }
+  );
+}
+export function saveDicType(req, res) {
+  res.send(
+    {
+      "ret": true, "msg": "添加成功", "data": null
+    }
+  );
+}
+export function setDicParamsIsDisable(req, res) {
+  res.send(
+    {
+      "ret": true, "msg": "禁用成功", "data": null
+    }
+  );
+}
+export function setDicParamsIsEnable(req, res) {
+  res.send(
+    {
+      "ret": true, "msg": "禁用成功", "data": null
+    }
+  );
+}
+export function updateDicParams(req, res) {
+  res.send(
+    {
+      "ret": true, "msg": "修改成功", "data": null
+    }
+  );
+}
+export function updateDicType(req, res) {
+  res.send(
+    {
+      "ret": true, "msg": "修改成功", "data": null
+    }
+  );
+}
 function queryCategory(req, res, u) {
   let url = u;
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
@@ -6,7 +170,6 @@ function queryCategory(req, res, u) {
   }
   const params = getUrlParams(url);
   let data = [];
-  console.log(params.pmappname)
   switch (params.pmappname) {
     case "ASSOCIATION_CATEGORY":
       data = [
@@ -380,109 +543,60 @@ function queryCategory(req, res, u) {
    //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
    */
 }
-
-export function add(req, res) {
+export function getAll(req, res) {
   res.send(
     {
       "ret": true,
-      "msg": "保存成功",
-      "data": null
-    }
-  );
-  /*
-   res.send({
-   "ret": false,
-   "msg": "用户权限不足，请重新登录",
-   "data": null
-   })
-   */
-
-}
-export function update(req, res) {
-  res.send(
-    {
-      "ret": true, "msg": "保存成功", "data": null
-    }
-  );
-  /*res.send(
-   {
-   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
-   }
-   );
-   //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
-   */
-}
-export function queryList(req, res) {
-  let list = new Array();
-  for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
-    list.push(
-      {
-        "pmappname": "ASSOCIATION_CATEGORY",
-        "pmname": "CHUANGXINCHUANGYE",
-        "pmvalue": "创新创业类" + i,
-        "pmv2": null,
-        "pmv3": null,
-        "pmv4": null,
-        "pmv5": null,
-        "remarks": null,
-        "status": 1,
-        "insertTime": 1513061391000,
-        "insertMan": "admin",
-        "lastupdTime": 1513061391000,
-        "lastupdMan": "admin",
-      });
-  }
-  res.send(
-    {
-      "ret": true,
-      "msg": "获取信息成功",
-      "data": {
-        "list": list,
-        pagination: {
-          "total": 100,
-          "currentPage": parseInt(req.query.pageNo),
-          "pageSize": parseInt(req.query.pageSize)
-        }
-
-      }
-    }
-  );
-  /*res.send(
-   {
-   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
-   }
-   // 错误返回信息包括：用户权限不足，请重新登录
-   );*/
-}
-export function getOne(req, res) {
-  res.send(
-    {
-      "ret": true, "msg": "获取信息成功",
-      "data": {
+      "msg": "获取全部字典类型",
+      "data": [{
         "pmappname": "ASSOCIATION_CATEGORY",
         "pmname": "CHUANGXINCHUANGYE",
         "pmvalue": "创新创业类",
-        "pmv2": null,
-        "pmv3": null,
-        "pmv4": null,
-        "pmv5": null,
-        "remarks": null,
-        "status": 1,
-        "insertTime": 1513061391000,
-        "insertMan": "admin",
-        "lastupdTime": 1513061391000,
-        "lastupdMan": "admin",
       },
+        {
+          "pmappname": "ASSOCIATION_CATEGORY",
+          "pmname": "OTHER",
+          "pmvalue": "其他类",
+        },
+        {
+          "pmappname": "ASSOCIATION_CATEGORY",
+          "pmname": "SIXIANGZHENGZHILEI",
+          "pmvalue": "思想政治类",
+        },
+        {
+          "pmappname": "ASSOCIATION_CATEGORY",
+          "pmname": "WENHUATIYU",
+          "pmvalue": "文化体育类",
+        },
+        {
+          "pmappname": "ASSOCIATION_CATEGORY",
+          "pmname": "XUESHUKEJI",
+          "pmvalue": "学术科技类",
+        },
+        {
+          "pmappname": "ASSOCIATION_CATEGORY",
+          "pmname": "ZHIYUANGONGYI",
+          "pmvalue": "志愿公益类",
+        },
+        {
+          "pmappname": "ASSOCIATION_CATEGORY",
+          "pmname": "ZILUHUZHU",
+          "pmvalue": "自律互助类",
+        }]
     }
   );
-  /* res.send(
-   {
-   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
-   }
-   );
-   //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
-   */
 }
 export default {
-  queryCategory, add, update, queryList, getOne
+  deleteDicType,
+  getDicParamsForPage,
+  getDicTypeForPage,
+  getOne,
+  saveDicParams,
+  saveDicType,
+  setDicParamsIsDisable,
+  setDicParamsIsEnable,
+  updateDicParams,
+  updateDicType,
+  queryCategory,
+  getAll
 };
