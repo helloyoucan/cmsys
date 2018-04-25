@@ -6,7 +6,7 @@ import {
 } from 'antd';
 const FormItem = Form.Item;
 @Form.create()
-export default class UserForm extends PureComponent {
+export default class DictionaryForm extends PureComponent {
   state = {
     formValues: {},
   };

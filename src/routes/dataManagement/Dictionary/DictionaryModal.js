@@ -24,7 +24,7 @@ import {
 const FormItem = Form.Item;
 const {Option} = Select;
 @Form.create()
-export default class DictionaryTableModal extends PureComponent {
+export default class DictionaryModal extends PureComponent {
 
   state = {
     addInputValue: '',
