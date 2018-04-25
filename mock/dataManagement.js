@@ -13,6 +13,7 @@ export function getDicParamsForPage(req, res) {
   for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
     list.push(
       {
+        id: i,
         "pmappname": "ASSOCIATION_CATEGORY",
         "pmname": "CHUANGXINCHUANGYE",
         "pmvalue": "创新创业类" + i,
@@ -21,7 +22,7 @@ export function getDicParamsForPage(req, res) {
         "pmv4": null,
         "pmv5": null,
         "remarks": null,
-        "status": 1,
+        "status": i % 2,
         "insertTime": 1513061391000,
         "insertMan": "admin",
         "lastupdTime": 1513061391000,
@@ -55,6 +56,7 @@ export function getDicTypeForPage(req, res) {
   for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
     list.push(
       {
+        id: i,
         "pmappname": "ASSOCIATION_CATEGORY",
         "pmname": "CHUANGXINCHUANGYE",
         "pmvalue": "创新创业类" + i,
@@ -97,6 +99,7 @@ export function getOne(req, res) {
     {
       "ret": true, "msg": "获取信息成功",
       "data": {
+        id: 1,
         "pmappname": "ASSOCIATION_CATEGORY",
         "pmname": "CHUANGXINCHUANGYE",
         "pmvalue": "创新创业类",
@@ -145,7 +148,7 @@ export function setDicParamsIsDisable(req, res) {
 export function setDicParamsIsEnable(req, res) {
   res.send(
     {
-      "ret": true, "msg": "禁用成功", "data": null
+      "ret": true, "msg": "启用成功", "data": null
     }
   );
 }
@@ -543,7 +546,7 @@ function queryCategory(req, res, u) {
    //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
    */
 }
-export function getAll(req, res) {
+export function getAllDicType(req, res) {
   res.send(
     {
       "ret": true,
@@ -598,5 +601,5 @@ export default {
   updateDicParams,
   updateDicType,
   queryCategory,
-  getAll
+  getAllDicType
 };

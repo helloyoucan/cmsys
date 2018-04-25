@@ -19,7 +19,7 @@ import CadreModal from './CadreModal';
 
 @connect(state => ({
   clubUnionCadre: state.clubUnionCadre,
-  dictionary: state.dictionary,
+  dataManagement: state.dataManagement,
 }))
 export default class CadreTable extends PureComponent {
   state = {
@@ -44,7 +44,7 @@ export default class CadreTable extends PureComponent {
   componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
-      type: 'dictionary/queryCollegeName'
+      type: 'dataManagement/queryCollegeName'
     });
     this.getData({});
   }
@@ -278,7 +278,7 @@ export default class CadreTable extends PureComponent {
 
 
   render() {
-    const {clubUnionCadre: {loading: userLoading, data}, dictionary: {collegeName}} = this.props;
+    const {clubUnionCadre: {loading: userLoading, data}, dataManagement: {collegeName}} = this.props;
     let collegeName_obj = {};
     collegeName.forEach((item) => {
       collegeName_obj[item.pmname] = item.pmvalue;

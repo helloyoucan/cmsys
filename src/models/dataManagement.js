@@ -10,7 +10,7 @@ import {
   updateDicParams,
   updateDicType,
   queryforPmappname,
-  getAll
+  getAllDicType
 } from '../services/dataManagement';
 
 export default {
@@ -81,13 +81,21 @@ export default {
       const response = yield call(saveDicType, payload);
       if (callback) callback(response);
     },
-    *setDicParamsIsDisable({payload, callback}, {call}) {
+    *setDicParamsIsDisable({payload, callback}, {call, put}) {
       const response = yield call(setDicParamsIsDisable, payload);
       if (callback) callback(response);
+      yield put({
+        type: 'setDicParamsIsDisableReducers',
+        payload
+      });
     },
-    *setDicParamsIsEnable({payload, callback}, {call}) {
+    *setDicParamsIsEnable({payload, callback}, {call, put}) {
       const response = yield call(setDicParamsIsEnable, payload);
       if (callback) callback(response);
+      yield put({
+        type: 'setDicParamsIsEnableReducers',
+        payload
+      });
     },
     *updateDicParams({payload, callback}, {call}) {
       const response = yield call(updateDicParams, payload);
@@ -133,8 +141,8 @@ export default {
         payload: response.data,
       });
     },
-    *getAll({payload, callback}, {call}) {
-      const response = yield call(getAll, payload);
+    *getAllDicType({payload, callback}, {call}) {
+      const response = yield call(getAllDicType, payload);
       if (callback) callback(response);
     }
   },
@@ -181,6 +189,42 @@ export default {
       return {
         ...state,
         userCategory: payload,
+      };
+    },
+    setDicParamsIsEnableReducers(state, {payload}) {
+      const newUserList = state.dicParams.list.map((item) => {
+        if (item.id == payload.id) {
+          return {
+            ...item,
+            status: 1,
+          }
+        }
+        return item;
+      });
+      return {
+        ...state,
+        dicParams: {
+          ...state.dicParams,
+          list: newUserList
+        }
+      };
+    },
+    setDicParamsIsDisableReducers(state, {payload}) {
+      const newUserList = state.dicParams.list.map((item) => {
+        if (item.id == payload.id) {
+          return {
+            ...item,
+            status: 0,
+          }
+        }
+        return item;
+      });
+      return {
+        ...state,
+        dicParams: {
+          ...state.dicParams,
+          list: newUserList
+        }
       };
     },
   },

@@ -19,7 +19,7 @@ import MemberModal from './MemberModal';
 
 @connect(state => ({
   clubMember: state.clubMember,
-  dictionary: state.dictionary,
+  dataManagement: state.dataManagement,
   currentUser: state.login.currentUser
 }))
 export default class MemberTable extends PureComponent {
@@ -45,7 +45,7 @@ export default class MemberTable extends PureComponent {
   componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
-      type: 'dictionary/queryCollegeName'
+      type: 'dataManagement/queryCollegeName'
     });
     this.getData({})
   }
@@ -207,7 +207,7 @@ export default class MemberTable extends PureComponent {
   }
 
   render() {
-    const {clubMember: {loading: userLoading, data}, dictionary: {collegeName}} = this.props;
+    const {clubMember: {loading: userLoading, data}, dataManagement: {collegeName}} = this.props;
     let collegeName_obj = {};
     collegeName.forEach((item) => {
       collegeName_obj[item.pmname] = item.pmvalue;

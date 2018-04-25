@@ -109,7 +109,7 @@ const proxy = {
   'PUT /sys/dic/updateDicParams': dataManagement.updateDicParams,//修改字典数据接口
   'PUT /sys/dic/updateDicType': dataManagement.updateDicType,//修改字典分类接口
   'GET /sys/dic/getDic': dataManagement.queryCategory,//根据字典分类名称获取字典数据（除了字典类型）接口
-  'GET /sys/dic/getAll': dataManagement.getAll,//根据字典分类名称获取字典数据（除了字典类型）接口
+  'GET /sys/dic/getAllDicType': dataManagement.getAllDicType,//根据字典分类名称获取字典数据（除了字典类型）接口
   /*-------*/
 
 

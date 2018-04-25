@@ -51,7 +51,7 @@ export default class DictionaryTableModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'dataManagement/add',
+              type: 'dataManagement/saveDicParams',
               payload: values,
               callback: (res) => {
                 if (res.ret) {
@@ -74,7 +74,7 @@ export default class DictionaryTableModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'dataManagement/update',
+              type: 'dataManagement/updateDicParams',
               payload: {
                 ...values,
                 id: data.data.id

@@ -81,12 +81,12 @@ export const getNavData = app => [{
         {
           name: '干部管理',
           path: 'ccadre',
-          component: dynamicWrapper(app, ['login', 'club/cadre', 'dictionary'], () => import('../routes/club/Cadre/CadreTable')),
+          component: dynamicWrapper(app, ['login', 'club/cadre', 'dataManagement'], () => import('../routes/club/Cadre/CadreTable')),
         },
         {
           name: '会员管理',
           path: 'member',
-          component: dynamicWrapper(app, ['login', 'club/member', 'dictionary'], () => import('../routes/club/Member/MemberTable')),
+          component: dynamicWrapper(app, ['login', 'club/member', 'dataManagement'], () => import('../routes/club/Member/MemberTable')),
         },
         {
           name: '社团审批',
@@ -151,7 +151,7 @@ export const getNavData = app => [{
         {
           name: '社联干部管理',
           path: 'cucadre',
-          component: dynamicWrapper(app, ['clubUnion/cadre', 'dictionary'], () => import('../routes/clubUnion/Cadre/CadreTable')),
+          component: dynamicWrapper(app, ['clubUnion/cadre', 'dataManagement'], () => import('../routes/clubUnion/Cadre/CadreTable')),
         },
         {
           name: '部门管理',
@@ -161,7 +161,7 @@ export const getNavData = app => [{
         {
           name: '资料下载管理',
           path: 'dataDownload',
-          component: dynamicWrapper(app, ['dictionary', 'file', 'clubUnion/dataDownload'], () => import('../routes/clubUnion/DataDownload/DataDownloadTable')),
+          component: dynamicWrapper(app, ['file', 'clubUnion/dataDownload'], () => import('../routes/clubUnion/DataDownload/DataDownloadTable')),
         },
       ]
     },
@@ -169,7 +169,7 @@ export const getNavData = app => [{
       name: '用户管理',
       path: 'userManagement',
       icon: 'user',
-      component: dynamicWrapper(app, ['user', 'dictionary', 'club/info'], () => import('../routes/User/UserTable')),
+      component: dynamicWrapper(app, ['user', 'dataManagement', 'club/info'], () => import('../routes/User/UserTable')),
     },
     {
       name: '数据管理',
@@ -178,7 +178,7 @@ export const getNavData = app => [{
       children: [
         {
           name: '字典表管理',
-          path: 'dictionary',
+          path: 'dataManagement',
           component: dynamicWrapper(app, ['dataManagement'], () => import('../routes/dataManagement/Dictionary/DictionaryTable')),
         },
         {
@@ -190,7 +190,7 @@ export const getNavData = app => [{
     },
     {
       path: 'success',
-      component: dynamicWrapper(app, ['dictionary'], () => import('../routes/Result/Success')),
+      component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),
     },
   ],
 },

@@ -18,7 +18,7 @@ import moment from 'moment';
 
 @connect(state => ({
   user: state.user,
-  dictionary: state.dictionary,
+  dataManagement: state.dataManagement,
   info: state.info
 }))
 export default class UserTable extends PureComponent {
@@ -42,7 +42,7 @@ export default class UserTable extends PureComponent {
   componentDidMount() {
     const {dispatch} = this.props;
     dispatch({
-      type: 'dictionary/queryUserCategory'
+      type: 'dataManagement/queryUserCategory'
     });
     dispatch({
       type: 'info/getAll',
@@ -215,7 +215,7 @@ export default class UserTable extends PureComponent {
   }
 
   render() {
-    const {user: {loading: userLoading, data}, dictionary: {userCategory}} = this.props;
+    const {user: {loading: userLoading, data}, dataManagement: {userCategory}} = this.props;
     const {clubsNames} = this.state
     let userCategory_obj = {};
     userCategory.forEach((item) => {

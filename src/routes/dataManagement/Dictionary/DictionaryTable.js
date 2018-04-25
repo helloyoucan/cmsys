@@ -5,6 +5,7 @@ import {
   Button,
   message,
   Divider,
+  Switch
 } from 'antd';
 import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
@@ -26,6 +27,7 @@ export default class DictionaryTable extends PureComponent {
       id: '',
       data: {}
     },
+    SwitchLoadingId: '',
     expandForm: false,
     selectedRows: [],
     formValues: {},
@@ -135,6 +137,24 @@ export default class DictionaryTable extends PureComponent {
     this.getData()
   }
 
+  handleChangeStatus(val, id) {
+    let type = val == 0 ? 'dataManagement/setDicParamsIsEnable' : 'dataManagement/setDicParamsIsDisable';
+    this.setState({
+      SwitchLoadingId: id,
+    });
+    this.props.dispatch({
+      type,
+      payload: {
+        id: id
+      },
+      callback: () => {
+        this.setState({
+          SwitchLoadingId: '',
+        });
+      }
+    });
+  }
+
   render() {
     const {dataManagement: {loading: userLoading, dicParams}} = this.props;
     const {selectedRows} = this.state;
@@ -155,17 +175,17 @@ export default class DictionaryTable extends PureComponent {
       {
         title: '状态',
         dataIndex: 'status',
-      },
-      {
-        title: '添加时间',
-        dataIndex: 'insertTime',
-        render(val) {
-          return <span>{moment(val).format('YYYY-MM-DD')}</span>;
+        render: (val, record) => {
+          return (
+            <Switch
+              loading={record.id === this.state.SwitchLoadingId}
+              checked={val == 1}
+              checkedChildren="启用"
+              unCheckedChildren="禁用"
+              onChange={this.handleChangeStatus.bind(this, val, record.id)}
+            />
+          );
         },
-      },
-      {
-        title: '添加人',
-        dataIndex: 'insertMan',
       },
       {
         title: '修改时间',
@@ -177,10 +197,6 @@ export default class DictionaryTable extends PureComponent {
       {
         title: '最后修改人',
         dataIndex: 'lastupdMan',
-      },
-      {
-        title: '备注',
-        dataIndex: 'remarks',
       },
       {
         title: '操作',

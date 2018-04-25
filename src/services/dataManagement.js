@@ -142,8 +142,8 @@ export async function updateDicType(params) {
 export async function queryforPmappname(params) {
   return request(`/sys/dic/getDic?pmappname=${params.type}`);
 }
-export async function getAll(params) {
-  return request(`/sys/dic/getAll`);
+export async function getAllDicType(params) {
+  return request(`/sys/dic/getAllDicType`);
 }
 /*---------下面的为旧接口--------*/
 /*
