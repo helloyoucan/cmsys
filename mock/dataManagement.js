@@ -552,32 +552,32 @@ export function getAllDicType(req, res) {
       "ret": true,
       "msg": "获取全部字典类型",
       "data": [{
-        "pmappname": "ASSOCIATION_CATEGORY",
+        "pmappname": "ASSOCIATION_CATEGORY1",
         "pmname": "CHUANGXINCHUANGYE",
         "pmvalue": "创新创业类",
       },
         {
-          "pmappname": "ASSOCIATION_CATEGORY",
+          "pmappname": "ASSOCIATION_CATEGORY2",
           "pmname": "OTHER",
           "pmvalue": "其他类",
         },
         {
-          "pmappname": "ASSOCIATION_CATEGORY",
+          "pmappname": "ASSOCIATION_CATEGORY3",
           "pmname": "SIXIANGZHENGZHILEI",
           "pmvalue": "思想政治类",
         },
         {
-          "pmappname": "ASSOCIATION_CATEGORY",
+          "pmappname": "ASSOCIATION_CATEGORY4",
           "pmname": "WENHUATIYU",
           "pmvalue": "文化体育类",
         },
         {
-          "pmappname": "ASSOCIATION_CATEGORY",
+          "pmappname": "ASSOCIATION_CATEGORY5",
           "pmname": "XUESHUKEJI",
           "pmvalue": "学术科技类",
         },
         {
-          "pmappname": "ASSOCIATION_CATEGORY",
+          "pmappname": "ASSOCIATION_CATEGORY6",
           "pmname": "ZHIYUANGONGYI",
           "pmvalue": "志愿公益类",
         },

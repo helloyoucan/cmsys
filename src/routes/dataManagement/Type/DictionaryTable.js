@@ -5,8 +5,10 @@ import {
   Button,
   message,
   Divider,
-  Switch
+  Switch,
+  Modal
 } from 'antd';
+const confirm = Modal.confirm;
 import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import DictionaryForm from './DictionaryForm';
@@ -31,26 +33,18 @@ export default class DictionaryTable extends PureComponent {
     expandForm: false,
     selectedRows: [],
     formValues: {},
-    SwitchLoadingId: '',
-    allDicType: []
+    SwitchLoadingId: ''
+
+
   };
 
   componentDidMount() {
     this.getData()
-    this.props.dispatch({
-      type: 'dataManagement/getAllDicType',
-      payload: {},
-      callback: (res) => {
-        this.setState({
-          allDicType: res.data
-        })
-      }
-    });
   }
 
   getData(params) {
     this.props.dispatch({
-      type: 'dataManagement/getDicParamsForPage',
+      type: 'dataManagement/getDicTypeForPage',
       payload: {
         pmappname: '',
         pageNo: 1,
@@ -138,6 +132,54 @@ export default class DictionaryTable extends PureComponent {
     })
   }
 
+  handleDelete(delOneId) {
+    /*
+     * delOneId：删除单个时的传参
+     * */
+    const {dispatch, dataManagement: {dicType: {pagination}}} = this.props;
+    let {selectedRows, formValues} = this.state;
+    /* let ids = selectedRows.map((item) => (item.id));
+     if (arguments.length > 1) {//删除单个
+     ids.push(delOneId);
+     }*/
+    // if (!ids) return;
+    confirm({
+      title: '你确定要删除这条数据吗?',
+      content: '删除后不可恢复',
+      okText: '是的',
+      okType: 'danger',
+      cancelText: '不，取消',
+      onOk: () => {
+        dispatch({
+          type: 'dataManagement/changeLoading',
+          payload: {
+            bool: true,
+          },
+        });
+        dispatch({
+          type: 'dataManagement/deleteDicType',
+          payload: {
+            id: delOneId
+          },
+          callback: () => {
+            this.getData({
+              ...formValues,
+              pageNo: pagination.currentPage,
+              pageSize: pagination.pageSize,
+            })
+            this.setState({
+              selectedRows: [],
+            });
+          }
+        });
+      },
+      onCancel() {
+        message.warning('您取消了操作');
+      },
+    });
+
+  }
+
   handleFormReset() {
     this.setState({
       formValues: {}
@@ -145,27 +187,10 @@ export default class DictionaryTable extends PureComponent {
     this.getData()
   }
 
-  handleChangeStatus(val, id) {
-    let type = val == 0 ? 'dataManagement/setDicParamsIsEnable' : 'dataManagement/setDicParamsIsDisable';
-    this.setState({
-      SwitchLoadingId: id,
-    });
-    this.props.dispatch({
-      type,
-      payload: {
-        id: id
-      },
-      callback: () => {
-        this.setState({
-          SwitchLoadingId: '',
-        });
-      }
-    });
-  }
 
   render() {
-    const {dataManagement: {loading: userLoading, dicParams}} = this.props;
-    const {selectedRows, allDicType} = this.state;
+    const {dataManagement: {loading: userLoading, dicType}} = this.props;
+    const {selectedRows} = this.state;
     const columns = [
       {
         title: '分类名称',
@@ -178,22 +203,6 @@ export default class DictionaryTable extends PureComponent {
       {
         title: '项值',
         dataIndex: 'pmvalue',
-      },
-
-      {
-        title: '状态',
-        dataIndex: 'status',
-        render: (val, record) => {
-          return (
-            <Switch
-              loading={record.id === this.state.SwitchLoadingId}
-              checked={val == 1}
-              checkedChildren="启用"
-              unCheckedChildren="禁用"
-              onChange={this.handleChangeStatus.bind(this, val, record.id)}
-            />
-          );
-        },
       },
       {
         title: '修改时间',
@@ -214,6 +223,8 @@ export default class DictionaryTable extends PureComponent {
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
             <Divider type="vertical"/>
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
+            <Divider type="vertical"/>
+            <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
           </div>
         ),
       },
@@ -243,7 +254,7 @@ export default class DictionaryTable extends PureComponent {
               selectedRows={selectedRows}
               loading={userLoading}
               columns={columns}
-              data={dicParams}
+              data={dicType}
               isSelect={false}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
@@ -254,7 +265,6 @@ export default class DictionaryTable extends PureComponent {
                          modalLoading={this.state.modalLoading}
                          data={this.state.modalData}
                          dispatch={this.props.dispatch}
-                         allDicType={allDicType}
                          handleModalVisible={this.handleModalVisible.bind(this)}/>
 
       </PageHeaderLayout>

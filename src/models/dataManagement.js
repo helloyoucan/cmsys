@@ -157,7 +157,7 @@ export default {
     getDicTypeForPageReducers(state, {payload}) {
       return {
         ...state,
-        dicParams: payload,
+        dicType: payload,
       };
     },
     changeLoading(state, {payload}) {

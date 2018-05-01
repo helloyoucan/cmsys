@@ -51,7 +51,7 @@ export default class DictionaryModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'dataManagement/saveDicParams',
+              type: 'dataManagement/saveDicType',
               payload: values,
               callback: (res) => {
                 if (res.ret) {
@@ -74,7 +74,7 @@ export default class DictionaryModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'dataManagement/updateDicParams',
+              type: 'dataManagement/updateDicType',
               payload: {
                 ...values,
                 id: data.data.id
@@ -103,7 +103,7 @@ export default class DictionaryModal extends PureComponent {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {data, modalLoading, allDicType} = this.props;
+    const {data, modalLoading} = this.props;
     const {pmappname, pmname, pmvalue} = data.data == undefined ? this.state.formData : data.data;
     const formData = data.data == undefined ? {} : data.data;
     let title = '';
@@ -122,7 +122,7 @@ export default class DictionaryModal extends PureComponent {
     }
     return (
       <Modal
-        title={title + '字典表'}
+        title={title + '字典类型'}
         visible={this.props.modalVisible}
         onOk={this.handleOK.bind(this)}
         onCancel={() => this.props.handleModalVisible()}
@@ -132,15 +132,6 @@ export default class DictionaryModal extends PureComponent {
           <Card loading={modalLoading} bordered={false}>
             <LineMessage label="分类名称">
               {formData.pmappname}
-            </LineMessage>
-            <LineMessage label="项名">
-              {formData.pmname}
-            </LineMessage>
-            <LineMessage label="项值">
-              {formData.pmvalue}
-            </LineMessage>
-            <LineMessage label="状态">
-              {formData.status == 1 ? '启用' : '禁用'}
             </LineMessage>
             <LineMessage label="添加时间">
               {moment(formData.insertTime).format('YYYY-MM-DD')}
@@ -155,7 +146,7 @@ export default class DictionaryModal extends PureComponent {
             <LineMessage label="最后修改人">
               {formData.lastupdMan}
             </LineMessage>
-          {/*  <LineMessage label="备注">
+           {/* <LineMessage label="备注">
               {formData.remarks}
             </LineMessage>*/}
           </Card>
@@ -168,31 +159,6 @@ export default class DictionaryModal extends PureComponent {
             >  {getFieldDecorator('pmappname', {
               rules: [{required: true, message: '请输入!', whitespace: true}],
               initialValue: pmappname
-            })(
-              <Select style={{width: '100%'}}>
-                {allDicType.map((item, index) => (
-                  <Option key={index} value={item.pmappname}>{item.pmappname}</Option>))}
-              </Select>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="项名"
-            >  {getFieldDecorator('pmname', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: pmname
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="项值"
-            >  {getFieldDecorator('pmvalue', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: pmvalue
             })(
               <Input/>
             )}
