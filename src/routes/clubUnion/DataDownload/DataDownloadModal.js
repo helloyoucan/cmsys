@@ -201,7 +201,7 @@ export default class DataDownloadModal extends PureComponent {
               rules: [{required: true, message: '请输入!', whitespace: true}],
               initialValue: formData.remarks
             })(
-              <Input/>
+              <TextArea rows={3}/>
             )}
             </FormItem>
 
