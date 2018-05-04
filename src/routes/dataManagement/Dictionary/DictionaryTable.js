@@ -195,17 +195,6 @@ export default class DictionaryTable extends PureComponent {
         },
       },
       {
-        title: '修改时间',
-        dataIndex: 'lastupdTime',
-        render(val) {
-          return <span>{moment(val).format('YYYY-MM-DD')}</span>;
-        },
-      },
-      {
-        title: '最后修改人',
-        dataIndex: 'lastupdMan',
-      },
-      {
         title: '操作',
         dataIndex: 'id',
         render: (val) => (

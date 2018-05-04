@@ -13,13 +13,13 @@ export const getNavData = app => [{
   layout: 'BasicLayout',
   path: '/',
   children: [{
-    name: '概览',
+    name: '首页',
     path: 'home',
     icon: 'home',
     insert_man: 'admin', // 权限控制
     component: dynamicWrapper(app, [], () => import('../routes/new/test')),
   },
-    {
+   /* {
       name: '前台管理',
       path: 'frontDeskManagement',
       icon: 'ie',
@@ -30,7 +30,7 @@ export const getNavData = app => [{
           component: dynamicWrapper(app, [], () => import('../routes/new/test')),
         },
       ]
-    },
+    },*/
     {
       name: '任务管理',
       path: 'task',
@@ -107,11 +107,11 @@ export const getNavData = app => [{
               path: 'logoutList',
               component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/club/Logout/LogoutTable')),
             },
-            {
+           /* {
               name: '注销申请',
               path: 'clubLogoutPage',
               component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/club/Logout/LogoutPage')),
-            },
+            },*/
             {
               name: '注销进度查看',
               path: 'logoutRead',
@@ -143,21 +143,21 @@ export const getNavData = app => [{
       path: 'clubUnionManagement',
       icon: 'solution',
       children: [
-        {
+        /*{
           name: '基本信息',
           path: 'cuinfo',
           component: dynamicWrapper(app, ['clubUnion/info'], () => import('../routes/clubUnion/Info/InfoPage')),
-        },
+        },*/
         {
           name: '社联干部管理',
           path: 'cucadre',
           component: dynamicWrapper(app, ['clubUnion/cadre', 'dataManagement'], () => import('../routes/clubUnion/Cadre/CadreTable')),
         },
-        {
+        /*{
           name: '部门管理',
           path: 'department',
           component: dynamicWrapper(app, ['clubUnion/department'], () => import('../routes/clubUnion/Department/DepartmentTable')),
-        },
+        },*/
         {
           name: '资料下载管理',
           path: 'dataDownload',

@@ -3,7 +3,8 @@ import {connect} from 'dva';
 import {
   message,
   Card,
-  Button
+  Button,
+  Spin
 } from 'antd';
 import {Link} from 'dva/router';
 import Result from '../../../../components/Result/index';
@@ -40,7 +41,11 @@ export default class clubLogoutProgress extends PureComponent {
   }
 
   render() {
-    const extra = (<img src={this.state.imgUrl} alt=""/>)
+    const {imgUrl} = this.state
+    const extra = (
+      imgUrl == '' ? (<div style={ {textAlign: 'center'}}><Spin /></div>) :
+        ( <img src={imgUrl} alt="进度图"/>)
+    )
     const actions = (
       <div>
         <Button type="primary"><Link to={`/task/tSClubLogout`}>返回列表</Link></Button>

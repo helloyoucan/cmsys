@@ -87,7 +87,7 @@ export default class CadreModal extends PureComponent {
                 if (res.ret) {
                   this.props.handleModalVisible();
                   this.props.form.resetFields();
-                  this.props.handelGetData({}, true);
+                  this.props.getData({}, true);
                 }
                 this.setState({
                   confirmLoading: false,
@@ -167,7 +167,7 @@ export default class CadreModal extends PureComponent {
             <LineMessage label="奖罚情况">
               {formData.sanction}
             </LineMessage>
-            <LineMessage label="添加时间">
+           {/* <LineMessage label="添加时间">
               {moment(formData.insertTime).format('YYYY-MM-DD')}
             </LineMessage>
             <LineMessage label="添加人">
@@ -178,7 +178,7 @@ export default class CadreModal extends PureComponent {
             </LineMessage>
             <LineMessage label="最后修改人">
               {formData.lastupdMan}
-            </LineMessage>
+            </LineMessage>*/}
             <LineMessage label="备注">
               {formData.remarks}
             </LineMessage>

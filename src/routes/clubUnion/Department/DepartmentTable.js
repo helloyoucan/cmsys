@@ -35,30 +35,28 @@ export default class DepartmentTable extends PureComponent {
   };
 
   componentDidMount() {
-    const {dispatch} = this.props;
-    dispatch({
+    this.getData({})
+  }
+
+  getData(params) {
+    this.props.dispatch({
       type: 'clubDepartment/queryList',
       payload: {
         categoryId: '',
         pageNo: 1,
-        pageSize: 10
+        pageSize: 10,
+        ...params
       }
     });
   }
 
   handleStandardTableChange = (pagination) => {
-    const {dispatch} = this.props;
     const {formValues} = this.state;
-
-    const params = {
+    this.getData({
       categoryId: formValues.categoryId,
       pageNo: pagination.current,
       pageSize: pagination.pageSize,
-    };
-    dispatch({
-      type: 'clubDepartment/queryList',
-      payload: params,
-    });
+    })
   }
 
   handelModal(key, id) {
@@ -125,15 +123,11 @@ export default class DepartmentTable extends PureComponent {
     this.setState({
       formValues: value
     });
-    const {dispatch} = this.props;
-    dispatch({
-      type: 'clubDepartment/queryList',
-      payload: {
-        categoryId: value.categoryId,
-        pageNo: 1,
-        pageSize: 10
-      }
-    });
+    this.getData({
+      categoryId: value.categoryId,
+      pageNo: 1,
+      pageSize: 10
+    })
   }
 
   handleFormReset() {
@@ -166,14 +160,11 @@ export default class DepartmentTable extends PureComponent {
         ids: ids
       },
       callback: () => {
-        dispatch({
-          type: 'clubDepartment/queryList',
-          payload: {
-            ...formValues,
-            pageNo: pagination.currentPage,
-            pageSize: pagination.pageSize,
-          },
-        });
+        this.getData({
+          ...formValues,
+          pageNo: pagination.currentPage,
+          pageSize: pagination.pageSize,
+        })
         this.setState({
           selectedRows: [],
         });
@@ -223,7 +214,7 @@ export default class DepartmentTable extends PureComponent {
           );
         },
       },
-      {
+     /* {
         title: '添加时间',
         dataIndex: 'insertTime',
         render(val) {
@@ -236,8 +227,8 @@ export default class DepartmentTable extends PureComponent {
         render(val) {
           return val;
         },
-      },
-      {
+      },*/
+      /*{
         title: '最后修改时间',
         dataIndex: 'lastupdTime',
         render(val) {
@@ -250,7 +241,7 @@ export default class DepartmentTable extends PureComponent {
         render(val) {
           return val;
         },
-      },
+      },*/
       {
         title: '操作',
         dataIndex: 'id',
@@ -298,10 +289,10 @@ export default class DepartmentTable extends PureComponent {
           </div>
         </Card>
         <DepartmentModal modalVisible={this.state.modalVisible}
-                        modalLoading={this.state.modalLoading}
-                        data={this.state.modalData}
-                        dispatch={this.props.dispatch}
-                        handleModalVisible={this.handleModalVisible.bind(this)}/>
+                         modalLoading={this.state.modalLoading}
+                         data={this.state.modalData}
+                         dispatch={this.props.dispatch}
+                         handleModalVisible={this.handleModalVisible.bind(this)}/>
 
       </PageHeaderLayout>
     );

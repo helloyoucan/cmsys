@@ -133,6 +133,12 @@ export default class DictionaryModal extends PureComponent {
             <LineMessage label="分类名称">
               {formData.pmappname}
             </LineMessage>
+            <LineMessage label="项名">
+              {formData.pmname}
+            </LineMessage>
+            <LineMessage label="项值">
+              {formData.pmvalue}
+            </LineMessage>
             <LineMessage label="添加时间">
               {moment(formData.insertTime).format('YYYY-MM-DD')}
             </LineMessage>
@@ -140,12 +146,12 @@ export default class DictionaryModal extends PureComponent {
             <LineMessage label="添加人">
               {formData.insertMan}
             </LineMessage>
-            <LineMessage label="最后修改时间">
+           {/* <LineMessage label="最后修改时间">
               {moment(formData.lastupdTime).format('YYYY-MM-DD')}
             </LineMessage>
             <LineMessage label="最后修改人">
               {formData.lastupdMan}
-            </LineMessage>
+            </LineMessage>*/}
            {/* <LineMessage label="备注">
               {formData.remarks}
             </LineMessage>*/}

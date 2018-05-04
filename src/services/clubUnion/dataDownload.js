@@ -17,12 +17,13 @@ export async function queryList(params) {
    pageNo	页码，默认为1	否	int
    pageSize	每页显示条数，默认为10	否	int
    * */
-  return request('/sys/datadow/getPage', {
-    method: 'POST',
+  return request(`/sys/datadow/getPage?${stringify(params)}`);
+  /*return request('/sys/datadow/getPage', {
+    method: 'GET',
     body: {
       ...params,
     },
-  });
+  });*/
 }
 export async function add(params) {
   /*

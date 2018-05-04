@@ -48,6 +48,7 @@ export default class UserTable extends PureComponent {
       type: 'info/getAll',
       payload: {},
       callback: (res) => {
+        res.data.unshift({name: "不属于任何社团", id: -1})
         this.setState({
           clubsNames: res.data
         })
@@ -218,7 +219,7 @@ export default class UserTable extends PureComponent {
     const {user: {loading: userLoading, data}, dataManagement: {userCategory}} = this.props;
     const {clubsNames} = this.state
     let userCategory_obj = {};
-    userCategory.forEach((item) => {
+    userCategory && userCategory.forEach((item) => {
       userCategory_obj[item.pmname] = item.pmvalue;
     });
     const {selectedRows} = this.state;
@@ -255,7 +256,7 @@ export default class UserTable extends PureComponent {
         render(val) {
           if (val == -1) return '';
           const club = clubsNames.find((item => {
-            return item.id === val
+            return item.id == val
           }));
           if (club != undefined) {
             return club.name;

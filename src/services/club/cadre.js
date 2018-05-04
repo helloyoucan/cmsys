@@ -25,7 +25,7 @@ export async function queryList(params) {//GET
   return request(`/sys/asscadre/getPage?${stringify(params)}`);
 }
 export async function enable(params) {
-  return request(`/sys/asscadre/job?ids = ${params.ids.join(',')}`, {
+  return request(`/sys/asscadre/job?ids=${params.ids.join(',')}`, {
     method: 'PUT'
   });
 }

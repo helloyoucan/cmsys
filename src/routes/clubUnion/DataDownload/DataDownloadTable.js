@@ -278,6 +278,7 @@ export default class DataDownloadTable extends PureComponent {
         <DataDownloadModal modalVisible={this.state.modalVisible}
                            modalLoading={this.state.modalLoading}
                            data={this.state.modalData}
+                           getData ={this.getData.bind(this)}
                            dispatch={this.props.dispatch}
                            handleModalVisible={this.handleModalVisible.bind(this)}
         />

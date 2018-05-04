@@ -142,7 +142,7 @@ export default class DictionaryModal extends PureComponent {
             <LineMessage label="状态">
               {formData.status == 1 ? '启用' : '禁用'}
             </LineMessage>
-            <LineMessage label="添加时间">
+           {/* <LineMessage label="添加时间">
               {moment(formData.insertTime).format('YYYY-MM-DD')}
             </LineMessage>
 
@@ -154,7 +154,7 @@ export default class DictionaryModal extends PureComponent {
             </LineMessage>
             <LineMessage label="最后修改人">
               {formData.lastupdMan}
-            </LineMessage>
+            </LineMessage>*/}
           {/*  <LineMessage label="备注">
               {formData.remarks}
             </LineMessage>*/}

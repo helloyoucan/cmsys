@@ -4,7 +4,11 @@ export default {
   state: {
     data: {
       list: [],
-      pagination: {},
+      pagination: {
+        categoryId: '',
+        pageNo: 1,
+        pageSize: 10
+      },
     },
     loading: true,
     modalLoading: true,
@@ -23,10 +27,12 @@ export default {
         payload: true,
       });
       const response = yield call(queryList, payload);
-      yield put({
-        type: 'queryListReducers',
-        payload: response.data,
-      });
+      if (response && response.ret) {
+        yield put({
+          type: 'queryListReducers',
+          payload: response.data,
+        });
+      }
       yield put({
         type: 'changeLoadingReducers',
         payload: false,

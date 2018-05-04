@@ -204,7 +204,7 @@ export default class DictionaryTable extends PureComponent {
         title: '项值',
         dataIndex: 'pmvalue',
       },
-      {
+      /*{
         title: '修改时间',
         dataIndex: 'lastupdTime',
         render(val) {
@@ -214,7 +214,7 @@ export default class DictionaryTable extends PureComponent {
       {
         title: '最后修改人',
         dataIndex: 'lastupdMan',
-      },
+      },*/
       {
         title: '操作',
         dataIndex: 'id',

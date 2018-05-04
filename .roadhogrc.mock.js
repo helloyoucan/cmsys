@@ -119,8 +119,8 @@ const proxy = {
 //社联-资料下载管理(接口对接完成-页面修改完成)
   'DELETE /sys/datadow/delete': clubUnionDataDownload.del,
   'GET /sys/datadow/getOne': clubUnionDataDownload.getOne,
-  //'GET /sys/datadow/getPage': clubUnionDataDownload.queryList,
-  'POST /sys/datadow/getPage': clubUnionDataDownload.queryList,
+  'GET /sys/datadow/getPage': clubUnionDataDownload.queryList,
+  //'POST /sys/datadow/getPage': clubUnionDataDownload.queryList,
   'POST /sys/datadow/save': clubUnionDataDownload.add,
   'PUT /sys/datadow/setDataDowIsDisable': clubUnionDataDownload.disable,
   'PUT /sys/datadow/setDataDowIsEnable': clubUnionDataDownload.enable,

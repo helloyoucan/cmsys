@@ -12,7 +12,8 @@ import {
   Radio,
   Upload,
   Button,
-  Icon
+  Icon,
+  message
 } from 'antd';
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
@@ -27,7 +28,9 @@ export default class DataDownloadModal extends PureComponent {
     formData: {
       name: '',
       path: '',
-      remarks: '',
+      onlinePath: '',
+      fileName: '',
+      remarks: ''
     },
     ModalTitle: '',
   };
@@ -51,11 +54,16 @@ export default class DataDownloadModal extends PureComponent {
             });
             this.props.dispatch({
               type: 'dataDownload/add',
-              payload: values,
+              payload: {
+                ...values,
+                status: 1,
+                path: this.state.formData.onlinePath
+              },
               callback: (res) => {
                 if (res.ret) {
                   this.props.handleModalVisible();
                   this.props.form.resetFields();
+                  this.props.getData({})
                 }
                 this.setState({
                   confirmLoading: false,
@@ -76,12 +84,14 @@ export default class DataDownloadModal extends PureComponent {
               type: 'dataDownload/update',
               payload: {
                 ...values,
+                path: this.state.formData.onlinePath == '' ? this.state.formData.path : this.state.formData.onlinePath,
                 id: data.data.id
               },
               callback: (res) => {
                 if (res.ret) {
                   this.props.handleModalVisible();
                   this.props.form.resetFields();
+                  this.props.getData({})
                 }
                 this.setState({
                   confirmLoading: false,
@@ -119,20 +129,33 @@ export default class DataDownloadModal extends PureComponent {
         break;
     }
     const uploadSetting = {
-      name: 'file',
-      action: '//jsonplaceholder.typicode.com/posts/',
+      showUploadList: false,
+      name: 'fileName',
+      action: '/sys/file/uploadDataDowFile',
       headers: {
         authorization: 'authorization-text',
       },
-      onChange(info) {
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList);
-        }
+      onChange: (info) => {
+        /*if (info.file.status !== 'uploading') {
+         console.log(info.file, info.fileList);
+         }*/
         if (info.file.status === 'done') {
-          //message.success(`${info.file.name} file uploaded successfully`);
+          if (typeof info.file.response == 'string') {
+            message.success('上传成功');
+            this.setState({
+              formData: {
+                ...this.state.formData,
+                onlinePath: info.file.response,
+                name: info.file.name
+              }
+            })
+          } else {
+            message.error(`上传失败`);
+          }
         } else if (info.file.status === 'error') {
-          // message.error(`${info.file.name} file upload failed.`);
+          message.error(`上传失败`);
         }
+
       },
     };
     return (
@@ -183,14 +206,17 @@ export default class DataDownloadModal extends PureComponent {
               wrapperCol={{span: 15}}
               label="文件路径"
             >  {getFieldDecorator('path', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
+              rules: [{required: true, message: '请上传文件!'}],
               initialValue: formData.path
             })(
-              <Upload {...uploadSetting}>
-                <Button>
-                  <Icon type="upload"/> Click to Upload
-                </Button>
-              </Upload>
+              <div>
+                <Upload {...uploadSetting}>
+                  <Button>
+                    <Icon type="upload"/> 上传文件
+                  </Button>
+                </Upload>
+                <p>{this.state.formData.name}</p>
+              </div>
             )}
             </FormItem>
             <FormItem

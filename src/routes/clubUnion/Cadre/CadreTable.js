@@ -400,7 +400,7 @@ export default class CadreTable extends PureComponent {
                     handleModalVisible={this.handleModalVisible.bind(this)}
                     collegeName={collegeName}
                     collegeNameObj={collegeName_obj}
-                    handle={this.getData.bind(this)}
+                    getData={this.getData.bind(this)}
         />
 
       </PageHeaderLayout>

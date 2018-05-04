@@ -24,7 +24,7 @@ export async function queryList(params) {//GET
   return request(`/sys/saucadre/getPage?${stringify(params)}`);
 }
 export async function enable(params) {
-  return request(`/sys/saucadre/job?ids = ${params.ids.join(',')}`, {
+  return request(`/sys/saucadre/job?ids=${params.ids.join(',')}`, {
     method: 'PUT'
   });
 }
