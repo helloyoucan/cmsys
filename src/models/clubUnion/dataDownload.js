@@ -1,4 +1,4 @@
-import {queryList, add, getOne, update, enable, disable, dels} from '../../services/clubUnion/dataDownload';
+import {queryList, add, getOne, update, enable, disable, del} from '../../services/clubUnion/dataDownload';
 export default {
   namespace: 'dataDownload',
   state: {
@@ -50,7 +50,7 @@ export default {
         yield put({
           type: 'enableReducers',
           payload: {
-            ids: payload.ids,
+            id: payload.id,
           }
         });
       }
@@ -62,17 +62,17 @@ export default {
         yield put({
           type: 'disableReducers',
           payload: {
-            ids: payload.ids,
+            id: payload.id,
           }
         });
       }
       if (callback) callback(response);
     },
-    *dels({payload, callback}, {call, put,}) {
-      const response = yield call(dels, payload);
+    *del({payload, callback}, {call, put,}) {
+      const response = yield call(del, payload);
       if (response.ret) {
         yield put({
-          type: 'delsReducers',
+          type: 'delReducers',
           payload: {
             ids: payload.ids,
           }
@@ -80,7 +80,6 @@ export default {
       }
       if (callback) callback(response);
     },
-
   },
 
   reducers: {
@@ -98,7 +97,7 @@ export default {
     },
     enableReducers(state, {payload}) {
       const newList = state.data.list.map((item) => {
-        if (payload.ids.find((id) => (id == item.id)) != undefined) {
+        if (payload.id == item.id) {
           return {
             ...item,
             status: 1,
@@ -116,7 +115,7 @@ export default {
     },
     disableReducers(state, {payload}) {
       const newList = state.data.list.map((item) => {
-        if (payload.ids.find((id) => (id == item.id)) != undefined) {
+        if (payload.id == item.id) {
           return {
             ...item,
             status: 0,
@@ -132,9 +131,9 @@ export default {
         }
       };
     },
-    delsReducers(state, {payload}) {
+    delReducers(state, {payload}) {
       const newList = state.data.list.filter((item) => {
-        return payload.ids.find((id) => (id == item.id)) == undefined;
+        return payload.id == item.id
       });
       return {
         ...state,

@@ -1,69 +1,69 @@
 import request from '../../utils/request';
 import {stringify} from 'qs';
 
-//添加用户
-export async function add(params) {
-  /*
-   *username	用户名	是	String
-   categoryId	用户类型	是	String
-   associationId	社团ID，只有社团管理员才需要传	否	int
-   status	用户状态，可不传，后端默认设置为启用	否	int
-   * */
-  return request('/sys/dataDownload/save', {
-    method: 'POST',
-    body: {
-      ...params,
-    },
+
+export async function del(params) {
+  return request(`/sys/datadow/delete?id=${params.id}`, {
+    method: 'DELETE',
   });
 }
-export async function enable(params) {
-  return request(`/sys/dataDownload/job?ids=${params.ids}`);
+export async function getOne(params) {
+  return request(`/sys/datadow/getOne?id=${params.id}`);
 }
-export async function disable(params) {
-  /*
-   * params:{
-   * ids:''
-   * }
-   * */
-  return request(`/sys/dataDownload/quit?ids=${params.ids}`);
-}
-export async function update(params) {
-  /**
-   id  用户id  是  int
-   username  用户名  是  String
-   categoryId  用户类型  是  String
-   associationId  社团ID，只有社团管理员才需要传  否  int
-   status  用户状态，可不传，后端默认设置为启用  否  int
-
-   * */
-  return request('/sys/dataDownload/update', {
-    method: 'POST',
-    body: {
-      ...params,
-    },
-  });
-}
-
 export async function queryList(params) {
   /*
    params:
-   categoryId	用户类型	否	String
+   keyword	关键词
    pageNo	页码，默认为1	否	int
    pageSize	每页显示条数，默认为10	否	int
    * */
-  // return request(`/sys/dataDownload/page?${stringify(params)}`);
-  return request('/sys/dataDownload/page', {
+  return request('/sys/datadow/getPage', {
     method: 'POST',
     body: {
       ...params,
     },
   });
 }
+export async function add(params) {
+  /*
+   id (integer, optional): 资料编号 ,
+   name (string, optional): 资料名称 ,
+   path (string, optional): 资料路径 ,
+   remarks (string, optional): 备注 ,
+   status (integer, optional): 资料状态，0为不显示，1为显示*/
+  return request('/sys/datadow/save', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}
+export async function disable(params) {
+  return request(`/sys/datadow/setDataDowIsDisable?id=${params.id}`, {
+    method: 'PUT',
+  });
+}
+export async function enable(params) {
+  return request(`/sys/datadow/setDataDowIsEnable?id=${params.id}`, {
+    method: 'PUT',
+  });
+}
+export async function update(params) {
+  /**
+   id (integer, optional): 资料编号 ,
+   name (string, optional): 资料名称 ,
+   path (string, optional): 资料路径 ,
+   remarks (string, optional): 备注 ,
+   status (integer, optional): 资料状态，0为不显示，1为显示
+   */
+  return request('/sys/datadow/update', {
+    method: 'PUT',
+    body: {
+      ...params,
+    },
+  });
+}
 
-export async function getOne(params) {
-  return request(`/sys/dataDownload/getOne?id=${params.id}`);
-}
-export async function dels(params) {
-  return request(`/sys/dataDownload/delete?ids=${params.ids}`);
-}
+
+
 

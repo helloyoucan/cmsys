@@ -65,7 +65,26 @@ const proxy = {
   'GET /sys/assmember/getPage': clubMember.queryList,//分页获取社团会员列表接口
   'POST /sys/assmember/save': clubMember.add,//添加社团会员信息接口(社团管理员
   'PUT /sys/assmember/update': clubMember.update,//更新社团会员信息接口（社团管理员）
-
+  //字典管理(已完成接口对接-页面修改完成)
+  'DELETE /sys/dic/deleteDicType': dataManagement.deleteDicType,//根据id删除字典分类接口*
+  'GET /sys/dic/getDicParamsForPage': dataManagement.getDicParamsForPage,//分页获取字典数据接口*
+  'GET /sys/dic/getDicTypeForPage': dataManagement.getDicTypeForPage,//分页获取字典分类接口*
+  'GET /sys/dic/getOne': dataManagement.getOne,//根据id获取字典表数据接口*
+  'POST /sys/dic/saveDicParams': dataManagement.saveDicParams,//新增字典数据接口*
+  'POST /sys/dic/saveDicType': dataManagement.saveDicType,//新增字典分类接口
+  'PUT /sys/dic/setDicParamsIsDisable': dataManagement.setDicParamsIsDisable,//根据id禁用字典表数据接口*
+  'PUT /sys/dic/setDicParamsIsEnable': dataManagement.setDicParamsIsEnable,//根据id启用字典表数据接口*
+  'PUT /sys/dic/updateDicParams': dataManagement.updateDicParams,//修改字典数据接口*
+  'PUT /sys/dic/updateDicType': dataManagement.updateDicType,//修改字典分类接口
+  'GET /sys/dic/getDic': dataManagement.queryCategory,//根据字典分类名称获取字典数据（除了字典类型）接口*
+  'GET /sys/dic/getAllDicType': dataManagement.getAllDicType,//根据字典分类名称获取字典数据（除了字典类型）接口*
+  /*-------*/
+  /*  'GET /sys/dic/getDisCategoryForPage': '',//分页获取所有的字典类型接口
+   'GET /sys/dic/getDisCategoryIsEnable': '',//获取所有启用状态的字典类型接口
+   'GET /sys/dic/getDisForPage': Dictionary.queryList,//分页获取所有的字典数据（除了字典类型）接口
+   'POST /sys/dic/save': Dictionary.add,
+   'POST /sys/dic/update': Dictionary.update,
+   'GET /sys/dic/getOne': Dictionary.getOne,*/
   /*--------上面为已经完成-------*/
   //文件上传
   'POST /sys/file/upload': File.uploadFile,
@@ -97,39 +116,18 @@ const proxy = {
   'GET /sys/ass/getOne': clubInfo.getOne,//根据id获取社团信息接口
   'GET /sys/ass/getAllIdAndName': clubInfo.getAll,//获取所有社团的接口
 
-  //字典管理
-  'DELETE /sys/dic/deleteDicType': dataManagement.deleteDicType,//根据id删除字典分类接口*
-  'GET /sys/dic/getDicParamsForPage': dataManagement.getDicParamsForPage,//分页获取字典数据接口*
-  'GET /sys/dic/getDicTypeForPage': dataManagement.getDicTypeForPage,//分页获取字典分类接口*
-  'GET /sys/dic/getOne': dataManagement.getOne,//根据id获取字典表数据接口*
-  'POST /sys/dic/saveDicParams': dataManagement.saveDicParams,//新增字典数据接口*
-  'POST /sys/dic/saveDicType': dataManagement.saveDicType,//新增字典分类接口
-  'PUT /sys/dic/setDicParamsIsDisable': dataManagement.setDicParamsIsDisable,//根据id禁用字典表数据接口*
-  'PUT /sys/dic/setDicParamsIsEnable': dataManagement.setDicParamsIsEnable,//根据id启用字典表数据接口*
-  'PUT /sys/dic/updateDicParams': dataManagement.updateDicParams,//修改字典数据接口*
-  'PUT /sys/dic/updateDicType': dataManagement.updateDicType,//修改字典分类接口
-  'GET /sys/dic/getDic': dataManagement.queryCategory,//根据字典分类名称获取字典数据（除了字典类型）接口*
-  'GET /sys/dic/getAllDicType': dataManagement.getAllDicType,//根据字典分类名称获取字典数据（除了字典类型）接口*
-  /*-------*/
-
-
-/*  'GET /sys/dic/getDisCategoryForPage': '',//分页获取所有的字典类型接口
-  'GET /sys/dic/getDisCategoryIsEnable': '',//获取所有启用状态的字典类型接口
-  'GET /sys/dic/getDisForPage': Dictionary.queryList,//分页获取所有的字典数据（除了字典类型）接口
-  'POST /sys/dic/save': Dictionary.add,
-  'POST /sys/dic/update': Dictionary.update,
-  'GET /sys/dic/getOne': Dictionary.getOne,*/
+//社联-资料下载管理(接口对接完成-页面修改完成)
+  'DELETE /sys/datadow/delete': clubUnionDataDownload.del,
+  'GET /sys/datadow/getOne': clubUnionDataDownload.getOne,
+  //'GET /sys/datadow/getPage': clubUnionDataDownload.queryList,
+  'POST /sys/datadow/getPage': clubUnionDataDownload.queryList,
+  'POST /sys/datadow/save': clubUnionDataDownload.add,
+  'PUT /sys/datadow/setDataDowIsDisable': clubUnionDataDownload.disable,
+  'PUT /sys/datadow/setDataDowIsEnable': clubUnionDataDownload.enable,
+  'PUT /sys/datadow/update': clubUnionDataDownload.update,
 
 
   /*---------------上面是已确定的----------*/
-  //社联-资料下载管理
-  'POST /sys/dataDownload/save': clubUnionDataDownload.add,
-  'GET /sys/dataDownload/enable': clubUnionDataDownload.enable,
-  'GET /sys/dataDownload/disable': clubUnionDataDownload.disable,
-  'POST /sys/dataDownload/update': clubUnionDataDownload.update,
-  'POST /sys/dataDownload/page': clubUnionDataDownload.queryList,
-  'GET /sys/dataDownload/getOne': clubUnionDataDownload.getOne,
-  'GET /sys/dataDownload/delete': clubUnionDataDownload.dels,
   //社团活动
   'POST /sys/activityList/save': clubActivityList.add,
   'GET /sys/activityList/enable': clubActivityList.enable,

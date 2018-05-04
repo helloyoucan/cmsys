@@ -25,9 +25,9 @@ export default class DataDownloadModal extends PureComponent {
     addInputValue: '',
     confirmLoading: false,
     formData: {
-      fileName: '',
+      name: '',
       path: '',
-      describe: '',
+      remarks: '',
     },
     ModalTitle: '',
   };
@@ -131,7 +131,7 @@ export default class DataDownloadModal extends PureComponent {
         if (info.file.status === 'done') {
           //message.success(`${info.file.name} file uploaded successfully`);
         } else if (info.file.status === 'error') {
-         // message.error(`${info.file.name} file upload failed.`);
+          // message.error(`${info.file.name} file upload failed.`);
         }
       },
     };
@@ -146,13 +146,16 @@ export default class DataDownloadModal extends PureComponent {
         {data.key == "read" ?
           <Card loading={modalLoading} bordered={false}>
             <LineMessage label="文件名">
-              {formData.fileName}
+              {formData.name}
             </LineMessage>
             <LineMessage label="文件路径">
               {formData.path}
             </LineMessage>
-            <LineMessage label="描述">
-              {formData.describe}
+            <LineMessage label="状态">
+              {['不显示', '显示'][formData.status]}
+            </LineMessage>
+            <LineMessage label="备注">
+              {formData.remarks}
             </LineMessage>
 
             <LineMessage label="上传时间">
@@ -167,10 +170,10 @@ export default class DataDownloadModal extends PureComponent {
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
-              label="姓名"
-            >  {getFieldDecorator('fileName', {
+              label="文件名"
+            >  {getFieldDecorator('name', {
               rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.fileName
+              initialValue: formData.name
             })(
               <Input/>
             )}
@@ -193,10 +196,10 @@ export default class DataDownloadModal extends PureComponent {
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
-              label="描述"
-            >  {getFieldDecorator('describe', {
+              label="备注"
+            >  {getFieldDecorator('remarks', {
               rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.describe
+              initialValue: formData.remarks
             })(
               <Input/>
             )}

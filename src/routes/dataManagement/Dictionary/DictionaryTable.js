@@ -31,7 +31,6 @@ export default class DictionaryTable extends PureComponent {
     expandForm: false,
     selectedRows: [],
     formValues: {},
-    SwitchLoadingId: '',
     allDicType: []
   };
 

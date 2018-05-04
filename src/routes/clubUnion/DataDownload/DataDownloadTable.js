@@ -8,8 +8,9 @@ import {
   Switch,
   Dropdown,
   Menu,
-  Icon
+  Icon, Modal
 } from 'antd';
+const confirm = Modal.confirm;
 import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import DataDownloadForm from './DataDownloadForm';
@@ -35,35 +36,32 @@ export default class DataDownloadTable extends PureComponent {
       keyword: ""
     },
     SwitchLoadingId: ''
-
-
   };
 
   componentDidMount() {
-    const {dispatch} = this.props;
-    dispatch({
+    this.getData({})
+
+  }
+
+  getData(params) {
+    this.props.dispatch({
       type: 'dataDownload/queryList',
       payload: {
         keyword: '',
         pageNo: 1,
-        pageSize: 10
+        pageSize: 10,
+        ...params
       }
-    });
+    })
   }
 
   handleStandardTableChange = (pagination) => {
-    const {dispatch} = this.props;
     const {formValues} = this.state;
-
-    const params = {
+    this.getData({
       keyword: formValues.keyword,
       pageNo: pagination.current,
       pageSize: pagination.pageSize,
-    };
-    dispatch({
-      type: 'dataDownload/queryList',
-      payload: params,
-    });
+    })
   }
 
   handelModal(key, id) {
@@ -133,15 +131,9 @@ export default class DataDownloadTable extends PureComponent {
       },
       selectedRows: [],
     });
-    const {dispatch} = this.props;
-    dispatch({
-      type: 'dataDownload/queryList',
-      payload: {
-        keyword: value.keyword,
-        pageNo: 1,
-        pageSize: 10
-      }
-    });
+    this.getData({
+      keyword: value.keyword,
+    })
   }
 
   handleFormReset() {
@@ -156,35 +148,62 @@ export default class DataDownloadTable extends PureComponent {
      * */
     const {dispatch, dataDownload: {data: {pagination}}} = this.props;
     let {selectedRows, formValues} = this.state;
-    if (arguments.length > 1) {//删除单个
-      selectedRows.push({
-        id: delOneId
-      });
-    }
-    if (!selectedRows) return;
-
-    dispatch({
-      type: 'dataDownload/changeLoading',
-      payload: {
-        bool: true,
-      },
-    });
-    dispatch({
-      type: 'dataDownload/dels',
-      payload: {
-        ids: selectedRows.map((item) => (item.id))
-      },
-      callback: () => {
+    /*  if (arguments.length > 1) {//删除单个
+     selectedRows.push({
+     id: delOneId
+     });
+     }
+     if (!selectedRows) return;*/
+    confirm({
+      title: '你确定要删除这些信息吗?',
+      content: '删除后不可恢复',
+      okText: '是的',
+      okType: 'danger',
+      cancelText: '不，取消',
+      onOk: () => {
         dispatch({
-          type: 'dataDownload/queryList',
+          type: 'dataDownload/changeLoading',
           payload: {
-            ...formValues,
-            pageNo: pagination.currentPage,
-            pageSize: pagination.pageSize,
+            bool: true,
           },
         });
+        dispatch({
+          type: 'dataDownload/del',
+          payload: {
+            id: delOneId
+          },
+          callback: () => {
+            this.getData({
+              ...formValues,
+              pageNo: pagination.currentPage,
+              pageSize: pagination.pageSize,
+            })
+            this.setState({
+              selectedRows: [],
+            });
+          }
+        });
+      },
+      onCancel() {
+        message.warning('您取消了操作');
+      },
+    });
+
+  }
+
+  handleChangeStatus(val, id) {
+    let type = val == 0 ? 'dataDownload/enable' : 'dataDownload/disable';
+    this.setState({
+      SwitchLoadingId: id,
+    });
+    this.props.dispatch({
+      type,
+      payload: {
+        id: id
+      },
+      callback: () => {
         this.setState({
-          selectedRows: [],
+          SwitchLoadingId: '',
         });
       }
     });
@@ -196,26 +215,26 @@ export default class DataDownloadTable extends PureComponent {
     const columns = [
       {
         title: '文件名',
-        dataIndex: 'fileName',
+        dataIndex: 'name',
       },
       {
         title: '文件路径',
         dataIndex: 'path',
       },
       {
-        title: '描述',
-        dataIndex: 'describe',
-      },
-      {
-        title: '上传时间',
-        dataIndex: 'insertTime',
-        render(val) {
-          return <span>{moment(val).format('YYYY-MM-DD')}</span>;
-        },
-      },
-      {
-        title: '上传人',
-        dataIndex: 'insertMan',
+        title: '状态',
+        dataIndex: 'status',
+        render: (val, record) => {
+          return (
+            <Switch
+              loading={record.id === this.state.SwitchLoadingId}
+              checked={val == 1}
+              checkedChildren="显示"
+              unCheckedChildren="不显示"
+              onChange={this.handleChangeStatus.bind(this, val, record.id)}
+            />
+          );
+        }
       },
       {
         title: '操作',
@@ -244,20 +263,13 @@ export default class DataDownloadTable extends PureComponent {
             </div>
             <div className="tableListOperator">
               <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add')}>新建</Button>
-              {
-                selectedRows.length > 0 && (
-                  <span>
-                    <Button onClick={this.handleDelete.bind(this)}>删除</Button>
-                  </span>
-                )
-              }
             </div>
             <StandardTable
               selectedRows={selectedRows}
               loading={userLoading}
               columns={columns}
               data={data}
-              isSelect={true}
+              isSelect={false}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
             />

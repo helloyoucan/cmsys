@@ -1,16 +1,5 @@
 import {getUrlParams} from '../utils';
 export function add(req, res) {
-  /*
-   stuNum：学号
-   name：姓名
-   sex：性别
-   annual：任职年度
-   college：所属学院（从字典值中取）
-   major：所属专业
-   dept：部门
-   position：现任职位
-   sanction：奖罚情况
-   remarks：备注*/
   res.send(
     {
       "ret": true,
@@ -18,17 +7,8 @@ export function add(req, res) {
       "data": null
     }
   );
-  /*
-   res.send({
-   "ret": false,
-   "msg": "用户权限不足，请重新登录",
-   "data": null
-   })
-   */
-
 }
 export function enable(req, res) {
-  /* ids：id数组*/
   res.send(
     {
       "ret": true,
@@ -36,11 +16,6 @@ export function enable(req, res) {
       "data": null
     }
   );
-  /*res.send(
-   {
-   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
-   }
-   );*/
 }
 export function disable(req, res) {
   res.send(
@@ -50,24 +25,8 @@ export function disable(req, res) {
       "data": null
     }
   );
-  /*res.send(
-   {
-   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
-   }
-   );*/
 }
 export function update(req, res) {
-  /*  id：id
-   stuNum：学号
-   name：姓名
-   sex：性别
-   annual：任职年度
-   college：所属学院（从字典值中取）
-   major：所属专业
-   dept：部门
-   position：现任职位
-   sanction：奖罚情况
-   remarks：备注*/
   res.send(
     {
       "ret": true,
@@ -75,26 +34,24 @@ export function update(req, res) {
       "data": null
     }
   );
-  /*res.send(
-   {
-   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
-   }
-   );
-   //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
-   */
 }
 export function queryList(req, res, u) {
-
+  /**
+   * id (integer, optional): 资料编号 ,
+   name (string, optional): 资料名称 ,
+   path (string, optional): 资料路径 ,
+   remarks (string, optional): 备注 ,
+   status (integer, optional): 资料状态，0为不显示，1为显示
+   * */
   let list = new Array();
   for (let i = (req.body.pageNo - 1) * req.body.pageSize; i < req.body.pageNo * req.body.pageSize; i++) {
     list.push(
       {
         "id": i,
-        "fileName": '文件名' + i,
-        "describe": "文件描述",
+        "name": '文件名' + i,
+        "remarks": "备注" + i,
         "path": "www.baidu.com/1.png",
-        "insertTime": 1513156716000,
-        "insertMan": "admin",
+        "status": i % 2,
       }
     );
   }
@@ -126,11 +83,10 @@ export function getOne(req, res) {
       "ret": true, "msg": "获取用户信息成功",
       "data": {
         "id": 1,
-        "fileName": '文件名1',
-        "describe": "文件描述",
+        "name": '文件名',
+        "remarks": "备注",
         "path": "www.baidu.com/1.png",
-        "insertTime": 1513156716000,
-        "insertMan": "admin",
+        "status": 0,
       }
     }
   );
@@ -142,9 +98,7 @@ export function getOne(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
    */
 }
-
-export function dels(req, res) {
-  /* ids：id数组*/
+export function del(req, res) {
   res.send(
     {
       "ret": true,
@@ -152,14 +106,7 @@ export function dels(req, res) {
       "data": null
     }
   );
-  /* res.send(
-   {
-   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
-   }
-   );
-   //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
-   */
 }
 export default {
-  add, enable, disable, update, queryList, getOne, dels
+  add, enable, disable, update, queryList, getOne, del
 };
