@@ -5,7 +5,7 @@ import {
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import styles from './style.less';
-
+import {Link} from 'dva/router';
 const FormItem = Form.Item;
 const {Option} = Select;
 const {RangePicker} = DatePicker;
@@ -345,6 +345,11 @@ export default class InfoPage extends PureComponent {
               <Button type="primary" htmlType="submit" loading={this.state.confirmLoading}>
                 保存
               </Button>
+             {/* <Button>
+                <Link to={{
+                  pathname: '/clubManagement/cinfoList',
+                }
+                }> 返回列表</Link> </Button>*/}
             </FormItem>
           </Form>
         </Card>

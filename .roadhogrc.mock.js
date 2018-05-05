@@ -105,9 +105,10 @@ const proxy = {
   'DELETE /sys/workflow/delDeployment': Workflow.delDeployment,//删除部署信息接口
   'GET /sys/workflow/getDeployInfo': Workflow.getDeployInfo,//获取部署信息接口
   'GET /sys/workflow/getImageUrl': Workflow.getImageUrl,//获取图片url
+  'GET /sys/workflow/getTaskList': Workflow.getTaskList,//获取任务列表接口
   'POST /sys/workflow/saveDeployment': Workflow.saveDeployment,//发布流程接口
-  'GET /sys/workflow/viewImage': Workflow.viewImage,//查看流程图接口
   'GET /sys/workflow/viewCurrentImage': Workflow.viewCurrentImage,//查看当前流程图接口（提交或审批的相关人员查看）
+  'GET /sys/workflow/viewImage': Workflow.viewImage,//查看流程图接口
 
   //社团信息-社团列表接口（已完成接口对接）
   'POST /sys/ass/save': clubInfo.add,//保存社团信息接口（超级管理员）

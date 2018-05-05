@@ -9,17 +9,17 @@ import {
 } from 'antd';
 const confirm = Modal.confirm;
 import {Link} from 'dva/router';
-import StandardTable from '../../../../components/StandardTable/index';
-import PageHeaderLayout from '../../../../layouts/PageHeaderLayout';
-import LogoutForm from './LogoutForm';
-import LogoutModal from './LogoutModal';
+import StandardTable from '../../components/StandardTable/index';
+import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import TaskForm from './TaskForm';
+import TaskModal from './TaskModal';
 import moment from 'moment';
 @connect(state => ({
   clubLogout: state.clubLogout,
   currentUser: state.login.currentUser,
   workflow: state.workflow,
 }))
-export default class LogoutTable extends PureComponent {
+export default class TaskTable extends PureComponent {
   state = {
     addInputValue: '',
     modalVisible: false,
@@ -157,51 +157,19 @@ export default class LogoutTable extends PureComponent {
     });
   }
 
-  handleDelete(delOneId) {
-    /*
-     * delOneId：删除单个时的传参
-     * */
-    const {dispatch, clubLogout: {workflow: {pagination}}} = this.props;
-    let {selectedRows, formValues} = this.state;
-    // let ids = selectedRows.map((item) => (item.id));
-    // if (arguments.length > 1) {//删除单个
-    //   ids.push(delOneId);
-    // }
-    // if (!ids) return;
-    confirm({
-      title: '你确定要删除这些信息吗?',
-      content: '删除后不可恢复',
-      okText: '是的',
-      okType: 'danger',
-      cancelText: '不，取消',
-      onOk: () => {
-        dispatch({
-          type: 'clubLogout/changeLoading',
-          payload: {
-            bool: true,
-          },
-        });
-        dispatch({
-          type: 'clubLogout/del',
-          payload: {
-            id: delOneId
-          },
-          callback: () => {
-            this.getData({
-              ...formValues,
-              pageNo: pagination.currentPage,
-              pageSize: pagination.pageSize,
-            })
-          }
-        });
-      },
-      onCancel() {
-        message.warning('您取消了操作');
-      },
-    });
-  }
 
   submitTask(id) {
+    this.props.dispatch({
+      type: 'clubLogout/viewTaskFrom',
+      payload: {
+        taskId: id
+      },
+      callback: (res) => {
+        console.log(res)
+      }
+    })
+
+
     this.state.modalVisible = false
     const {formValues} = this.state;
     const that = this;
@@ -234,7 +202,7 @@ export default class LogoutTable extends PureComponent {
         title: '创建日期',
         dataIndex: 'createTime',
         render: (val) => {
-          return moment(val).format('YYYY-MM-DD hh:mm')
+          return moment(val).format('YYYY-MM-DD HH:mm')
         }
       },
       {
@@ -246,15 +214,15 @@ export default class LogoutTable extends PureComponent {
         dataIndex: 'id',
         render: (val) => (
           <div>
-            <a href="javascript:;" onClick={this.submitTask.bind(this, val)}>发起审批任务</a>
+            <a href="javascript:;" onClick={this.submitTask.bind(this, val)}></a>
+            <Link to={{pathname: '/task/page', data: {taskId: val}}}> 提交审批任务</Link>
             <Divider type="vertical"/>
-            <Link to={{pathname: '/task/tSClubLogoutProgress', data: {taskId: val}}}> 查看进度</Link>
-            <Divider type="vertical"/>
-            <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
-            <Divider type="vertical"/>
-            <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
-            <Divider type="vertical"/>
-            <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
+            <Link to={{pathname: '/task/progress', data: {taskId: val}}}> 查看进度</Link>
+            {/*           <Divider type="vertical"/>
+             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
+             <Divider type="vertical"/>
+             <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
+             */}
           </div>
         ),
       },
@@ -264,16 +232,16 @@ export default class LogoutTable extends PureComponent {
         <Card bordered={false}>
           <div className="tableList">
             <div className="tableListForm">
-              <LogoutForm
-                handleSearch={this.handleSearch.bind(this)}
-                formReset={this.handleFormReset.bind(this)}
-                dispatch={this.props.dispatch}
-              />
+              {/*  <TaskForm
+               handleSearch={this.handleSearch.bind(this)}
+               formReset={this.handleFormReset.bind(this)}
+               dispatch={this.props.dispatch}
+               />*/}
             </div>
             <div className="tableListOperator">
-              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add', null)}>
-                新建
-              </Button>
+              {/* <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add', null)}>
+               新建
+               </Button>*/}
             </div>
             <StandardTable
               selectedRows={selectedRows}
@@ -286,12 +254,12 @@ export default class LogoutTable extends PureComponent {
             />
           </div>
         </Card>
-        <LogoutModal modalVisible={this.state.modalVisible}
-                     modalLoading={this.state.modalLoading}
-                     data={this.state.modalData}
-                     dispatch={this.props.dispatch}
-                     submitTask={this.submitTask.bind(this)}
-                     handleModalVisible={this.handleModalVisible.bind(this)}
+        <TaskModal modalVisible={this.state.modalVisible}
+                   modalLoading={this.state.modalLoading}
+                   data={this.state.modalData}
+                   dispatch={this.props.dispatch}
+                   submitTask={this.submitTask.bind(this)}
+                   handleModalVisible={this.handleModalVisible.bind(this)}
         />
 
       </PageHeaderLayout>

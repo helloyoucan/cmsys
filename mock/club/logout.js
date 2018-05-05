@@ -1,4 +1,4 @@
-import { getUrlParams } from '../utils';
+import {getUrlParams} from '../utils';
 export function del(req, res) {
   /* ids：id数组*/
   res.send(
@@ -41,10 +41,11 @@ export function getOne(req, res) {
 export function queryList(req, res) {
   /**
    *@param
-   * status
+   * auditStatus
    * 1:初始录入
    * 2：审核中
-   * 3：审核完成
+   * 3：审核通过
+   * 4:审核部通过
    **/
   let list = new Array();
   for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
@@ -55,7 +56,7 @@ export function queryList(req, res) {
         "cancelReasons": "注销理由" + i,
         "assSituation": "社团情况",
         recheckNum: 1,
-        status: (i % 3) + 1
+        auditStatus: (i % 3) + 1
       }
     );
   }

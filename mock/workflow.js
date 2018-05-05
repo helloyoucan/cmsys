@@ -116,6 +116,40 @@ export function viewCurrentImage(req, res) {
     }
   );
 }
+export function getTaskList(req, res) {
+  let list = new Array();
+  for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
+    list.push(
+      {
+        "id": "id" + i,
+        "name": `任务名称` + i,
+        "createTime": new Date(),
+        "assignee": "任务办理人",
+      }
+    );
+  }
+  res.send(
+    {
+      "ret": true,
+      "msg": "获取信息成功",
+      "data": {
+        "list": list,
+        pagination: {
+          "total": 100,
+          "currentPage": parseInt(req.query.pageNo),
+          "pageSize": parseInt(req.query.pageSize)
+        }
+
+      }
+    }
+  );
+  /*res.send(
+   {
+   "ret": false, "msg": "用户权限不足，请重新登录", "data": null
+   }
+   // 错误返回信息包括：用户权限不足，请重新登录
+   );*/
+}
 export default {
-  saveDeployment, getDeployInfo, delDeployment, viewImage, getImageUrl, viewCurrentImage
+  getTaskList, saveDeployment, getDeployInfo, delDeployment, viewImage, getImageUrl, viewCurrentImage
 };

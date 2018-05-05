@@ -13,7 +13,6 @@ import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import LogoutForm from './LogoutForm';
 import LogoutModal from './LogoutModal';
-
 @connect(state => ({
   clubLogout: state.clubLogout,
   currentUser: state.login.currentUser,
@@ -164,24 +163,99 @@ export default class LogoutTable extends PureComponent {
     });
   }
 
-  startProcess(id) {
-    console.log(id)
-    this.state.modalVisible = false
-    const {formValues} = this.state;
-    const that = this;
+  startProcess(type, id) {
+    confirm({
+      title: '你确定要启动审批流程?',
+      content: '请确认',
+      okText: '是的',
+      okType: 'info',
+      cancelText: '不，取消',
+      onOk: () => {
+        this.state.modalVisible = false
+        const {formValues} = this.state;
+        const that = this;
+        this.props.dispatch({
+          type: 'clubLogout/startProcess',
+          payload: {
+            id: id
+          },
+          callback: (res) => {
+            const pagination = that.props.clubLogout.data.pagination;
+            const params = {
+              keyword: formValues.keyword,
+              pageNo: pagination.currentPage,
+              pageSize: pagination.pageSize,
+            };
+            that.getData(params);
+          }
+        })
+      },
+      onCancel() {
+        message.warning('您取消了操作');
+      },
+    });
+
+  }
+
+  handleDelete(delOneId) {
+    /*
+     * delOneId：删除单个时的传参
+     * */
+    const {dispatch, clubLogout: {data: {pagination}}} = this.props;
+    let {selectedRows, formValues} = this.state;
+    // let ids = selectedRows.map((item) => (item.id));
+    // if (arguments.length > 1) {//删除单个
+    //   ids.push(delOneId);
+    // }
+    // if (!ids) return;
+    confirm({
+      title: '你确定要删除这些信息吗?',
+      content: '删除后不可恢复',
+      okText: '是的',
+      okType: 'danger',
+      cancelText: '不，取消',
+      onOk: () => {
+        dispatch({
+          type: 'clubLogout/changeLoading',
+          payload: {
+            bool: true,
+          },
+        });
+        dispatch({
+          type: 'clubLogout/del',
+          payload: {
+            id: delOneId
+          },
+          callback: () => {
+            this.getData({
+              ...formValues,
+              pageNo: pagination.currentPage,
+              pageSize: pagination.pageSize,
+            })
+          }
+        });
+      },
+      onCancel() {
+        message.warning('您取消了操作');
+      },
+    });
+  }
+
+  handelReadResult(id) {
     this.props.dispatch({
-      type: 'clubLogout/startProcess',
+      type: 'clubLogout/viewHisComment',
       payload: {
-        id: id
+        id
       },
       callback: (res) => {
-        const pagination = that.props.clubLogout.data.pagination;
-        const params = {
-          keyword: formValues.keyword,
-          pageNo: pagination.currentPage,
-          pageSize: pagination.pageSize,
-        };
-        that.getData(params);
+        this.props.dispatch({
+          type: 'clubLogout/goToPath',
+          payload: {
+            path: '/clubManagement/clubApproval/result',
+            ...res.data
+          }
+        })
+        console.log(res)
       }
     })
   }
@@ -200,30 +274,52 @@ export default class LogoutTable extends PureComponent {
           return data == undefined ? '' : data.name
         },
       },
-      {
-        title: '复核次数',
-        dataIndex: 'recheckNum',
-      },
+      /* {
+       title: '复核次数',
+       dataIndex: 'recheckNum',
+       },*/
+      /*{
+       title: '状态',
+       dataIndex: 'status',
+       render: (val) => {
+       const status = ['', '初始录入', '审核中', '审核完成']
+       return status[val]
+       },
+       },*/
       {
         title: '状态',
-        dataIndex: 'status',
-        render: (val) => {
-          const status = ['', '初始录入', '审核中', '审核完成']
+        dataIndex: 'auditStatus',
+        render: (val, row) => {
+          const status = ['', '初始录入', '审核中', '审核完成', '审核不通过']
           return status[val]
         },
       },
       {
         title: '操作',
         dataIndex: 'id',
-        render: (val) => {
+        render: (val, row) => {
           let status = (data.list.find((item) => {
             return item.id == val
           })).status
           return ( <div>
-            <Button disabled={status == 1} size="small" onClick={this.startProcess.bind(this, 'edit', val)}
-                    type="danger">提交到任务</Button>
-            <Divider type="vertical"/>
+            {row.auditStatus == 1 ? (
+              <span>
+                <Button disabled={status == 1} size="small" onClick={this.startProcess.bind(this, 'edit', val)}
+                        type="danger">启动审批流程</Button>
+                 < Divider type="vertical"/>
+              </span>
+            ) : '' }
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
+            {row.auditStatus == 3 || row.auditStatus == 4 ? (
+              <span>
+                 <Divider type="vertical"/>
+                <Link to={{pathname: '/clubManagement/clubApproval/result', data: {id: val}}}> 查看结果</Link>
+                {/*<a href="javascript:;" onClick={this.handelReadResult.bind(this, val)}>查看结果</a>*/}
+                <Divider type="vertical"/>
+               <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
+            </span>
+            ) : '' }
+
           </div>)
         },
       },
@@ -245,6 +341,7 @@ export default class LogoutTable extends PureComponent {
               </Button>
             </div>
             <StandardTable
+              // expandedRowRender={record => <p style={{margin: 0}}>{record.recheckNum}</p>}
               selectedRows={selectedRows}
               loading={userLoading}
               columns={columns}
@@ -260,6 +357,7 @@ export default class LogoutTable extends PureComponent {
                      data={this.state.modalData}
                      clubList={clubList}
                      dispatch={this.props.dispatch}
+                     getData={this.getData.bind(this)}
                      startProcess={this.startProcess.bind(this)}
                      handleModalVisible={this.handleModalVisible.bind(this)}
         />

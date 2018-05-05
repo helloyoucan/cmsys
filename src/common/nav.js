@@ -19,48 +19,64 @@ export const getNavData = app => [{
     insert_man: 'admin', // 权限控制
     component: dynamicWrapper(app, [], () => import('../routes/new/test')),
   },
-   /* {
-      name: '前台管理',
-      path: 'frontDeskManagement',
-      icon: 'ie',
-      children: [
-        {
-          name: '页面管理',
-          path: 'page',
-          component: dynamicWrapper(app, [], () => import('../routes/new/test')),
-        },
-      ]
-    },*/
+    /* {
+     name: '前台管理',
+     path: 'frontDeskManagement',
+     icon: 'ie',
+     children: [
+     {
+     name: '页面管理',
+     path: 'page',
+     component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+     },
+     ]
+     },*/
     {
       name: '任务管理',
       path: 'task',
       icon: 'usergroup-add',
       children: [
         {
-          name: '注销任务申请列表',
-          path: 'tSClubLogout',
-          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/task/submit/ClubLogout/LogoutTable')),
+          name: '任务列表',
+          path: 'list',
+          component: dynamicWrapper(app, ['login', 'workflow', 'club/logout', 'club/info'], () => import('../routes/task/TaskTable')),
         },
         {
-          name: '注销任务申请进度查看',
-          path: 'tSClubLogoutProgress',
-          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info', 'workflow'], () => import('../routes/task/submit/ClubLogout/clubLogoutProgress')),
+          name: '提交审批',
+          path: 'page',
+          component: dynamicWrapper(app, ['workflow', 'club/logout'], () => import('../routes/task/TaskPage')),
         },
         {
-          name: '注销任务审批列表',
-          path: 'tHClubLogout',
-          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/task/handle/ClubLogout/LogoutTable')),
+          name: '进度查看',
+          path: 'progress',
+          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info', 'workflow'], () => import('../routes/task/TaskProgress')),
         },
-        {
-          name: '注销任务审批',
-          path: 'tHClubLogoutPage',
-          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/task/handle/ClubLogout/LogoutPage')),
-        },
-        {
-          name: '注销任务审批进度查看',
-          path: 'tHClubLogoutProgress',
-          component: dynamicWrapper(app, ['login', 'club/logout', 'club/info', 'workflow'], () => import('../routes/task/handle/ClubLogout/clubLogoutProgress')),
-        },
+
+        /*
+         {
+         name: '注销任务申请列表',
+         path: 'tSClubLogout',
+         component: dynamicWrapper(app, ['login', 'workflow', 'club/logout', 'club/info'], () => import('../routes/task/submit/ClubLogout/LogoutTable')),
+         },{
+         name: '注销任务申请进度查看',
+         path: 'tSClubLogoutProgress',
+         component: dynamicWrapper(app, ['login', 'club/logout', 'club/info', 'workflow'], () => import('../routes/task/submit/ClubLogout/clubLogoutProgress')),
+         },
+         {
+         name: '注销任务审批列表',
+         path: 'tHClubLogout',
+         component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/task/handle/ClubLogout/LogoutTable')),
+         },
+         {
+         name: '注销任务审批',
+         path: 'tHClubLogoutPage',
+         component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/task/handle/ClubLogout/LogoutPage')),
+         },
+         {
+         name: '注销任务审批进度查看',
+         path: 'tHClubLogoutProgress',
+         component: dynamicWrapper(app, ['login', 'club/logout', 'club/info', 'workflow'], () => import('../routes/task/handle/ClubLogout/clubLogoutProgress')),
+         },*/
       ]
     },
     {
@@ -107,11 +123,16 @@ export const getNavData = app => [{
               path: 'logoutList',
               component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/club/Logout/LogoutTable')),
             },
-           /* {
-              name: '注销申请',
-              path: 'clubLogoutPage',
-              component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/club/Logout/LogoutPage')),
-            },*/
+            {
+              name: '审批结果查看',
+              path: 'result',
+              component: dynamicWrapper(app, ['club/info', 'club/logout'], () => import('../routes/club/Logout/TaskResult')),
+            },
+            /* {
+             name: '注销申请',
+             path: 'clubLogoutPage',
+             component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/club/Logout/LogoutPage')),
+             },*/
             {
               name: '注销进度查看',
               path: 'logoutRead',
@@ -144,20 +165,20 @@ export const getNavData = app => [{
       icon: 'solution',
       children: [
         /*{
-          name: '基本信息',
-          path: 'cuinfo',
-          component: dynamicWrapper(app, ['clubUnion/info'], () => import('../routes/clubUnion/Info/InfoPage')),
-        },*/
+         name: '基本信息',
+         path: 'cuinfo',
+         component: dynamicWrapper(app, ['clubUnion/info'], () => import('../routes/clubUnion/Info/InfoPage')),
+         },*/
         {
           name: '社联干部管理',
           path: 'cucadre',
           component: dynamicWrapper(app, ['clubUnion/cadre', 'dataManagement'], () => import('../routes/clubUnion/Cadre/CadreTable')),
         },
         /*{
-          name: '部门管理',
-          path: 'department',
-          component: dynamicWrapper(app, ['clubUnion/department'], () => import('../routes/clubUnion/Department/DepartmentTable')),
-        },*/
+         name: '部门管理',
+         path: 'department',
+         component: dynamicWrapper(app, ['clubUnion/department'], () => import('../routes/clubUnion/Department/DepartmentTable')),
+         },*/
         {
           name: '资料下载管理',
           path: 'dataDownload',

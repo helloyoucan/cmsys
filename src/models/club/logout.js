@@ -27,9 +27,9 @@ export default {
   },
 
   effects: {
-    *goToPage({payload}, {call, put}) {
+    *goToPath({payload}, {call, put}) {
       yield put(routerRedux.push({
-        pathname: '/clubManagement/clubApproval/clubLogoutPage',
+        pathname: payload.path,
         data: payload
       }));
     },
@@ -92,19 +92,19 @@ export default {
     *startProcess({payload, callback}, {call, put}) {
       const response = yield call(startProcess, payload);
       /*if (response.ret) {
-        yield put({
-          payload: payload
-        });
-      }*/
+       yield put({
+       payload: payload
+       });
+       }*/
       if (callback) callback(response);
     },
     *submitTask({payload, callback}, {call, put}) {
       const response = yield call(submitTask, payload);
       /*if (response.ret) {
-        yield put({
-          payload: payload
-        });
-      }*/
+       yield put({
+       payload: payload
+       });
+       }*/
       if (callback) callback(response);
     },
     *update({payload, callback}, {call}) {
@@ -113,24 +113,24 @@ export default {
     },
     *viewHisComment({payload, callback}, {call, put}) {
       const response = yield call(viewHisComment, payload);
-      if (response.ret) {
-        yield put({
-          payload: {
-            id: payload.id
-          }
-        });
-      }
+      /*if (response.ret) {
+       yield put({
+       payload: {
+       id: payload.id
+       }
+       });
+       }*/
       if (callback) callback(response);
     },
     *viewTaskFrom({payload, callback}, {call, put}) {
       const response = yield call(viewTaskFrom, payload);
-      if (response.ret) {
-        yield put({
-          payload: {
-            taskId: payload.taskId
-          }
-        });
-      }
+      /* if (response.ret) {
+       yield put({
+       payload: {
+       taskId: payload.taskId
+       }
+       });
+       }*/
       if (callback) callback(response);
     },
   },

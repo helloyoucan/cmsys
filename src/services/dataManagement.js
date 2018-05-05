@@ -81,11 +81,8 @@ export async function setDicParamsIsDisable(params) {
    *{
   *id (integer, optional): 字典编号 ,
    */
-  return request('/sys/dic/setDicParamsIsDisable', {
+  return request(`/sys/dic/setDicParamsIsDisable?id=${params.id}`, {
     method: 'PUT',
-    body: {
-      ...params,
-    },
   });
 }
 
@@ -95,7 +92,7 @@ export async function setDicParamsIsEnable(params) {
    *{
   *id (integer, optional): 字典编号 ,
    */
-  return request('/sys/dic/setDicParamsIsEnable', {
+  return request(`/sys/dic/setDicParamsIsEnable?id=${params.id}`, {
     method: 'PUT',
     body: {
       ...params,
@@ -147,29 +144,29 @@ export async function getAllDicType(params) {
 }
 /*---------下面的为旧接口--------*/
 /*
-export async function add(params) {
-  return request('/sys/dic/save', {
-    method: 'POST',
-    body: {
-      ...params,
-    },
-  });
-}
-export async function update(params) {
-  return request('/sys/dic/update', {
-    method: 'POST',
-    body: {
-      ...params,
-    },
-  });
-}
-export async function queryList(params) {
-  return request(`/sys/dic/getDisForPage?${stringify(params)}`);
-}
+ export async function add(params) {
+ return request('/sys/dic/save', {
+ method: 'POST',
+ body: {
+ ...params,
+ },
+ });
+ }
+ export async function update(params) {
+ return request('/sys/dic/update', {
+ method: 'POST',
+ body: {
+ ...params,
+ },
+ });
+ }
+ export async function queryList(params) {
+ return request(`/sys/dic/getDisForPage?${stringify(params)}`);
+ }
 
-export async function getOne(params) {
-  return request(`/sys/dic/getOne?id=${params.id}`);
-}
-*/
+ export async function getOne(params) {
+ return request(`/sys/dic/getOne?id=${params.id}`);
+ }
+ */
 
 

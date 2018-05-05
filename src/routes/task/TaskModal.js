@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'dva';
-import LineMessage from '../../../components/LineMessage/index';
+import LineMessage from '../../components/LineMessage/index';
 import moment from 'moment';
 import {
   Card,
@@ -17,7 +17,7 @@ const FormItem = Form.Item;
 const {Option} = Select;
 const {TextArea} = Input;
 @Form.create()
-export default class LogoutListModal extends PureComponent {
+export default class TaskModal extends PureComponent {
 
   state = {
     addInputValue: '',
@@ -54,7 +54,6 @@ export default class LogoutListModal extends PureComponent {
                 if (res.ret) {
                   this.props.handleModalVisible();
                   this.props.form.resetFields();
-                  this.props.getData();
                 }
                 this.setState({
                   confirmLoading: false,
@@ -81,7 +80,6 @@ export default class LogoutListModal extends PureComponent {
                 if (res.ret) {
                   this.props.handleModalVisible();
                   this.props.form.resetFields();
-                  this.props.getData()
                 }
                 this.setState({
                   confirmLoading: false,
@@ -117,16 +115,12 @@ export default class LogoutListModal extends PureComponent {
       default:
         break;
     }
-    const status = ['', '初始录入', '审核中', '审核完成', '审核不通过']
-    let clubList_obj = {};
-    clubList.forEach(item => {
-      clubList_obj[item.id] = item.name
-    })
+    const status = ['', '初始录入', '审核中', '审核完成']
     const footer = (<div>
       <Button onClick={() => this.props.handleModalVisible()}>关闭</Button>
       {
-        data.data && data.data.id && data.data.auditStatus === 1 ?
-          <Button type="danger" onClick={() => this.props.startProcess(data.data.id)}>提交到任务</Button> : ''
+        data.key==='read'&&data.data && data.data.id && data.data.status === 1 ?
+          <Button type="danger" onClick={() => this.props.submitTask(data.data.id)}>发起审批任务 </Button> : ''
       }
       <Button type="primary" onClick={this.handleOK.bind(this)}>确定</Button>
     </div>)
@@ -141,17 +135,17 @@ export default class LogoutListModal extends PureComponent {
       >
         {data.key == "read" ?
           <Card loading={modalLoading} bordered={false}>
-            <LineMessage label="社团名称">
-              {clubList_obj[formData.id]}
-            </LineMessage>
             <LineMessage label="注销理由">
               {formData.cancelReasons}
             </LineMessage>
             <LineMessage label="社团情况">
               {formData.assSituation}
             </LineMessage>
+            <LineMessage label="复核次数">
+              {formData.recheckNum}
+            </LineMessage>
             <LineMessage label="申请状态">
-              {status[formData.auditStatus]}
+              {status[formData.status]}
             </LineMessage>
           </Card>
           :

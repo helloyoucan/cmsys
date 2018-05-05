@@ -42,11 +42,8 @@ export async function add(params) {
 }
 
 export async function startProcess(params) {
-  return request('/sys/asscancel/startProcess', {
+  return request(`/sys/asscancel/startProcess?id=${params.id}`, {
     method: 'PUT',
-    body: {
-      ...params,
-    },
   });
 }
 export async function submitTask(params) {
