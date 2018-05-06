@@ -5,18 +5,18 @@ import {
   Button,
   message,
   Divider,
-  Switch,
-  Dropdown,
-  Menu,
-  Icon
+  Modal
 } from 'antd';
+const confirm = Modal.confirm;
+import {Link} from 'dva/router';
 import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import YearbookForm from './YearbookForm';
 import YearbookModal from './YearbookModal';
-
 @connect(state => ({
   yearbook: state.yearbook,
+  currentUser: state.login.currentUser,
+  info: state.info
 }))
 export default class YearbookTable extends PureComponent {
   state = {
@@ -28,6 +28,7 @@ export default class YearbookTable extends PureComponent {
       id: '',
       data: {}
     },
+    clubList: [],
     expandForm: false,
     selectedRows: [],
     formValues: {
@@ -39,13 +40,35 @@ export default class YearbookTable extends PureComponent {
   };
 
   componentDidMount() {
-    const {dispatch} = this.props;
+    this.getData({})
+  }
+
+  getData(params, isRefresh) {
+    this.props.dispatch({
+      type: 'info/getAll',
+      payload: {},
+      callback: (res) => {
+        this.setState({
+          clubList: res.data
+        });
+      }
+    });
+    const {dispatch, currentUser} = this.props;
+    if (isRefresh) {
+      params = {
+        keyword: '',
+        pageNo: 1,
+        pageSize: 10,
+      }
+    }
     dispatch({
       type: 'yearbook/queryList',
       payload: {
+        assId: currentUser.assId || '',
         keyword: '',
         pageNo: 1,
-        pageSize: 10
+        pageSize: 10,
+        ...params
       }
     });
   }
@@ -59,25 +82,27 @@ export default class YearbookTable extends PureComponent {
       pageNo: pagination.current,
       pageSize: pagination.pageSize,
     };
-    dispatch({
-      type: 'yearbook/queryList',
-      payload: params,
-    });
+    this.getData(params);
   }
 
   handelModal(key, id) {
     switch (key) {
       case 'add':
-        this.setState({
-          modalVisible: true,
-          modalData: {
-            key,
-            id: ''
+        this.props.dispatch({
+          type: 'yearbook/goToPath',
+          payload: {
+            path: '/clubManagement/clubApproval/ybPage',
           }
-        });
+        })
+        /*this.setState({
+         modalVisible: true,
+         modalData: {
+         key,
+         id: ''
+         }
+         });*/
         break;
       case 'read':
-      case 'edit':
         this.setState({
           modalVisible: true,
           modalLoading: true,
@@ -133,14 +158,9 @@ export default class YearbookTable extends PureComponent {
       selectedRows: [],
     });
     const {dispatch} = this.props;
-    dispatch({
-      type: 'yearbook/queryList',
-      payload: {
-        keyword: value.keyword,
-        pageNo: 1,
-        pageSize: 10
-      }
-    });
+    this.getData(({
+      ...value,
+    }))
   }
 
   handleFormReset() {
@@ -149,83 +169,164 @@ export default class YearbookTable extends PureComponent {
     });
   }
 
+  startProcess(type, id) {
+    confirm({
+      title: '你确定要启动审批流程?',
+      content: '请确认',
+      okText: '是的',
+      okType: 'info',
+      cancelText: '不，取消',
+      onOk: () => {
+        this.state.modalVisible = false
+        const {formValues} = this.state;
+        const that = this;
+        this.props.dispatch({
+          type: 'yearbook/startProcess',
+          payload: {
+            id: id
+          },
+          callback: (res) => {
+            const pagination = that.props.yearbook.data.pagination;
+            const params = {
+              keyword: formValues.keyword,
+              pageNo: pagination.currentPage,
+              pageSize: pagination.pageSize,
+            };
+            that.getData(params);
+          }
+        })
+      },
+      onCancel() {
+        message.warning('您取消了操作');
+      },
+    });
+
+  }
+
   handleDelete(delOneId) {
     /*
      * delOneId：删除单个时的传参
      * */
     const {dispatch, yearbook: {data: {pagination}}} = this.props;
     let {selectedRows, formValues} = this.state;
-    if (arguments.length > 1) {//删除单个
-      selectedRows.push({
-        id: delOneId
-      });
-    }
-    if (!selectedRows) return;
-
-    dispatch({
-      type: 'yearbook/changeLoading',
-      payload: {
-        bool: true,
-      },
-    });
-    dispatch({
-      type: 'yearbook/dels',
-      payload: {
-        ids: selectedRows.map((item) => (item.id))
-      },
-      callback: () => {
+    // let ids = selectedRows.map((item) => (item.id));
+    // if (arguments.length > 1) {//删除单个
+    //   ids.push(delOneId);
+    // }
+    // if (!ids) return;
+    confirm({
+      title: '你确定要删除这些信息吗?',
+      content: '删除后不可恢复',
+      okText: '是的',
+      okType: 'danger',
+      cancelText: '不，取消',
+      onOk: () => {
         dispatch({
-          type: 'yearbook/queryList',
+          type: 'yearbook/changeLoading',
           payload: {
-            ...formValues,
-            pageNo: pagination.currentPage,
-            pageSize: pagination.pageSize,
+            bool: true,
           },
         });
-        this.setState({
-          selectedRows: [],
+        dispatch({
+          type: 'yearbook/del',
+          payload: {
+            id: delOneId
+          },
+          callback: () => {
+            this.getData({
+              ...formValues,
+              pageNo: pagination.currentPage,
+              pageSize: pagination.pageSize,
+            })
+          }
         });
-      }
+      },
+      onCancel() {
+        message.warning('您取消了操作');
+      },
     });
+  }
+
+  handelReadResult(id) {
+    this.props.dispatch({
+      type: 'yearbook/viewHisComment',
+      payload: {
+        id
+      },
+      callback: (res) => {
+        this.props.dispatch({
+          type: 'yearbook/goToPath',
+          payload: {
+            path: '/clubManagement/clubApproval/result',
+            ...res.data
+          }
+        })
+        console.log(res)
+      }
+    })
   }
 
   render() {
     const {yearbook: {loading: userLoading, data}} = this.props;
-
-    const {selectedRows} = this.state;
+    const {selectedRows, clubList} = this.state;
     const columns = [
       {
-        title: '姓名',
-        dataIndex: 'name',
+        title: '社团名称',
+        dataIndex: 'assId',
+        render: (val) => {
+          const data = (clubList.find((item) => {
+            return item.id == val
+          }))
+          return data == undefined ? '' : data.name
+        },
       },
+      /* {
+       title: '复核次数',
+       dataIndex: 'recheckNum',
+       },*/
+      /*{
+       title: '状态',
+       dataIndex: 'status',
+       render: (val) => {
+       const status = ['', '初始录入', '审核中', '审核完成']
+       return status[val]
+       },
+       },*/
       {
-        title: '部门',
-        dataIndex: 'dept',
-      },
-      {
-        title: '现任职位',
-        dataIndex: 'position',
-      },
-      {
-        title: '学号',
-        dataIndex: 'stuNum',
-      },
-      {
-        title: '所属专业',
-        dataIndex: 'major',
+        title: '状态',
+        dataIndex: 'auditStatus',
+        render: (val, row) => {
+          const status = ['', '初始录入', '审核中', '审核完成', '审核不通过']
+          return status[val]
+        },
       },
       {
         title: '操作',
         dataIndex: 'id',
-        render: (val) => (
-          <div>
+        render: (val, row) => {
+          let status = (data.list.find((item) => {
+            return item.id == val
+          })).status
+          return ( <div>
+            {row.auditStatus == 1 ? (
+              <span>
+                <Button disabled={status == 1} size="small" onClick={this.startProcess.bind(this, 'edit', val)}
+                        type="danger">启动审批流程</Button>
+                 < Divider type="vertical"/>
+              </span>
+            ) : '' }
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
-            <Divider type="vertical"/>
-            <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
-            <Divider type="vertical"/>
-            <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
-          </div>
-        ),
+            {row.auditStatus == 3 || row.auditStatus == 4 ? (
+              <span>
+                 <Divider type="vertical"/>
+                <Link to={{pathname: '/clubManagement/clubApproval/result', data: {id: val}}}> 查看审批信息</Link>
+                <Divider type="vertical"/>
+               <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
+            </span>
+            ) : '' }
+
+          </div>)
+        },
       },
     ];
     return (
@@ -240,21 +341,17 @@ export default class YearbookTable extends PureComponent {
               />
             </div>
             <div className="tableListOperator">
-              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add')}>新建</Button>
-              {
-                selectedRows.length > 0 && (
-                  <span>
-                    <Button onClick={this.handleDelete.bind(this)}>删除</Button>
-                  </span>
-                )
-              }
+              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add', null)}>
+                新建
+              </Button>
             </div>
             <StandardTable
+              // expandedRowRender={record => <p style={{margin: 0}}>{record.recheckNum}</p>}
               selectedRows={selectedRows}
               loading={userLoading}
               columns={columns}
               data={data}
-              isSelect={true}
+              isSelect={false}
               onSelectRow={this.handleSelectRows}
               onChange={this.handleStandardTableChange}
             />
@@ -263,8 +360,12 @@ export default class YearbookTable extends PureComponent {
         <YearbookModal modalVisible={this.state.modalVisible}
                        modalLoading={this.state.modalLoading}
                        data={this.state.modalData}
+                       clubList={clubList}
                        dispatch={this.props.dispatch}
-                       handleModalVisible={this.handleModalVisible.bind(this)}/>
+                       getData={this.getData.bind(this)}
+                       startProcess={this.startProcess.bind(this)}
+                       handleModalVisible={this.handleModalVisible.bind(this)}
+        />
 
       </PageHeaderLayout>
     );

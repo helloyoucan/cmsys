@@ -28,7 +28,7 @@ export async function update(params) {
 
    * */
   return request('/sys/ass/update', {
-    method: 'POST',
+    method: 'PUT',
     body: {
       ...params,
     },

@@ -89,7 +89,7 @@ const proxy = {
   //文件上传
   'POST /sys/file/upload': File.uploadFile,
 
-  //社团注销（已完成接口对接）
+  //社团注销（已完成接口对接-页面修改完成）
   'DELETE /sys/asscancel/delete': clubLogout.del,//删除社团注销申请单接口*
   'GET /sys/asscancel/getOne': clubLogout.getOne,//根据申请单id获取社团注销信息*
   'GET /sys/asscancel/getPage': clubLogout.queryList,//获取社团注销申请单列表接口*
@@ -101,6 +101,17 @@ const proxy = {
   'GET /sys/asscancel/viewHisComment': clubLogout.viewHisComment,//查看历史的审批信息接口
   'GET /sys/asscancel/viewTaskFrom': clubLogout.viewTaskFrom,//办理任务，获取审批信息接口
 
+  //社团年审（）
+  'DELETE /sys/assann/delete': clubYearbook.del,//删除社团年审申请单接口*
+  'GET /sys/assann/getOne': clubYearbook.getOne,//根据申请单id获取社团年审信息*
+  'GET /sys/assann/getPage': clubYearbook.queryList,//获取社团年审申请单列表接口*
+  'GET /sys/assann/getTaskList': clubYearbook.getTaskList,//获取社团年审申请任务列表接口*
+  'POST /sys/assann/save': clubYearbook.add,//保存社团年审申请单接口*
+  'PUT /sys/assann/startProcess': clubYearbook.startProcess,//启动社团年审流程接口*
+  'PUT /sys/assann/submitTask': clubYearbook.submitTask,//提交任务接口
+  'PUT /sys/assann/update': clubYearbook.update,//修改社团注销申请单接口*
+  'GET /sys/assann/viewHisComment': clubYearbook.viewHisComment,//查看历史的审批信息接口
+  'GET /sys/assann/viewTaskFrom': clubYearbook.viewTaskFrom,//办理任务，获取审批信息接口
   //工作流相关
   'DELETE /sys/workflow/delDeployment': Workflow.delDeployment,//删除部署信息接口
   'GET /sys/workflow/getDeployInfo': Workflow.getDeployInfo,//获取部署信息接口
@@ -179,7 +190,7 @@ const proxy = {
   'POST /sys/clubUnionInfo/save': clubUnionInfo.add,
   'GET /sys/clubUnionInfo/enable': clubUnionInfo.enable,
   'GET /sys/clubUnionInfo/disable': clubUnionInfo.disable,
-  'POST /sys/clubUnionInfo/update': clubUnionInfo.update,
+  'PUT /sys/clubUnionInfo/update': clubUnionInfo.update,
   'POST /sys/clubUnionInfo/page': clubUnionInfo.queryList,
   'GET /sys/clubUnionInfo/getOne': clubUnionInfo.getOne,
   'GET /sys/clubUnionInfo/delete': clubUnionInfo.dels,

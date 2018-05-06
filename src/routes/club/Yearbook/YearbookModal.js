@@ -9,29 +9,23 @@ import {
   Select,
   Modal,
   Spin,
-  Radio
+  Radio,
+  Button
 } from 'antd';
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 const {Option} = Select;
 const {TextArea} = Input;
 @Form.create()
-export default class YearlyTnspectionModal extends PureComponent {
+export default class LogoutModal extends PureComponent {
 
   state = {
     addInputValue: '',
     confirmLoading: false,
     formData: {
-      stuNum: '',
-      nam: '',
-      sex: '',
-      annual: '',
-      college: '',
-      major: '',
-      dept: '',
-      position: '',
-      sanction: '',
-      remarks: '',
+      assId: '',
+      cancelReasons: '',
+      assSituation: '',
     },
     ModalTitle: '',
   };
@@ -54,12 +48,13 @@ export default class YearlyTnspectionModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'clubMember/add',
+              type: 'clubLogout/add',
               payload: values,
               callback: (res) => {
                 if (res.ret) {
                   this.props.handleModalVisible();
                   this.props.form.resetFields();
+                  this.props.getData();
                 }
                 this.setState({
                   confirmLoading: false,
@@ -77,7 +72,7 @@ export default class YearlyTnspectionModal extends PureComponent {
               confirmLoading: true,
             });
             this.props.dispatch({
-              type: 'clubMember/update',
+              type: 'clubLogout/update',
               payload: {
                 ...values,
                 id: data.data.id
@@ -86,6 +81,7 @@ export default class YearlyTnspectionModal extends PureComponent {
                 if (res.ret) {
                   this.props.handleModalVisible();
                   this.props.form.resetFields();
+                  this.props.getData()
                 }
                 this.setState({
                   confirmLoading: false,
@@ -103,10 +99,9 @@ export default class YearlyTnspectionModal extends PureComponent {
 
   }
 
-
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {data, modalLoading} = this.props;
+    const {data, modalLoading, clubList} = this.props;
     const formData = data.data == undefined ? {} : data.data;
     let title = '';
     switch (data.key) {
@@ -122,145 +117,89 @@ export default class YearlyTnspectionModal extends PureComponent {
       default:
         break;
     }
+    const status = ['', '初始录入', '审核中', '审核完成', '审核不通过']
+    let clubList_obj = {};
+    clubList.forEach(item => {
+      clubList_obj[item.id] = item.name
+    })
+    const footer = (<div>
+      <Button onClick={() => this.props.handleModalVisible()}>关闭</Button>
+      {
+        data.data && data.data.id && data.data.auditStatus === 1 ?
+          <Button type="danger" onClick={() => this.props.startProcess(data.data.id)}>提交到任务</Button> : ''
+      }
+      <Button type="primary" onClick={this.handleOK.bind(this)}>确定</Button>
+    </div>)
     return (
       <Modal
-        title={title + '年审'}
+        title={title + '注销信息'}
         visible={this.props.modalVisible}
         onOk={this.handleOK.bind(this)}
         onCancel={() => this.props.handleModalVisible()}
         confirmLoading={this.state.confirmLoading}
+        footer={footer}
       >
         {data.key == "read" ?
           <Card loading={modalLoading} bordered={false}>
-            <LineMessage label="姓名">
-              {formData.name}
+            <LineMessage label="社团名称">
+              {clubList_obj[formData.id]}
             </LineMessage>
-            <LineMessage label="学号">
-              {formData.stuNum}
+            <LineMessage label="注销理由">
+              {formData.cancelReasons}
             </LineMessage>
-            <LineMessage label="所属专业">
-              {formData.major}
+            <LineMessage label="社团情况">
+              {formData.assSituation}
             </LineMessage>
-            <LineMessage label="部门">
-              {formData.dept}
+            <LineMessage label="申请状态">
+              {status[formData.auditStatus]}
             </LineMessage>
-            <LineMessage label="现任职位">
-              {formData.position}
-            </LineMessage>
-            <LineMessage label="任职状态">
-              {formData.status == 1 ? "在职" : "离职"}
-            </LineMessage>
-            <LineMessage label="任职年度">
-              {formData.annual}
-            </LineMessage>
-            <LineMessage label="奖罚情况">
-              {formData.sanction}
-            </LineMessage>
-            <LineMessage label="添加时间">
-              {moment(formData.insertTime).format('YYYY-MM-DD')}
-            </LineMessage>
-            <LineMessage label="添加人">
-              {formData.insertMan}
-            </LineMessage>
-            <LineMessage label="最后修改时间">
-              {moment(formData.lastupdTime).format('YYYY-MM-DD')}
-            </LineMessage>
-            <LineMessage label="最后修改人">
-              {formData.lastupdMan}
-            </LineMessage>
-            <LineMessage label="备注">
-              {formData.remarks}
-            </LineMessage>
-
           </Card>
           :
           <Spin spinning={modalLoading}>
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
-              label="姓名"
-            >  {getFieldDecorator('name', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.name
-            })(
-              <Input/>
-            )}
+              label="选择社团"
+            >
+              {getFieldDecorator('assId', {
+                rules: [{
+                  required: true, message: '请选择',
+                }], initialValue: formData.assId
+              })(
+                <Select filterOption showSearch style={{width: '100%'}}>
+                  {
+                    clubList && clubList.map((item) => {
+                      return <Option value={item.id} key={item.id}>{item.name}</Option>
+                    })
+                  }
+                </Select>
+              )}
             </FormItem>
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
-              label="学号"
-            >  {getFieldDecorator('stuNum', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.stuNum
-            })(
-              <Input/>
-            )}
+              label="注销理由"
+            >
+              {getFieldDecorator('cancelReasons', {
+                rules: [{
+                  required: true, message: '请输入',
+                }], initialValue: formData.cancelReasons
+              })(
+                <TextArea rows={4}/>
+              )}
             </FormItem>
             <FormItem
               labelCol={{span: 5}}
               wrapperCol={{span: 15}}
-              label="所属专业"
-            >  {getFieldDecorator('major', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.major
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="部门"
-            >  {getFieldDecorator('dept', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.dept
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="任职年度"
-            >  {getFieldDecorator('annual', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.annual
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="现任职位"
-            >  {getFieldDecorator('position', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.position
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="奖罚情况"
-            >  {getFieldDecorator('sanction', {
-              rules: [{required: true, message: '请输入!', whitespace: true}],
-              initialValue: formData.sanction
-            })(
-              <Input/>
-            )}
-            </FormItem>
-            <FormItem
-              labelCol={{span: 5}}
-              wrapperCol={{span: 15}}
-              label="备注"
-            >  {getFieldDecorator('assId', {
-              initialValue: formData.remarks
-            })(
-              <TextArea rows={3}/>
-            )}
+              label="社团情况"
+            >
+              {getFieldDecorator('assSituation', {
+                rules: [{
+                  required: true, message: '请输入',
+                }], initialValue: formData.assSituation
+              })(
+                <TextArea rows={4}/>
+              )}
             </FormItem>
           </Spin>
         }

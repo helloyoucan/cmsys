@@ -13,46 +13,64 @@ const {TextArea} = Input;
 
 @connect(state => ({
   info: state.info,
+  dataManagement: state.dataManagement
 }))
 @Form.create()
 export default class InfoPage extends PureComponent {
   state = {
     confirmLoading: false,
     uploadLoading: false,
+    association: [],
     formData: {
-      name: '',
-      category: '',
-      purpose: '',
-      actField: '',
-      initSituation: {
+      id: '',
+      name: '',//名称
+      category: '',//类型
+      purpose: '',//宗旨
+      profile: '',//简介
+      remarks: '',//备注
+      actField: '',//活动领域
+      initSituation: {//协会发起人基本情况
         name: '', phone: ''
       },
-      leadSituation: {
+      leadSituation: {//协会现任负责人基本情况
         name: '', phone: ''
       },
-      leadTeacherSituation: {
+      leadTeacherSituation: {//篮球协会指导老师基本情况
         name: '', phone: ''
       },
-      applicationFilename: '',
-      applicationFile: '',
-      applicationFilename: '',
-      constitutionFile: '',
-      remarks: '',
-    }
+      assFile: [],//协会资料存储路径
+      assFilename: [],//协会资料
+    },
+    fileList: []
   }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        let assFile = ''
+        this.state.formData.assFile.forEach(item => {
+          assFile += JSON.stringify(item) + '$'
+        })
+        values = {
+          ...values,
+          assFile: assFile.length > 0 ? assFile.slice(0, -1) : '',
+          initSituation: JSON.stringify(values.initSituation),
+          leadSituation: JSON.stringify(values.leadSituation),
+          leadTeacherSituation: JSON.stringify(values.leadTeacherSituation),
+          assFilename: null
+        }
         if (this.props.location.data != undefined && this.props.location.data.id != null) {
           this.props.dispatch({
             type: 'info/update',
-            payload: values,
+            payload: {
+              id: this.state.formData.id,
+              ...values
+            }
           });
         } else {
           this.props.dispatch({
             type: 'info/add',
-            payload: values,
+            payload: values
           });
         }
       }
@@ -60,6 +78,15 @@ export default class InfoPage extends PureComponent {
   }
 
   componentDidMount() {
+    this.props.dispatch({
+      type: 'dataManagement/queryAssociation',
+      payload: {},
+      callback: (res) => {
+        this.setState({
+          association: res.data ? res.data : []
+        })
+      }
+    });
     this.getData({})
   }
 
@@ -74,6 +101,14 @@ export default class InfoPage extends PureComponent {
           },
           callback: (res) => {
             if (res.ret) {
+              let assFile = res.data.assFile == '' ? [] : res.data.assFile.split('$')
+              assFile = assFile.map(item => {
+                return JSON.parse(item)
+              })
+              res.data.assFile = assFile
+              res.data.initSituation = JSON.parse(res.data.initSituation)
+              res.data.leadSituation = JSON.parse(res.data.leadSituation)
+              res.data.leadTeacherSituation = JSON.parse(res.data.leadTeacherSituation)
               this.setState({
                 formData: res.data
               })
@@ -88,26 +123,64 @@ export default class InfoPage extends PureComponent {
 
   render() {
     const {info} = this.props;
-    const {getFieldDecorator, getFieldValue} = this.props.form;
+    const {getFieldDecorator} = this.props.form;
     //const formData = info.oneData == undefined ? {} : info.oneData;
-    const formData = this.state.formData
+    const {formData, association} = this.state
     const uploadSetting = {
-      name: 'file',
-      action: '//jsonplaceholder.typicode.com/posts/',
+      //showUploadList: false,
+      fileList: formData.assFile,
+      name: 'fileName',
+      action: '/sys/file/uploadAssFile',
       headers: {
         authorization: 'authorization-text',
       },
-      onChange(info) {
-        console.log(info)
-        if (info.file.status !== 'uploading') {
-          console.log(info.file, info.fileList);
-        }
+      defaultFileList: formData.assFile,
+
+      onChange: (info) => {
+        let assFile = info.fileList;
+        assFile = assFile.map((file) => {
+          if (file.response) {
+            file.url = file.response;
+          }
+          return file;
+        });
+        assFile = assFile.filter((file) => {
+          if (file.response) {
+            return file.response != undefined;
+          }
+          return true;
+        });
+
+        this.setState({
+          formData: {
+            ...this.state.formData,
+            assFile: assFile
+          }
+        })
+
+
         if (info.file.status === 'done') {
-          message.success(`${info.file.name} file uploaded successfully`);
+          if (typeof info.file.response == 'string') {
+            message.success('上传成功');
+          } else {
+            message.error(`上传失败`);
+          }
         } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} file upload failed.`);
+          message.error(`上传失败`);
         }
+
       },
+      onRemove: (file) => {
+        let assFile = this.state.formData.assFile.filter(item => {
+          return item.response != file.response
+        })
+        this.setState({
+          formData: {
+            ...this.state.formData,
+            assFile: assFile
+          }
+        })
+      }
     }
     const formItemLayout = {
       labelCol: {
@@ -127,12 +200,6 @@ export default class InfoPage extends PureComponent {
         sm: {span: 10, offset: 7},
       },
     };
-    const uploadButton = (
-      <div>
-        <Icon type={this.state.uploadLoading ? 'loading' : 'plus'}/>
-        <div className="ant-upload-text">上传logo</div>
-      </div>
-    );
     return (
       <PageHeaderLayout title="社团信息填写" content="">
         <Card bordered={false}>
@@ -163,8 +230,9 @@ export default class InfoPage extends PureComponent {
                 }], initialValue: formData.category
               })(
                 <Select >
-                  <Option value="1" key="1">类别一</Option>
-                  <Option value="2" key="2">其它</Option>
+                  {association.map(item => {
+                    return ( <Option value={item.pmname} key={item.id}>{item.pmvalue}</Option>)
+                  })}
                 </Select>
               )}
             </FormItem>
@@ -175,9 +243,21 @@ export default class InfoPage extends PureComponent {
               {getFieldDecorator('purpose', {
                 rules: [{
                   required: true, message: '请输入',
-                }], initialValue: formData.name
+                }], initialValue: formData.purpose
               })(
-                <Input/>
+                <TextArea rows="4"/>
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="社团简介"
+            >
+              {getFieldDecorator('profile', {
+                rules: [{
+                  required: true, message: '请输入',
+                }], initialValue: formData.profile
+              })(
+                <TextArea rows="4"/>
               )}
             </FormItem>
             <FormItem
@@ -189,10 +269,11 @@ export default class InfoPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.name
               })(
-                <Input/>
+                <TextArea rows="2"/>
               )}
             </FormItem>
-            <p style={{'paddingLeft': '150px', 'fontSize': '20px'}}>发起人资料</p>
+
+            <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>发起人资料</p>
             <FormItem
               {...formItemLayout}
               label="姓名"
@@ -217,7 +298,7 @@ export default class InfoPage extends PureComponent {
                 <Input/>
               )}
             </FormItem>
-            <p style={{'paddingLeft': '150px', 'fontSize': '20px'}}>现任负责人资料</p>
+            <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>现任负责人资料</p>
             <FormItem
               {...formItemLayout}
               label="姓名"
@@ -242,7 +323,7 @@ export default class InfoPage extends PureComponent {
                 <Input/>
               )}
             </FormItem>
-            <p style={{'paddingLeft': '150px', 'fontSize': '20px'}}>指导老师资料</p>
+            <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>指导老师资料</p>
             <FormItem
               {...formItemLayout}
               label="姓名"
@@ -267,69 +348,17 @@ export default class InfoPage extends PureComponent {
                 <Input/>
               )}
             </FormItem>
-            <p style={{'paddingLeft': '150px', 'fontSize': '20px'}}>社团成立资料</p>
+            <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>社团成立资料</p>
             <FormItem
               {...formItemLayout}
-              label="申请表"
+              label="社团成立资料"
             >
-              {getFieldDecorator('applicationFilename', {
-                initialValue: formData.applicationFilename
-              })(
-                <Upload {...uploadSetting}>
-                  {formData.applicationFilename ?
-                    (<p style={{
-                      'paddingLeft': '150px',
-                      'fontSize': '20px'
-                    }}>{formData.applicationFilename}-{formData.applicationFile}</p>) :
-                    (
-                      <Button>
-                        <Icon type="upload"/> 点击上传
-                      </Button>)
-                  }
-                </Upload>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="业务指导部门意见"
-            >
-              {getFieldDecorator('applicationFilename', {
-                initialValue: formData.busDeptAdviceFilename
-              })(
-                <Upload {...uploadSetting}>
-                  {formData.busDeptAdviceFilename ?
-                    (<p style={{
-                      'paddingLeft': '150px',
-                      'fontSize': '20px'
-                    }}>{formData.busDeptAdviceFilename}-{formData.busDeptAdviceFile}</p>) :
-                    (
-                      <Button>
-                        <Icon type="upload"/> 点击上传
-                      </Button>)
-                  }
-                </Upload>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="社团章程"
-            >
-              {getFieldDecorator('applicationFilename', {
-                initialValue: formData.constitutionFilename
-              })(
-                <Upload {...uploadSetting}>
-                  {formData.constitutionFilename ?
-                    (<p style={{
-                      'paddingLeft': '150px',
-                      'fontSize': '20px'
-                    }}>{formData.constitutionFilename}-{formData.constitutionFile}</p>) :
-                    (
-                      <Button>
-                        <Icon type="upload"/> 点击上传
-                      </Button>)
-                  }
-                </Upload>
-              )}
+              <Upload {...uploadSetting}>
+                <Button>
+                  <Icon type="upload"/> 点击上传
+                </Button>
+              </Upload>
+              <p>提示：社团成立资料包括申请表、业务指导部门意见、社团章程等</p>
             </FormItem>
             <FormItem
               {...formItemLayout}
@@ -338,18 +367,18 @@ export default class InfoPage extends PureComponent {
               {getFieldDecorator('remarks', {
                 rules: [{}], initialValue: formData.remarks
               })(
-                <Input type="textarea"/>
+                <TextArea rows="4"/>
               )}
             </FormItem>
             <FormItem {...submitFormLayout} style={{marginTop: 32}}>
               <Button type="primary" htmlType="submit" loading={this.state.confirmLoading}>
                 保存
               </Button>
-             {/* <Button>
+              <Button>
                 <Link to={{
                   pathname: '/clubManagement/cinfoList',
                 }
-                }> 返回列表</Link> </Button>*/}
+                }> 返回列表</Link> </Button>
             </FormItem>
           </Form>
         </Card>

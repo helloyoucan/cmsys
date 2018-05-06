@@ -87,12 +87,12 @@ export const getNavData = app => [{
         {
           name: '信息管理',
           path: 'cinfo',
-          component: dynamicWrapper(app, ['login', 'club/info'], () => import('../routes/club/Info/InfoPage')),
+          component: dynamicWrapper(app, ['login', 'club/info','dataManagement'], () => import('../routes/club/Info/InfoPage')),
         },
         {
           name: '社团信息列表',
           path: 'cinfoList',
-          component: dynamicWrapper(app, ['club/info'], () => import('../routes/club/Info/InfoTable')),
+          component: dynamicWrapper(app, ['club/info', 'dataManagement'], () => import('../routes/club/Info/InfoTable')),
         },
         {
           name: '干部管理',
@@ -110,8 +110,13 @@ export const getNavData = app => [{
           children: [
             {
               name: '年审列表',
-              path: 'yearbookList',
-              component: dynamicWrapper(app, ['login', 'club/yearbook'], () => import('../routes/club/Yearbook/YearbookTable')),
+              path: 'ybList',
+              component: dynamicWrapper(app, ['login', 'club/yearbook', 'club/info'], () => import('../routes/club/Yearbook/YearbookTable')),
+            },
+            {
+              name: '年审申请',
+              path: 'ybPage',
+              component: dynamicWrapper(app, ['login', 'club/yearbook', 'club/info'], () => import('../routes/club/Yearbook/YearbookPage')),
             },
             {
               name: '成立列表',

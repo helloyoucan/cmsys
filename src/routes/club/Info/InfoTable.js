@@ -13,7 +13,7 @@ import InfoModal from './InfoModal';
 
 @connect(state => ({
   info: state.info,
-  currentUser: state.login.currentUser
+  dataManagement: state.dataManagement
 }))
 export default class InfoTable extends PureComponent {
   state = {
@@ -30,17 +30,25 @@ export default class InfoTable extends PureComponent {
     formValues: {
       keyword: ""
     },
-    SwitchLoadingId: ''
-
+    SwitchLoadingId: '',
+    association: []
 
   };
 
   componentDidMount() {
+    this.props.dispatch({
+      type: 'dataManagement/queryAssociation',
+      payload: {},
+      callback: (res) => {
+        this.setState({
+          association: res.data ? res.data : []
+        })
+      }
+    });
     this.getData({})
   }
 
   getData(params, isRefresh) {
-    const {dispatch, currentUser} = this.props;
     if (isRefresh) {
       params = {
         keyword: '',
@@ -48,10 +56,9 @@ export default class InfoTable extends PureComponent {
         pageSize: 10,
       }
     }
-    dispatch({
+    this.props.dispatch({
       type: 'info/queryList',
       payload: {
-        assId: currentUser.assId || '',
         keyword: '',
         pageNo: 1,
         pageSize: 10,
@@ -61,7 +68,6 @@ export default class InfoTable extends PureComponent {
   }
 
   handleStandardTableChange = (pagination) => {
-    const {dispatch} = this.props;
     const {formValues} = this.state;
 
     const params = {
@@ -151,7 +157,6 @@ export default class InfoTable extends PureComponent {
       },
       selectedRows: [],
     });
-    const {dispatch} = this.props;
     this.getData(({
       ...value,
     }))
@@ -165,7 +170,7 @@ export default class InfoTable extends PureComponent {
 
   render() {
     const {info: {loading: userLoading, data}} = this.props;
-    const {selectedRows} = this.state;
+    const {selectedRows, association} = this.state;
     const columns = [
       {
         title: '社团名称',
@@ -174,18 +179,16 @@ export default class InfoTable extends PureComponent {
       {
         title: '社团类型',
         dataIndex: 'category',
+        render: (val) => {
+          const ass = association.find(item => {
+            return item.pmname == val
+          })
+          return ass ? ass.pmvalue : ''
+        }
       },
       {
         title: '活动领域',
         dataIndex: 'actField',
-      },
-      {
-        title: '发起人',
-        dataIndex: 'initSituation.name',
-      },
-      {
-        title: '现任负责人',
-        dataIndex: 'leadSituation.name',
       },
       {
         title: '操作',
@@ -193,8 +196,8 @@ export default class InfoTable extends PureComponent {
         render: (val) => (
           <div>
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
-            <Divider type="vertical"/>
-            <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
+            {/*<Divider type="vertical"/>
+            <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>*/}
           </div>
         ),
       },

@@ -76,7 +76,6 @@ export default {
       const response = yield call(saveDicParams, payload);
       if (callback) callback(response);
     },
-
     *saveDicType({payload, callback}, {call}) {
       const response = yield call(saveDicType, payload);
       if (callback) callback(response);
@@ -105,37 +104,41 @@ export default {
       const response = yield call(updateDicType, payload);
       if (callback) callback(response);
     },
-    *queryAssociation(_, {call, put}){
+    *queryAssociation({_, callback}, {call, put}){
       const response = yield call(queryforPmappname, {
         type: "ASSOCIATION_CATEGORY",
       });
+      if (callback) callback(response);
       yield put({
         type: 'queryAssociationReducers',
         payload: response.data,
       });
     },
-    *queryCollegeName(_, {call, put}){
+    *queryCollegeName({_, callback}, {call, put}){
       const response = yield call(queryforPmappname, {
         type: "COLLEGE_NAME",
       });
+      if (callback) callback(response);
       yield put({
         type: 'queryCollegeNameReducers',
         payload: response.data,
       });
     },
-    *queryTweet(_, {call, put}){
+    *queryTweet({_, callback}, {call, put}){
       const response = yield call(queryforPmappname, {
         type: "TWEETS_CATEGORY",
       });
+      if (callback) callback(response);
       yield put({
         type: 'queryTweetReducers',
         payload: response.data,
       });
     },
-    *queryUserCategory(_, {call, put}){
+    *queryUserCategory({_, callback}, {call, put}){
       const response = yield call(queryforPmappname, {
         type: "USER_CATEGORY",
       });
+      if (callback) callback(response);
       yield put({
         type: 'queryUserCategoryReducers',
         payload: response.data,
