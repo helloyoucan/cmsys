@@ -12,7 +12,7 @@ import {Link} from 'dva/router';
 import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import YearbookForm from './YearbookForm';
-import YearbookModal from './YearbookModal';
+// import YearbookModal from './YearbookModal';
 @connect(state => ({
   yearbook: state.yearbook,
   currentUser: state.login.currentUser,
@@ -357,7 +357,7 @@ export default class YearbookTable extends PureComponent {
             />
           </div>
         </Card>
-        <YearbookModal modalVisible={this.state.modalVisible}
+        {/*<YearbookModal modalVisible={this.state.modalVisible}
                        modalLoading={this.state.modalLoading}
                        data={this.state.modalData}
                        clubList={clubList}
@@ -365,7 +365,7 @@ export default class YearbookTable extends PureComponent {
                        getData={this.getData.bind(this)}
                        startProcess={this.startProcess.bind(this)}
                        handleModalVisible={this.handleModalVisible.bind(this)}
-        />
+        />*/}
 
       </PageHeaderLayout>
     );

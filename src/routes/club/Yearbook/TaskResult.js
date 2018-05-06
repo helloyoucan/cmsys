@@ -18,7 +18,25 @@ export default class TaskResult extends Component {
   state = {
     confirmLoading: false,
     uploadLoading: false,
-    taskData: null,
+    taskData: {
+      "outcomeList": [],
+      "commentVoList": null,
+      "businessData": {
+        "editStatus": 0,
+        "formKey": "",
+        "assId": 0,
+        "deleteStatus": 0,
+        "auditStatus": 0,
+        "id": 0,
+        /*----*/
+        annFile: '',//文件信息
+        annFilename: '',
+        instructSituation: {},//指导老师
+        assMemberComp: '',//会员组成
+        assSize: '',//社团规模
+      },
+      "taskId": ""
+    },
     clubList: []
   }
 
@@ -41,9 +59,20 @@ export default class TaskResult extends Component {
             id
           },
           callback: (res) => {
-            this.setState({
-              taskData: res.data
-            })
+            if (res.ret) {
+              let annFile = res.data.businessData.annFile == '' ? [] : res.data.businessData.annFile.split('$')
+              annFile = annFile.map(item => {
+                return JSON.parse(item)
+              })
+              res.data.businessData.annFile = annFile
+              res.data.businessData.instructSituation = JSON.parse(res.data.businessData.instructSituation)
+              this.setState({
+                taskData: {
+                  ...res.data
+                }
+              })
+            }
+
           }
         })
       }
@@ -75,7 +104,7 @@ export default class TaskResult extends Component {
       },
     };
     return (
-      <PageHeaderLayout title="社团注销表" content="">
+      <PageHeaderLayout title="社团年审信息" content="">
         <Card bordered={false}>
           <Form
             onSubmit={this.handleSubmit}
@@ -86,21 +115,47 @@ export default class TaskResult extends Component {
               {...formItemLayout}
               label="社团名称"
             >
-              {taskData && clubList_obj[taskData.businessData.assId]}
+              {clubList_obj[taskData.businessData.assId]}
 
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="注销理由"
+              label="社团规模"
             >
-              {taskData && taskData.businessData.cancelReasons}
+              {taskData.businessData.assSize}
 
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="社团情况"
+              label="会员组成"
             >
-              {taskData && taskData.businessData.assSituation}
+              {taskData.businessData.assMemberComp}
+
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="相关文件"
+            >
+              {
+                taskData.businessData.annFile.length > 0 ? taskData.businessData.annFile.map(item => {
+                  return ( <p key={item.lastModified}><a href={item.response}>{item.name}</a></p>)
+                }) : '无'
+              }
+
+            </FormItem>
+            <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>指导老师资料</p>
+            <FormItem
+              {...formItemLayout}
+              label="姓名"
+            >
+              {taskData.businessData.instructSituation && taskData.businessData.instructSituation.name}
+
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="联系方式"
+            >
+              {taskData.businessData.instructSituation && taskData.businessData.instructSituation.phone}
 
             </FormItem>
             {
