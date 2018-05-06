@@ -97,6 +97,7 @@ export default class LogoutTable extends PureComponent {
         });
         break;
       case 'read':
+      case 'edit':
         this.setState({
           modalVisible: true,
           modalLoading: true,
@@ -307,6 +308,8 @@ export default class LogoutTable extends PureComponent {
                 <Button disabled={status == 1} size="small" onClick={this.startProcess.bind(this, 'edit', val)}
                         type="danger">启动审批流程</Button>
                  < Divider type="vertical"/>
+                 <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
+                < Divider type="vertical"/>
               </span>
             ) : '' }
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
