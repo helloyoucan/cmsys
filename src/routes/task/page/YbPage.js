@@ -149,7 +149,7 @@ export default class logoutPage extends PureComponent {
       },
     };
     return (
-      <PageHeaderLayout title="社团注销表" content="">
+      <PageHeaderLayout title="社团年审审批" content="">
         <Card bordered={false}>
           <Form
             onSubmit={this.handleSubmit}
