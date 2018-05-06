@@ -133,11 +133,11 @@ export const getNavData = app => [{
              path: 'clubLogoutPage',
              component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/club/Logout/LogoutPage')),
              },*/
-            {
-              name: '注销进度查看',
-              path: 'logoutRead',
-              component: dynamicWrapper(app, ['club/logout'], () => import('../routes/club/Logout/clubLogoutRead')),
-            }
+            /* {
+             name: '注销进度查看',
+             path: 'logoutRead',
+             component: dynamicWrapper(app, ['club/logout'], () => import('../routes/club/Logout/clubLogoutRead')),
+             }*/
           ]
         },
         {
