@@ -4,7 +4,6 @@ import {
   message, Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Upload,
 } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
-import LogoutForm from './taskForm/LogoutForm.js';
 // import styles from './style.less';
 import moment from 'moment';
 import {Link} from 'dva/router';
@@ -15,6 +14,9 @@ const {TextArea} = Input;
 
 @connect(state => ({
   clubLogout: state.clubLogout,
+  yearbook: state.yearbook,
+  activityList: state.activityList,
+  article: state.article,
   workflow: state.workflow,
   info: state.info
 }))
@@ -38,7 +40,8 @@ export default class TaskPage extends PureComponent {
       },
       "taskId": "12506"
     },
-    clubList: []
+    clubList: [],
+    type: '',
   }
 
   componentDidMount() {
@@ -56,10 +59,11 @@ export default class TaskPage extends PureComponent {
 
   getData() {
     if (this.props.location.data != undefined) {
-      const taskId = this.props.location.data.taskId;
+      const {taskId, type} = this.props.location.data.taskId;
+      console.log(type)
       if (taskId != null) {
         this.props.dispatch({
-          type: 'clubLogout/viewTaskFrom',
+          type: type,
           payload: {
             taskId: taskId
           },

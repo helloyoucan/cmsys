@@ -12,7 +12,7 @@ import {Link} from 'dva/router';
 import StandardTable from '../../components/StandardTable/index';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 // import TaskForm from './TaskForm';
-import TaskModal from './TaskModal';
+// import TaskModal from './TaskModal';
 import moment from 'moment';
 @connect(state => ({
   clubLogout: state.clubLogout,
@@ -212,19 +212,49 @@ export default class TaskTable extends PureComponent {
       {
         title: '操作',
         dataIndex: 'id',
-        render: (val) => (
-          <div>
-            <a href="javascript:;" onClick={this.submitTask.bind(this, val)}></a>
-            <Link to={{pathname: '/task/page', data: {taskId: val}}}> 提交审批任务</Link>
-            <Divider type="vertical"/>
-            <Link to={{pathname: '/task/progress', data: {taskId: val}}}> 查看进度</Link>
-            {/*           <Divider type="vertical"/>
-             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
-             <Divider type="vertical"/>
-             <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
-             */}
-          </div>
-        ),
+        render: (val, row) => {
+          let type = '', pathname = '';
+          switch (row.processDefinitionKey) {
+            case 'ass-cancel'://注销
+              type = 'clubLogout'
+              pathname = '/task/logoutPage'
+              break;
+            case 'ass-act'://活动
+              type = 'activityList'
+              pathname = '/task/actPage'
+              break;
+            case 'ass-ann'://年审
+              type = 'yearbook'
+              pathname = '/task/ybPage'
+              break;
+            case 'act-art'://推文
+              type = 'article'
+              pathname = '/task/artPage'
+              break;
+          }
+          return (
+            <div>
+              {/* <a href="javascript:;" onClick={this.submitTask.bind(this, val)}></a>*/}
+              <Link to={{
+                pathname,
+                data: {
+                  taskId: val,
+                  type: type += '/viewTaskFrom'
+                }
+              }}> 提交审批任务</Link>
+              <Divider type="vertical"/>
+              <Link to={{
+                pathname: '/task/progress',
+                data: {taskId: val}
+              }}> 查看进度</Link>
+              {/*           <Divider type="vertical"/>
+               <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
+               <Divider type="vertical"/>
+               <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
+               */}
+            </div>
+          )
+        },
       },
     ];
     return (
@@ -254,13 +284,13 @@ export default class TaskTable extends PureComponent {
             />
           </div>
         </Card>
-        <TaskModal modalVisible={this.state.modalVisible}
-                   modalLoading={this.state.modalLoading}
-                   data={this.state.modalData}
-                   dispatch={this.props.dispatch}
-                   submitTask={this.submitTask.bind(this)}
-                   handleModalVisible={this.handleModalVisible.bind(this)}
-        />
+        {/* <TaskModal modalVisible={this.state.modalVisible}
+         modalLoading={this.state.modalLoading}
+         data={this.state.modalData}
+         dispatch={this.props.dispatch}
+         submitTask={this.submitTask.bind(this)}
+         handleModalVisible={this.handleModalVisible.bind(this)}
+         />*/}
 
       </PageHeaderLayout>
     );
