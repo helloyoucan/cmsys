@@ -315,11 +315,11 @@ export default class YearbookTable extends PureComponent {
                  < Divider type="vertical"/>
               </span>
             ) : '' }
-            <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
+            <Link to={{pathname: '/clubManagement/clubApproval/ybPage', data: {id: val}}}> 查看详细</Link>
             {row.auditStatus == 3 || row.auditStatus == 4 ? (
               <span>
                  <Divider type="vertical"/>
-                <Link to={{pathname: '/clubManagement/clubApproval/result', data: {id: val}}}> 查看审批信息</Link>
+                <Link to={{pathname: '/clubManagement/clubApproval/ybResult', data: {id: val}}}> 查看审批信息</Link>
                 <Divider type="vertical"/>
                <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
             </span>
