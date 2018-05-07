@@ -6,7 +6,7 @@ import {
 } from 'antd';
 const FormItem = Form.Item;
 @Form.create()
-export default class CadreForm extends PureComponent {
+export default class ArticleForm extends PureComponent {
   state = {
     formValues: {},
   };

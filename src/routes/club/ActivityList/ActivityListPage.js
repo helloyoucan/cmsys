@@ -19,7 +19,7 @@ import moment from 'moment';
   currentUser: state.login.currentUser,
 }))
 @Form.create()
-export default class ActivityPage extends PureComponent {
+export default class ActivityListPage extends PureComponent {
   state = {
     confirmLoading: false,
     uploadLoading: false,

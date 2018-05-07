@@ -114,16 +114,28 @@ const proxy = {
   'GET /sys/assann/viewTaskFrom': clubYearbook.viewTaskFrom,//办理任务，获取审批信息接口
 
   //社团活动（已完成接口对接-页面修改完成）
-  'DELETE /sys/assact/delete': clubActivityList.del,//删除社团年审申请单接口*
-  'GET /sys/assact/getOne': clubActivityList.getOne,//根据申请单id获取社团年审信息*
-  'GET /sys/assact/getPage': clubActivityList.queryList,//获取社团年审申请单列表接口*
-  'GET /sys/assact/getTaskList': clubActivityList.getTaskList,//获取社团年审申请任务列表接口*
-  'POST /sys/assact/save': clubActivityList.add,//保存社团年审申请单接口*
-  'PUT /sys/assact/startProcess': clubActivityList.startProcess,//启动社团年审流程接口*
+  'DELETE /sys/assact/delete': clubActivityList.del,//删除社团活动申请单接口*
+  'GET /sys/assact/getOne': clubActivityList.getOne,//根据申请单id获取社团活动信息*
+  'GET /sys/assact/getPage': clubActivityList.queryList,//获取社团活动申请单列表接口*
+  'GET /sys/assact/getTaskList': clubActivityList.getTaskList,//获取社团活动article申请任务列表接口*
+  'POST /sys/assact/save': clubActivityList.add,//保存社团活动申请单接口*
+  'PUT /sys/assact/startProcess': clubActivityList.startProcess,//启动社团活动流程接口*
   'PUT /sys/assact/submitTask': clubActivityList.submitTask,//提交任务接口
   'PUT /sys/assact/update': clubActivityList.update,//修改社团注销申请单接口*
   'GET /sys/assact/viewHisComment': clubActivityList.viewHisComment,//查看历史的审批信息接口
   'GET /sys/assact/viewTaskFrom': clubActivityList.viewTaskFrom,//办理任务，获取审批信息接口
+
+  //社团推文（已完成接口对接-页面修改完成）
+  'DELETE /sys/actart/delete': clubActivityList.del,//删除社团推文申请单接口*
+  'GET /sys/actart/getOne': clubActivityList.getOne,//根据申请单id获取社团推文信息*
+  'GET /sys/actart/getPage': clubActivityList.queryList,//获取社团推文申请单列表接口*
+  'GET /sys/actart/getTaskList': clubActivityList.getTaskList,//获取社团推文申请任务列表接口*
+  'POST /sys/actart/save': clubActivityList.add,//保存社团推文申请单接口*
+  'PUT /sys/actart/startProcess': clubActivityList.startProcess,//启动社团推文流程接口*
+  'PUT /sys/actart/submitTask': clubActivityList.submitTask,//提交任务接口
+  'PUT /sys/actart/update': clubActivityList.update,//修改社团注销申请单接口*
+  'GET /sys/actart/viewHisComment': clubActivityList.viewHisComment,//查看历史的审批信息接口
+  'GET /sys/actart/viewTaskFrom': clubActivityList.viewTaskFrom,//办理任务，获取审批信息接口
   //工作流相关
   'DELETE /sys/workflow/delDeployment': Workflow.delDeployment,//删除部署信息接口
   'GET /sys/workflow/getDeployInfo': Workflow.getDeployInfo,//获取部署信息接口
