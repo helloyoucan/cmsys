@@ -36,11 +36,18 @@ export default class logoutPage extends PureComponent {
         "auditStatus": 0,
         "id": 0,
         /*----*/
-        annFile: '',//文件信息
-        annFilename: '',
-        instructSituation: '',//指导老师
-        assMemberComp: '',//会员组成
-        assSize: '',//社团规模
+        actName: '',//活动名称
+        actTime: moment(new Date()),//活动时间
+        actZone: '校内',//活动区域（校内或校外）
+        actPlace: '',//活动地点
+        actType: '',//活动类型
+        actNumber: '',//活动人数
+        actRemarks: '',//活动简介
+        hostUnit: '',//主办单位
+        coUnit: '',//协办单位
+        actLead: "",//活动负责人
+        actLeadTeacher: "",//活动负责老师
+        actPlan: [],//活动策划资料存储路径
       },
       "taskId": ""
     },
@@ -75,12 +82,16 @@ export default class logoutPage extends PureComponent {
             taskId: taskId
           },
           callback: (res) => {
-            let annFile = res.data.businessData.assFile == '' ? [] : res.data.businessData.annFile.split('$')
-            annFile = annFile.map(item => {
+            let actPlan = res.data.businessData.actPlan == '' ? [] : res.data.businessData.actPlan.split('$')
+            actPlan = actPlan.map(item => {
               return JSON.parse(item)
             })
-            res.data.businessData.annFile = annFile
-            res.data.businessData.instructSituation = JSON.parse(res.data.businessData.instructSituation)
+            res.data.businessData = {
+              ...res.data.businessData,
+              actPlan,
+              actLead: JSON.parse(res.data.businessData.actLead),
+              actLeadTeacher: JSON.parse(res.data.businessData.actLeadTeacher)
+            }
             this.setState({
               taskData: {
                 ...res.data
@@ -100,7 +111,7 @@ export default class logoutPage extends PureComponent {
           confirmLoading: true
         })
         this.props.dispatch({
-            type: 'yearbook/submitTask',
+            type: 'activityList/submitTask',
             payload: {
               ...values,
               id: this.state.taskData.businessData.id,
@@ -150,7 +161,7 @@ export default class logoutPage extends PureComponent {
       },
     };
     return (
-      <PageHeaderLayout title="社团年审审批" content="">
+      <PageHeaderLayout title="社团活动审批" content="">
         <Card bordered={false}>
           <Form
             onSubmit={this.handleSubmit}
@@ -166,43 +177,98 @@ export default class logoutPage extends PureComponent {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="社团规模"
+              label="活动时间"
             >
-              {taskData.businessData.assSize}
+              {taskData && moment(taskData.businessData.actTime).format('YYYY-MM-DD HH:mm')}
 
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="会员组成"
+              label="活动区域"
             >
-              {taskData.businessData.assMemberComp}
+              {taskData && taskData.businessData.actZone}
 
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="相关文件"
+              label="活动地点"
             >
-              {
-                taskData.businessData.annFile.length > 0 ? taskData.businessData.annFile.map(item => {
-                  return ( <p key={item.lastModified}><a href={item.response}>{item.name}</a></p>)
-                }) : ''
-              }
+              {taskData && taskData.businessData.actPlace}
 
             </FormItem>
-            <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>指导老师资料</p>
+            <FormItem
+              {...formItemLayout}
+              label="活动类型"
+            >
+              {taskData && taskData.businessData.actType}
+
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="活动人数"
+            >
+              {taskData && taskData.businessData.actNumber}个
+
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="活动简介"
+            >
+              {taskData && taskData.businessData.actRemarks}
+
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="主办单位"
+            >
+              {taskData && taskData.businessData.hostUnit}
+
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="协办单位"
+            >
+              {taskData && taskData.businessData.coUnit}
+            </FormItem>
+            <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>活动负责人</p>
             <FormItem
               {...formItemLayout}
               label="姓名"
             >
-              {taskData.businessData.instructSituation && taskData.businessData.instructSituation.name}
+              {taskData && taskData.businessData.actLead.name}
 
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="联系方式"
+              label="联系电话"
             >
-              {taskData.businessData.instructSituation && taskData.businessData.instructSituation.phone}
+              {taskData && taskData.businessData.actLead.phone}
 
+            </FormItem>
+            <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>活动负责老师</p>
+
+            <FormItem
+              {...formItemLayout}
+              label="姓名"
+            >
+              {taskData && taskData.businessData.actLeadTeacher.name}
+
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="联系电话"
+            >
+              {taskData && taskData.businessData.actLeadTeacher.phone}
+
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="活动策划资料"
+            >
+              {taskData && taskData.businessData.actPlan.map((item, index) => {
+                return (<p key={index}><a href={item.response}>{item.name}</a></p>)
+              })}
+              {taskData && taskData.businessData.actPlan.length > 0 ? '' : '无'}
             </FormItem>
             {
               taskData.commentVoList == null ? '' : (

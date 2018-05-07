@@ -60,7 +60,7 @@ export const getNavData = app => [{
           path: 'actPage',
           component: dynamicWrapper(app,
             ['workflow', 'club/activityList'],
-            () => import('../routes/task/page/LogoutPage')),
+            () => import('../routes/task/page/AlPage')),
         },
         {
           name: '提交推文审批',
@@ -147,11 +147,6 @@ export const getNavData = app => [{
               component: dynamicWrapper(app, ['club/info', 'club/yearbook'], () => import('../routes/club/Yearbook/TaskResult')),
             },
             {
-              name: '成立列表',
-              path: 'setUpList',
-              component: dynamicWrapper(app, ['club/setUpList'], () => import('../routes/club/SetUpList/SetUpListTable')),
-            },
-            {
               name: '注销列表',
               path: 'logoutList',
               component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/club/Logout/LogoutTable')),
@@ -160,6 +155,22 @@ export const getNavData = app => [{
               name: '审批结果查看',
               path: 'result',
               component: dynamicWrapper(app, ['club/info', 'club/logout'], () => import('../routes/club/Logout/TaskResult')),
+            },
+
+            {
+              name: '活动列表',
+              path: 'alList',
+              component: dynamicWrapper(app, ['login', 'club/activityList', 'club/info'], () => import('../routes/club/ActivityList/ActivityListTable')),
+            },
+            {
+              name: '活动申请',
+              path: 'alPage',
+              component: dynamicWrapper(app, ['login', 'club/activityList', 'club/info'], () => import('../routes/club/ActivityList/ActivityListPage')),
+            },
+            {
+              name: '活动申请结果查看',
+              path: 'alResult',
+              component: dynamicWrapper(app, ['club/info', 'club/activityList'], () => import('../routes/club/ActivityList/TaskResult')),
             },
             /* {
              name: '注销申请',
@@ -173,23 +184,23 @@ export const getNavData = app => [{
              }*/
           ]
         },
-        {
-          name: '活动管理',
-          path: 'activity',
-          children: [
-            {
-              name: '推文',
-              path: 'article',
-              component: dynamicWrapper(app, ['club/article'], () => import('../routes/club/Article/ArticleTable')),
-            },
-            {
-              name: '活动列表',
-              path: 'activityList',
-              component: dynamicWrapper(app, ['club/activityList'], () => import('../routes/club/ActivityList/ActivityListTable')),
-            },
-          ]
+        /*   {
+         name: '活动管理',
+         path: 'activity',
+         children: [
+         {
+         name: '推文',
+         path: 'article',
+         component: dynamicWrapper(app, ['club/article'], () => import('../routes/club/Article/ArticleTable')),
+         },
+         {
+         name: '活动列表',
+         path: 'activityList',
+         component: dynamicWrapper(app, ['club/activityList'], () => import('../routes/club/ActivityList/ActivityListTable')),
+         },
+         ]
 
-        },
+         },*/
       ]
     },
     {

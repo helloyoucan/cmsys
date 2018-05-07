@@ -1,58 +1,38 @@
 import request from '../../utils/request';
 import {stringify} from 'qs';
-
-//添加用户
-export async function add(params) {
-  /*
-   *username	用户名	是	String
-   categoryId	用户类型	是	String
-   associationId	社团ID，只有社团管理员才需要传	否	int
-   status	用户状态，可不传，后端默认设置为启用	否	int
-   * */
-  return request('/sys/article/save', {
-    method: 'POST',
-    body: {
-      ...params,
-    },
+export async function del(params) {
+  return request(`/sys/assact/delete?id=${params.id}`, {
+    method: 'DELETE'
   });
 }
-export async function enable(params) {
-  return request(`/sys/article/enable?ids=${params.ids}`);
+export async function getOne(params) {
+  return request(`/sys/assact/getOne?id=${params.id}`);
 }
-export async function disable(params) {
-  /*
-   * params:{
-   * ids:''
-   * }
-   * */
-  return request(`/sys/article/disable?ids=${params.ids}`);
-}
-export async function update(params) {
-  /**
-   id  用户id  是  int
-   username  用户名  是  String
-   categoryId  用户类型  是  String
-   associationId  社团ID，只有社团管理员才需要传  否  int
-   status  用户状态，可不传，后端默认设置为启用  否  int
-
-   * */
-  return request('/sys/article/update', {
-    method: 'POST',
-    body: {
-      ...params,
-    },
-  });
-}
-
 export async function queryList(params) {
   /*
    params:
-   categoryId	用户类型	否	String
    pageNo	页码，默认为1	否	int
    pageSize	每页显示条数，默认为10	否	int
    * */
-  // return request(`/sys/article/page?${stringify(params)}`);
-  return request('/sys/article/page', {
+  // return request(`/sys/assact/page?${stringify(params)}`);
+  return request(`/sys/assact/getPage?${stringify(params)}`);
+}
+export async function getTaskList(params) {
+  /*
+   params:
+   pageNo	页码，默认为1	否	int
+   pageSize	每页显示条数，默认为10	否	int
+   * */
+  return request(`/sys/assact/getTaskList?${stringify(params)}`);
+}
+export async function add(params) {
+  /*
+   assId (integer, optional): 社团id ,
+   assSituation (string, optional): 社团情况 ,
+   cancelReasons (string, optional): 注销理由 ,
+   id (integer, optional): 申请id
+   * */
+  return request('/sys/assact/save', {
     method: 'POST',
     body: {
       ...params,
@@ -60,10 +40,53 @@ export async function queryList(params) {
   });
 }
 
-export async function getOne(params) {
-  return request(`/sys/article/getOne?id=${params.id}`);
+export async function startProcess(params) {
+  return request(`/sys/assact/startProcess?id=${params.id}`, {
+    method: 'PUT',
+  });
 }
-export async function dels(params) {
-  return request(`/sys/article/delete?ids=${params.ids}`);
+export async function submitTask(params) {
+  /**
+   * SubmitTaskBean {
+comment (string, optional),
+id (integer, optional),
+outcome (string, optional),
+taskId (string, optional)
 }
+   * */
+  return request('/sys/assact/submitTask', {
+    method: 'PUT',
+    body: {
+      ...params,
+    },
+  });
+}
+export async function update(params) {
+  /**
+   社团注销申请实体类 {
+assId (integer, optional): 社团id ,
+assSituation (string, optional): 社团情况 ,
+cancelReasons (string, optional): 注销理由 ,
+id (integer, optional): 申请id
+}
+
+   * */
+  return request('/sys/assact/update', {
+    method: 'PUT',
+    body: {
+      ...params,
+    },
+  });
+}
+
+export async function viewHisComment(params) {
+  return request(`/sys/assact/viewHisComment?id=${params.id}`);
+}
+
+
+export async function viewTaskFrom(params) {
+  return request(`/sys/assact/viewTaskFrom?taskId=${params.taskId}`);
+}
+
+
 

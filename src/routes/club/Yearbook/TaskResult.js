@@ -12,7 +12,7 @@ const {RangePicker} = DatePicker;
 const {TextArea} = Input;
 @connect(state => ({
   info: state.info,
-  clubLogout: state.clubLogout
+  yearbook: state.yearbook
 }))
 export default class TaskResult extends Component {
   state = {
@@ -104,7 +104,7 @@ export default class TaskResult extends Component {
       },
     };
     return (
-      <PageHeaderLayout title="社团年审信息" content="">
+      <PageHeaderLayout title="社团年审审批结果" content="">
         <Card bordered={false}>
           <Form
             onSubmit={this.handleSubmit}

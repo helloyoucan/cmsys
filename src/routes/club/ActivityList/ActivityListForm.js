@@ -6,7 +6,7 @@ import {
 } from 'antd';
 const FormItem = Form.Item;
 @Form.create()
-export default class ActivityListForm extends PureComponent {
+export default class ActivityList extends PureComponent {
   state = {
     formValues: {},
   };

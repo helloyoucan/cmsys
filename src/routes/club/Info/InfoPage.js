@@ -13,6 +13,7 @@ const {TextArea} = Input;
 
 @connect(state => ({
   info: state.info,
+  currentUser: state.login.currentUser,
   dataManagement: state.dataManagement
 }))
 @Form.create()
@@ -91,40 +92,41 @@ export default class InfoPage extends PureComponent {
   }
 
   getData() {
+    let id = this.props.currentUser.assId;
     if (this.props.location.data != undefined) {
-      const id = this.props.location.data.id;
-      if (id != null) {
-        this.props.dispatch({
-          type: 'info/getOne',
-          payload: {
-            id: this.props.location.data.id
-          },
-          callback: (res) => {
-            if (res.ret) {
-              let assFile = res.data.assFile == '' ? [] : res.data.assFile.split('$')
-              assFile = assFile.map(item => {
-                return JSON.parse(item)
-              })
-              res.data.assFile = assFile
-              res.data.initSituation = JSON.parse(res.data.initSituation)
-              res.data.leadSituation = JSON.parse(res.data.leadSituation)
-              res.data.leadTeacherSituation = JSON.parse(res.data.leadTeacherSituation)
-              this.setState({
-                formData: res.data
-              })
-            } else if (res.msg) {
-              message.error(res.msg);
-            }
-          }
-        });
+      if (this.props.location.data.id != null) {
+        id = this.props.location.data.id
       }
     }
+    this.props.dispatch({
+      type: 'info/getOne',
+      payload: {
+        id: id
+      },
+      callback: (res) => {
+        if (res.ret) {
+          let assFile = res.data.assFile == '' ? [] : res.data.assFile.split('$')
+          assFile = assFile.map(item => {
+            return JSON.parse(item)
+          })
+          res.data.assFile = assFile
+          res.data.initSituation = JSON.parse(res.data.initSituation)
+          res.data.leadSituation = JSON.parse(res.data.leadSituation)
+          res.data.leadTeacherSituation = JSON.parse(res.data.leadTeacherSituation)
+          this.setState({
+            formData: res.data
+          })
+        } else if (res.msg) {
+          message.error(res.msg);
+        }
+      }
+    });
   }
 
   render() {
-    const {info} = this.props;
+    const {info, currentUser} = this.props;
     const {getFieldDecorator} = this.props.form;
-    //const formData = info.oneData == undefined ? {} : info.oneData;
+    console.log(currentUser)
     const {formData, association} = this.state
     const uploadSetting = {
       //showUploadList: false,
@@ -135,7 +137,6 @@ export default class InfoPage extends PureComponent {
         authorization: 'authorization-text',
       },
       defaultFileList: formData.assFile,
-
       onChange: (info) => {
         let assFile = info.fileList;
         assFile = assFile.map((file) => {
@@ -150,15 +151,12 @@ export default class InfoPage extends PureComponent {
           }
           return true;
         });
-
         this.setState({
           formData: {
             ...this.state.formData,
             assFile: assFile
           }
         })
-
-
         if (info.file.status === 'done') {
           if (typeof info.file.response == 'string') {
             message.success('上传成功');
@@ -193,7 +191,6 @@ export default class InfoPage extends PureComponent {
         md: {span: 10},
       },
     };
-
     const submitFormLayout = {
       wrapperCol: {
         xs: {span: 24, offset: 0},
@@ -374,11 +371,14 @@ export default class InfoPage extends PureComponent {
               <Button type="primary" htmlType="submit" loading={this.state.confirmLoading}>
                 保存
               </Button>
-              <Button>
-                <Link to={{
-                  pathname: '/clubManagement/cinfoList',
-                }
-                }> 返回列表</Link> </Button>
+              {
+                currentUser.assId != -1 ? '' : ( <Button>
+                  <Link to={{
+                    pathname: '/clubManagement/cinfoList',
+                  }
+                  }> 返回列表</Link> </Button>)
+              }
+
             </FormItem>
           </Form>
         </Card>

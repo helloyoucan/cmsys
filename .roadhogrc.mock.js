@@ -101,7 +101,7 @@ const proxy = {
   'GET /sys/asscancel/viewHisComment': clubLogout.viewHisComment,//查看历史的审批信息接口
   'GET /sys/asscancel/viewTaskFrom': clubLogout.viewTaskFrom,//办理任务，获取审批信息接口
 
-  //社团年审（）
+  //社团年审（已完成接口对接-页面修改完成）
   'DELETE /sys/assann/delete': clubYearbook.del,//删除社团年审申请单接口*
   'GET /sys/assann/getOne': clubYearbook.getOne,//根据申请单id获取社团年审信息*
   'GET /sys/assann/getPage': clubYearbook.queryList,//获取社团年审申请单列表接口*
@@ -112,6 +112,18 @@ const proxy = {
   'PUT /sys/assann/update': clubYearbook.update,//修改社团注销申请单接口*
   'GET /sys/assann/viewHisComment': clubYearbook.viewHisComment,//查看历史的审批信息接口
   'GET /sys/assann/viewTaskFrom': clubYearbook.viewTaskFrom,//办理任务，获取审批信息接口
+
+  //社团活动（已完成接口对接-页面修改完成）
+  'DELETE /sys/assact/delete': clubActivityList.del,//删除社团年审申请单接口*
+  'GET /sys/assact/getOne': clubActivityList.getOne,//根据申请单id获取社团年审信息*
+  'GET /sys/assact/getPage': clubActivityList.queryList,//获取社团年审申请单列表接口*
+  'GET /sys/assact/getTaskList': clubActivityList.getTaskList,//获取社团年审申请任务列表接口*
+  'POST /sys/assact/save': clubActivityList.add,//保存社团年审申请单接口*
+  'PUT /sys/assact/startProcess': clubActivityList.startProcess,//启动社团年审流程接口*
+  'PUT /sys/assact/submitTask': clubActivityList.submitTask,//提交任务接口
+  'PUT /sys/assact/update': clubActivityList.update,//修改社团注销申请单接口*
+  'GET /sys/assact/viewHisComment': clubActivityList.viewHisComment,//查看历史的审批信息接口
+  'GET /sys/assact/viewTaskFrom': clubActivityList.viewTaskFrom,//办理任务，获取审批信息接口
   //工作流相关
   'DELETE /sys/workflow/delDeployment': Workflow.delDeployment,//删除部署信息接口
   'GET /sys/workflow/getDeployInfo': Workflow.getDeployInfo,//获取部署信息接口
@@ -121,7 +133,7 @@ const proxy = {
   'GET /sys/workflow/viewCurrentImage': Workflow.viewCurrentImage,//查看当前流程图接口（提交或审批的相关人员查看）
   'GET /sys/workflow/viewImage': Workflow.viewImage,//查看流程图接口
 
-  //社团信息-社团列表接口（已完成接口对接）
+  //社团信息-社团列表接口（已完成接口对接-页面修改完成）
   'POST /sys/ass/save': clubInfo.add,//保存社团信息接口（超级管理员）
   'POST /sys/ass/update': clubInfo.update,//更新社团信息接口（超级管理员）
   'GET /sys/ass/getPage': clubInfo.queryList,//获取社团列表（超级管理员）
@@ -140,14 +152,7 @@ const proxy = {
 
 
   /*---------------上面是已确定的----------*/
-  //社团活动
-  'POST /sys/activityList/save': clubActivityList.add,
-  'GET /sys/activityList/enable': clubActivityList.enable,
-  'GET /sys/activityList/disable': clubActivityList.disable,
-  'POST /sys/activityList/update': clubActivityList.update,
-  'POST /sys/activityList/page': clubActivityList.queryList,
-  'GET /sys/activityList/getOne': clubActivityList.getOne,
-  'GET /sys/activityList/delete': clubActivityList.dels,
+
   //社团推文
   'POST /sys/article/save': clubArticle.add,
   'GET /sys/article/enable': clubArticle.enable,

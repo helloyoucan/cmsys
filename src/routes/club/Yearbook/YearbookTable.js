@@ -9,6 +9,7 @@ import {
 } from 'antd';
 const confirm = Modal.confirm;
 import {Link} from 'dva/router';
+import moment from 'moment'
 import StandardTable from '../../../components/StandardTable/index';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import YearbookForm from './YearbookForm';
@@ -293,6 +294,11 @@ export default class YearbookTable extends PureComponent {
        },
        },*/
       {
+        title: '创建时间',
+        dataIndex: 'insertTime',
+        render: (val) => (moment(val).format('YYYY-MM-DD HH:mm:ss'))
+      },
+      {
         title: '状态',
         dataIndex: 'auditStatus',
         render: (val, row) => {
@@ -324,7 +330,12 @@ export default class YearbookTable extends PureComponent {
                <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
             </span>
             ) : '' }
-
+            {row.auditStatus == 1 ? (
+              <span>
+               <Divider type="vertical"/>
+               <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
+              </span>
+            ) : '' }
           </div>)
         },
       },
@@ -358,14 +369,14 @@ export default class YearbookTable extends PureComponent {
           </div>
         </Card>
         {/*<YearbookModal modalVisible={this.state.modalVisible}
-                       modalLoading={this.state.modalLoading}
-                       data={this.state.modalData}
-                       clubList={clubList}
-                       dispatch={this.props.dispatch}
-                       getData={this.getData.bind(this)}
-                       startProcess={this.startProcess.bind(this)}
-                       handleModalVisible={this.handleModalVisible.bind(this)}
-        />*/}
+         modalLoading={this.state.modalLoading}
+         data={this.state.modalData}
+         clubList={clubList}
+         dispatch={this.props.dispatch}
+         getData={this.getData.bind(this)}
+         startProcess={this.startProcess.bind(this)}
+         handleModalVisible={this.handleModalVisible.bind(this)}
+         />*/}
 
       </PageHeaderLayout>
     );
