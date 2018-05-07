@@ -103,8 +103,6 @@ export default class YearbookPage extends PureComponent {
     if (this.props.location.data != undefined) {
       const id = this.props.location.data.id;
       if (id != null) {
-
-
         this.props.dispatch({
           type: 'yearbook/getOne',
           payload: {
