@@ -22,7 +22,6 @@ import moment from 'moment';
 export default class ActivityListPage extends PureComponent {
   state = {
     confirmLoading: false,
-    uploadLoading: false,
     clubName: [],
     formData: {
       actName: '',//活动名称
@@ -59,22 +58,45 @@ export default class ActivityListPage extends PureComponent {
           actLeadTeacher: JSON.stringify(values.actLeadTeacher),
           actTime: values.actTime.format('x')
         }
+        this.setState({
+          confirmLoading: true
+        })
         if (this.props.location.data != undefined && this.props.location.data.id != null) {
           this.props.dispatch({
             type: 'activityList/update',
             payload: {
               id: this.state.formData.id,
               ...values
+            },
+            callback: (res) => {
+              this.afterSubmit(res)
             }
           });
         } else {
           this.props.dispatch({
             type: 'activityList/add',
-            payload: values
+            payload: values,
+            callback: (res) => {
+              this.afterSubmit(res)
+            }
           });
         }
       }
     });
+  }
+
+  afterSubmit(res) {
+    this.setState({
+      confirmLoading: false
+    })
+    if (res.ret) {
+      this.setState({
+        formData: {
+          ...this.state.formData,
+          editStatus: 0
+        }
+      })
+    }
   }
 
   componentDidMount() {

@@ -47,7 +47,7 @@ export default class TaskResult extends Component {
       const id = this.props.location.data.id;
       if (id != null) {
         this.props.dispatch({
-          type: 'activityList/viewHisComment',
+          type: 'article/viewHisComment',
           payload: {
             id
           },
@@ -154,7 +154,7 @@ export default class TaskResult extends Component {
             <FormItem {...submitFormLayout} style={{marginTop: 32}}>
               <Button>
                 <Link to={{
-                  pathname: '/clubManagement/clubApproval/ybList',
+                  pathname: '/clubManagement/clubApproval/artList',
                 }
                 }> 返回列表</Link>
               </Button>

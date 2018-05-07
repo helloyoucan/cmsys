@@ -19,7 +19,6 @@ const {TextArea} = Input;
 export default class YearbookPage extends PureComponent {
   state = {
     confirmLoading: false,
-    uploadLoading: false,
     clubName: [],
     formData: {
       assSize: '',//模特协会社团规模
@@ -46,22 +45,45 @@ export default class YearbookPage extends PureComponent {
           instructSituation: JSON.stringify(values.instructSituation),
           annFilename: null
         }
+        this.setState({
+          confirmLoading: true
+        })
         if (this.props.location.data != undefined && this.props.location.data.id != null) {
           this.props.dispatch({
             type: 'yearbook/update',
             payload: {
               id: this.state.formData.id,
               ...values
+            },
+            callback: (res) => {
+              this.afterSubmit(res)
             }
           });
         } else {
           this.props.dispatch({
             type: 'yearbook/add',
-            payload: values
+            payload: values,
+            callback: (res) => {
+              this.afterSubmit(res)
+            }
           });
         }
       }
     });
+  }
+
+  afterSubmit(res) {
+    this.setState({
+      confirmLoading: false
+    })
+    if (res.ret) {
+      this.setState({
+        formData: {
+          ...this.state.formData,
+          editStatus: 0
+        }
+      })
+    }
   }
 
   componentDidMount() {

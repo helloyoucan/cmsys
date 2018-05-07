@@ -12,7 +12,11 @@ const {Option} = Select;
 const {TextArea} = Input;
 import {Link} from 'dva/router';
 import moment from 'moment';
-
+import {EditorState, convertToRaw, ContentState, convertFromHTML} from 'draft-js';
+import {Editor} from 'react-draft-wysiwyg';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import '../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 @connect(state => ({
   info: state.info,
   article: state.article,
@@ -23,7 +27,6 @@ import moment from 'moment';
 export default class ArticlePage extends PureComponent {
   state = {
     confirmLoading: false,
-    uploadLoading: false,
     clubName: [],
     formData: {
       title: '',//文章标题
@@ -32,6 +35,7 @@ export default class ArticlePage extends PureComponent {
       content: '',//文章内容
     },
     tweetType: [],//推文类型
+    editorState: EditorState.createEmpty(),
   }
   handleSubmit = (e) => {
     e.preventDefault();
@@ -39,25 +43,55 @@ export default class ArticlePage extends PureComponent {
       if (!err) {
         values = {
           ...values,
+          content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
           assId: this.props.currentUser.assId
         }
+        this.setState({
+          confirmLoading: true
+        })
         if (this.props.location.data != undefined && this.props.location.data.id != null) {
           this.props.dispatch({
             type: 'article/update',
             payload: {
               id: this.state.formData.id,
               ...values
+            },
+            callback: (res) => {
+              this.afterSubmit(res)
             }
           });
         } else {
           this.props.dispatch({
             type: 'article/add',
-            payload: values
+            payload: values,
+            callback: (res) => {
+              this.afterSubmit(res)
+            }
           });
         }
       }
     });
   }
+
+  afterSubmit(res) {
+    this.setState({
+      confirmLoading: false
+    })
+    if (res.ret) {
+      this.setState({
+        formData: {
+          ...this.state.formData,
+          editStatus: 0
+        }
+      })
+    }
+  }
+
+  onEditorStateChange(editorState) {
+    this.setState({
+      editorState,
+    });
+  };
 
   componentDidMount() {
     this.props.dispatch({
@@ -92,8 +126,12 @@ export default class ArticlePage extends PureComponent {
           },
           callback: (res) => {
             if (res.ret) {
+              const contentBlock = htmlToDraft(res.data.content);
+              const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+              const editorState = EditorState.createWithContent(contentState);
               this.setState({
-                formData: res.data
+                formData: res.data,
+                editorState
               })
             } else if (res.msg) {
               message.error(res.msg);
@@ -107,7 +145,7 @@ export default class ArticlePage extends PureComponent {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    const {formData, clubName, tweetType} = this.state
+    const {formData, clubName, tweetType, editorState} = this.state
     const uploadSetting = {
       fileList: formData.actPlan,
       name: 'fileName',
@@ -178,6 +216,15 @@ export default class ArticlePage extends PureComponent {
         sm: {span: 10, offset: 7},
       },
     };
+    const contentStyle = {
+      width: '100%',
+      maxWidth: '800px',
+      margin: '0 auto',
+      minHeight: '600px',
+      'border': '1px solid #d9d9d9',
+      padding: '5px'
+    }
+
     return (
       <PageHeaderLayout title="社团推文" content="">
         <Card bordered={false}>
@@ -201,7 +248,7 @@ export default class ArticlePage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.title
               })(
-                <Input/>
+                <Input disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <FormItem
@@ -213,7 +260,7 @@ export default class ArticlePage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.type
               })(
-                <RadioGroup>
+                <RadioGroup disabled={formData.editStatus == 0}>
                   {tweetType.map((item, index) => {
                     return (<Radio key={index} value={item.pmname}>{item.pmvalue}</Radio>)
                   })}
@@ -229,24 +276,46 @@ export default class ArticlePage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.showStatus
               })(
-                <RadioGroup>
+                <RadioGroup disabled={formData.editStatus == 0}>
                   <Radio value={1}>展示</Radio>
                   <Radio value={0}>不展示</Radio>
                 </RadioGroup>
               )}
             </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="文章内容"
-            >
-              {getFieldDecorator('content', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.content
-              })(
-                <TextArea rows={4}/>
-              )}
-            </FormItem>
+            {/*<FormItem
+             {...formItemLayout}
+             label="文章内容"
+             >
+             {getFieldDecorator('content', {
+             rules: [{
+             required: true, message: '请输入',
+             }], initialValue: formData.content
+             })(
+             <TextArea rows={4}/>
+             )}
+             </FormItem>*/}
+            {/*  <div
+             dangerouslySetInnerHTML={{__html: formData.content}}
+             style={{
+             display: formData.editStatus == 0 ? 'block' : 'none',
+             ...contentStyle
+             }}>
+             </div>*/}
+            <div style={{
+              // display: formData.editStatus == 0? 'block' : 'block',
+              ...contentStyle
+            }}>
+              <Editor
+                readOnly={ formData.editStatus == 0}
+                editorState={editorState}
+                onEditorStateChange={this.onEditorStateChange.bind(this)}
+              />
+              {/* <textarea
+               disabled
+               value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
+               />*/}
+            </div>
+
             {/*<FormItem
              {...formItemLayout}
              label="备注"
@@ -257,10 +326,13 @@ export default class ArticlePage extends PureComponent {
              <TextArea rows="4"/>
              )}
              </FormItem>*/}
-            <FormItem {...submitFormLayout} style={{marginTop: 32}}>
+            <FormItem {...submitFormLayout} style={{marginTop: 32, textAlign: 'center'}}>
               {
                 formData.editStatus == 0 ? '' : (
-                  <Button type="primary" htmlType="submit" loading={this.state.confirmLoading}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={this.state.confirmLoading}>
                     保存
                   </Button>
                 )
