@@ -24,10 +24,12 @@ export default {
         payload: true,
       });
       const response = yield call(queryList, payload);
-      yield put({
-        type: 'queryListReducers',
-        payload: response.data,
-      });
+      if (response.ret) {
+        yield put({
+          type: 'queryListReducers',
+          payload: response.data,
+        });
+      }
       yield put({
         type: 'changeLoadingReducers',
         payload: false,

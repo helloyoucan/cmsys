@@ -65,10 +65,12 @@ export default {
         payload: true,
       });
       const response = yield call(getTaskList, payload);
-      yield put({
-        type: 'getTaskListReducers',
-        payload: response.data,
-      });
+      if (response.ret) {
+        yield put({
+          type: 'getTaskListReducers',
+          payload: response.data,
+        });
+      }
       yield put({
         type: 'changeLoading',
         payload: false,
