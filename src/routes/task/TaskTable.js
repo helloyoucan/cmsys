@@ -217,19 +217,19 @@ export default class TaskTable extends PureComponent {
           switch (row.processDefinitionKey) {
             case 'ass-cancel'://注销
               type = 'clubLogout'
-              pathname = '/task/logoutPage'
+              pathname = '/task/taskLogoutPage'
               break;
             case 'ass-act'://活动
               type = 'activityList'
-              pathname = '/task/actPage'
+              pathname = '/task/taskActPage'
               break;
             case 'ass-ann'://年审
               type = 'yearbook'
-              pathname = '/task/ybPage'
+              pathname = '/task/taskYbPage'
               break;
             case 'act-art'://推文
               type = 'article'
-              pathname = '/task/artPage'
+              pathname = '/task/taskArtPage'
               break;
           }
           return (

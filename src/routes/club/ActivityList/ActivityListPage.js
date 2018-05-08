@@ -192,6 +192,7 @@ export default class ActivityListPage extends PureComponent {
 
       },
       onRemove: (file) => {
+        if(this.state.formData.editStatus == 0) return false
         let actPlan = this.state.formData.actPlan.filter(item => {
           return item.response != file.response
         })
@@ -243,7 +244,7 @@ export default class ActivityListPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.actName
               })(
-                <Input/>
+                <Input disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <FormItem
@@ -255,7 +256,7 @@ export default class ActivityListPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.actTime
               })(
-                <DatePicker showTime format="YYYY-MM-DD HH:mm"/>
+                <DatePicker disabled={formData.editStatus == 0} showTime format="YYYY-MM-DD HH:mm"/>
               )}
             </FormItem>
             <FormItem
@@ -267,7 +268,7 @@ export default class ActivityListPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.actZone
               })(
-                <RadioGroup>
+                <RadioGroup disabled={formData.editStatus == 0}>
                   <Radio value={"校内"} defaultChecked={true}>校内</Radio>
                   <Radio value={"校外"}>校外</Radio>
                 </RadioGroup>
@@ -282,7 +283,7 @@ export default class ActivityListPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.actPlace
               })(
-                <Input/>
+                <Input disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <FormItem
@@ -294,7 +295,7 @@ export default class ActivityListPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.actType
               })(
-                <Input/>
+                <Input disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <FormItem
@@ -306,7 +307,7 @@ export default class ActivityListPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.actNumber
               })(
-                <Input type="number"/>
+                <Input type="number" disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <FormItem
@@ -318,7 +319,7 @@ export default class ActivityListPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.actRemarks
               })(
-                <TextArea rows="4"/>
+                <TextArea rows="4" disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <FormItem
@@ -330,7 +331,7 @@ export default class ActivityListPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.hostUnit
               })(
-                <Input/>
+                <Input disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <FormItem
@@ -342,7 +343,7 @@ export default class ActivityListPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.coUnit
               })(
-                <Input/>
+                <Input disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>活动负责人</p>
@@ -355,7 +356,7 @@ export default class ActivityListPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.actLead.name
               })(
-                <Input/>
+                <Input disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <FormItem
@@ -367,7 +368,7 @@ export default class ActivityListPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.actLead.phone
               })(
-                <Input/>
+                <Input disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
 
@@ -381,7 +382,7 @@ export default class ActivityListPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.actLeadTeacher.name
               })(
-                <Input/>
+                <Input disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <FormItem
@@ -393,15 +394,16 @@ export default class ActivityListPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.actLeadTeacher.phone
               })(
-                <Input/>
+                <Input disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <FormItem
               {...formItemLayout}
               label="活动策划资料"
             >
-              <Upload {...uploadSetting}>
-                <Button>
+              <Upload {...uploadSetting}
+                      disabled={formData.editStatus == 0}>
+                <Button >
                   <Icon type="upload"/> 点击上传
                 </Button>
               </Upload>

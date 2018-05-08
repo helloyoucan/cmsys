@@ -43,28 +43,28 @@ export const getNavData = app => [{
         },
         {
           name: '提交注销审批',
-          path: 'logoutPage',
+          path: 'taskLogoutPage',
           component: dynamicWrapper(app,
             ['workflow', 'club/logout'],
             () => import('../routes/task/page/LogoutPage')),
         },
         {
           name: '提交年审审批',
-          path: 'ybPage',
+          path: 'taskYbPage',
           component: dynamicWrapper(app,
             ['workflow', 'club/yearbook'],
             () => import('../routes/task/page/YbPage')),
         },
         {
           name: '提交活动审批',
-          path: 'actPage',
+          path: 'taskActPage',
           component: dynamicWrapper(app,
             ['workflow', 'club/activityList'],
             () => import('../routes/task/page/AlPage')),
         },
         {
           name: '提交推文审批',
-          path: 'artPage',
+          path: 'taskArtPage',
           component: dynamicWrapper(app,
             ['workflow', 'club/logout', 'club/article', 'dataManagement'],
             () => import('../routes/task/page/ArtPage')),
@@ -160,35 +160,8 @@ export const getNavData = app => [{
               path: 'artResult',
               component: dynamicWrapper(app, ['club/info', 'club/article', 'dataManagement'], () => import('../routes/club/Article/TaskResult')),
             },
-            /* {
-             name: '注销申请',
-             path: 'clubLogoutPage',
-             component: dynamicWrapper(app, ['login', 'club/logout', 'club/info'], () => import('../routes/club/Logout/LogoutPage')),
-             },*/
-            /* {
-             name: '注销进度查看',
-             path: 'logoutRead',
-             component: dynamicWrapper(app, ['club/logout'], () => import('../routes/club/Logout/clubLogoutRead')),
-             }*/
           ]
-        },
-        /*   {
-         name: '活动管理',
-         path: 'activity',
-         children: [
-         {
-         name: '推文',
-         path: 'article',
-         component: dynamicWrapper(app, ['club/article'], () => import('../routes/club/Article/ArticleTable')),
-         },
-         {
-         name: '活动列表',
-         path: 'activityList',
-         component: dynamicWrapper(app, ['club/activityList'], () => import('../routes/club/ActivityList/ActivityListTable')),
-         },
-         ]
-
-         },*/
+        }
       ]
     },
     {

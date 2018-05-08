@@ -208,6 +208,7 @@ export default class YearbookPage extends PureComponent {
 
       },
       onRemove: (file) => {
+        if(this.state.formData.editStatus == 0) return false
         let annFile = this.state.formData.annFile.filter(item => {
           return item.response != file.response
         })
@@ -260,7 +261,7 @@ export default class YearbookPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.assSize
               })(
-                <TextArea rows="4"/>
+                <TextArea rows="4" disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <FormItem
@@ -272,7 +273,7 @@ export default class YearbookPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.assMemberComp
               })(
-                <TextArea rows="4"/>
+                <TextArea rows="4" disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
 
@@ -286,7 +287,7 @@ export default class YearbookPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.instructSituation.name
               })(
-                <Input/>
+                <Input disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <FormItem
@@ -298,14 +299,15 @@ export default class YearbookPage extends PureComponent {
                   required: true, message: '请输入',
                 }], initialValue: formData.instructSituation.phone
               })(
-                <Input/>
+                <Input disabled={formData.editStatus == 0}/>
               )}
             </FormItem>
             <FormItem
               {...formItemLayout}
               label="年审资料"
             >
-              <Upload {...uploadSetting}>
+              <Upload {...uploadSetting}
+                      disabled={formData.editStatus == 0}>
                 <Button>
                   <Icon type="upload"/> 点击上传
                 </Button>
