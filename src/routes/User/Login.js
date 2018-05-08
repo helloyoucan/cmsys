@@ -3,10 +3,9 @@ import {connect} from 'dva';
 import {Link} from 'dva/router';
 import {Form, Input, Tabs, Button, Icon, Checkbox, Alert} from 'antd';
 import styles from './Login.less';
-
+import md5 from 'js-md5';
 const FormItem = Form.Item;
 const {TabPane} = Tabs;
-
 @connect(state => ({
   login: state.login,
 }))
@@ -31,7 +30,7 @@ export default class Login extends Component {
     this.props.form.validateFields({force: true},
       (err, values) => {
         if (!err) {
-          console.log(values)
+          values.password = md5(values.password).toUpperCase()
           this.props.dispatch({
             type: 'login/login',
             payload: {

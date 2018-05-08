@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'dva';
 import {
-  message, Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Upload,
+  message, Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Upload, Timeline
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 
@@ -176,7 +176,7 @@ export default class logoutPage extends PureComponent {
                   label="历史审批信息"
                 >
                   {taskData.commentVoList == null ? '' :
-                    < Timeline >
+                    <Timeline>
                       {taskData.commentVoList.map(item => {
                         return (
                           <Timeline.Item

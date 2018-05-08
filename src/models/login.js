@@ -1,4 +1,4 @@
-import {login, logout} from '../services/login';
+import {login, logout, checkLogin} from '../services/login';
 import {routerRedux} from 'dva/router';
 export default {
   namespace: 'login',
@@ -51,6 +51,24 @@ export default {
         });
       }
     },
+    *checkLogin({payload}, {call, put}){
+      const response = yield call(checkLogin, payload);
+      if (response.ret) {
+        yield put({
+          type: 'saveCurrentUser',
+          payload: response.data,
+        });
+        if (window.sessionStorage) {
+          sessionStorage.setItem('currentUser', JSON.stringify(response.data));
+        }
+        yield put(routerRedux.push('/'));
+      } else {
+        yield put(routerRedux.push('/user/login'));
+        if (window.sessionStorage) {
+          sessionStorage.removeItem('currentUser');
+        }
+      }
+    }
   },
 
   reducers: {

@@ -5,7 +5,6 @@ import {connect} from 'dva';
 import {Link, Route, Redirect, Switch} from 'dva/router';
 import {Layout, Menu, Icon, Avatar, Dropdown, Tag, message, Spin, Divider} from 'antd';
 
-import HeaderSearch from 'ant-design-pro/lib/HeaderSearch';
 import NoticeIcon from 'ant-design-pro/lib/NoticeIcon';
 import GlobalFooter from 'ant-design-pro/lib/GlobalFooter';
 
@@ -56,17 +55,22 @@ class BasicLayout extends React.PureComponent {
     };
   }
 
-  getChildContext() {
-    const {location, navData, getRouteData} = this.props;
-    const routeData = getRouteData('BasicLayout');
-    const firstMenuData = navData.reduce((arr, current) => arr.concat(current.children), []);
-    const menuData = this.getMenuData(firstMenuData, '');
-    const breadcrumbNameMap = {};
-
-    routeData.concat(menuData).forEach((item) => {
-      breadcrumbNameMap[item.path] = item.name;
+  /* getChildContext() {
+   const {location, navData, getRouteData} = this.props;
+   const routeData = getRouteData('BasicLayout');
+   const firstMenuData = navData.reduce((arr, current) => arr.concat(current.children), []);
+   const menuData = this.getMenuData(firstMenuData, '');
+   const breadcrumbNameMap = {};
+   routeData.concat(menuData).forEach((item) => {
+   breadcrumbNameMap[item.path] = item.name;
+   });
+   return {location, breadcrumbNameMap};
+   }*/
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'login/checkLogin',
+      payload: {},
     });
-    return {location, breadcrumbNameMap};
   }
 
   componentWillUnmount() {
@@ -123,14 +127,17 @@ class BasicLayout extends React.PureComponent {
   }
 
   getNavMenuItems(menusData, parentPath = '') {
+    const {currentUser} = this.props.login;
     if (!menusData) {
       return [];
     }
     return menusData.map((item) => {
-      /*if (item.insert_man != 'admin') {//权限控制
-       return null;
-       }*/
-      if (!item.name) {
+      if ((item.isShow != undefined && !item.isShow)//UI权限控制
+        || item.insert_man == undefined
+        || (item.insert_man != undefined
+        && currentUser
+        && currentUser.categoryId
+        && !item.insert_man.includes(currentUser.categoryId))) {
         return null;
       }
       let itemPath;
@@ -276,7 +283,7 @@ class BasicLayout extends React.PureComponent {
   }
 
   render() {
-    const {currentUser, collapsed, fetchingNotices, getRouteData} = this.props;
+    const {login: {currentUser}, collapsed, fetchingNotices, getRouteData} = this.props;
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={this.onMenuClick}>
         <Menu.Item key="updatePsw"><Icon type="key"/>修改密码</Menu.Item>
@@ -337,17 +344,6 @@ class BasicLayout extends React.PureComponent {
               onClick={this.toggle}
             />
             <div className={styles.right}>
-              {/*<HeaderSearch
-                className={`${styles.action} ${styles.search}`}
-                placeholder="站内搜索"
-                dataSource={['搜索提示一', '搜索提示二', '搜索提示三']}
-                onSearch={(value) => {
-                  console.log('input', value); // eslint-disable-line
-                }}
-                onPressEnter={(value) => {
-                  console.log('enter', value); // eslint-disable-line
-                }}
-              />
               <NoticeIcon
                 className={styles.action}
                 count={10}
@@ -377,7 +373,7 @@ class BasicLayout extends React.PureComponent {
                   emptyText="你已完成所有待办"
                   emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
                 />
-              </NoticeIcon>*/}
+              </NoticeIcon>
               {!!currentUser && currentUser.id ? (
                 <Dropdown overlay={menu}>
                   <span className={`${styles.action} ${styles.account}`}>
@@ -445,7 +441,7 @@ class BasicLayout extends React.PureComponent {
 }
 
 export default connect(state => ({
-  currentUser: state.login.currentUser,
+  login: state.login,
   collapsed: state.global.collapsed,
   fetchingNotices: state.global.fetchingNotices,
   notices: state.global.notices,

@@ -7,4 +7,7 @@ export async function login(params) {
 export async function logout() {
   return request('/logout');
 }
+export async function checkLogin() {
+  return request('/checkLogin');
+}
 
