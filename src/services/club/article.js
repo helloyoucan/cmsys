@@ -87,6 +87,10 @@ export async function viewHisComment(params) {
 export async function viewTaskFrom(params) {
   return request(`/sys/actart/viewTaskFrom?taskId=${params.taskId}`);
 }
-
+export async function updateShowStatus(params) {
+  return request(`/sys/actart/updateShowStatus?id=${params.id}`, {
+    method: 'PUT'
+  });
+}
 
 

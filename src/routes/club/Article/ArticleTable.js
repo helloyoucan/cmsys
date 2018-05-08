@@ -5,7 +5,8 @@ import {
   Button,
   message,
   Divider,
-  Modal
+  Modal,
+  Switch
 } from 'antd';
 const confirm = Modal.confirm;
 import {Link} from 'dva/router';
@@ -36,9 +37,8 @@ export default class ArticleTable extends PureComponent {
     formValues: {
       keyword: ""
     },
-    SwitchLoadingId: '',
     tweetType: [],
-
+    SwitchLoadingId: ''
   };
 
   componentDidMount() {
@@ -256,6 +256,23 @@ export default class ArticleTable extends PureComponent {
     });
   }
 
+  handleChangeStatus(val, id) {
+    this.setState({
+      SwitchLoadingId: id,
+    });
+    this.props.dispatch({
+      type: 'article/updateShowStatus',
+      payload: {
+        id: id
+      },
+      callback: () => {
+        this.setState({
+          SwitchLoadingId: '',
+        });
+        this.getData({})
+      }
+    });
+  }
 
   render() {
     const {article: {loading: userLoading, data}} = this.props;
@@ -289,9 +306,24 @@ export default class ArticleTable extends PureComponent {
         title: '展示状态',
         dataIndex: 'showStatus',
         render: (val) => {
+
+        },
+        render: (val, record) => {
+          if (record.auditStatus == 3) {
+            return (
+              <Switch
+                loading={record.id === this.state.SwitchLoadingId}
+                checked={val == 1}
+                checkedChildren="展示"
+                unCheckedChildren="不展示"
+                onChange={this.handleChangeStatus.bind(this, val, record.id)}
+              />
+            );
+          }
           return ['不展示', '展示'][val]
-        }
+        },
       },
+
       {
         title: '创建时间',
         dataIndex: 'insertTime',

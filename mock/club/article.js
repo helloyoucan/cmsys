@@ -166,8 +166,7 @@ export function getOne(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
    */
 }
-
-export function dels(req, res) {
+export function del(req, res) {
   /* ids：id数组*/
   res.send(
     {
@@ -184,6 +183,24 @@ export function dels(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
    */
 }
+export function updateShowStatus(req, res) {
+
+  res.send(
+    {
+      "ret": true,
+      "msg": "修改状态成功",
+      "data": null
+    }
+  );
+  /*
+   res.send({
+   "ret": false,
+   "msg": "用户权限不足，请重新登录",
+   "data": null
+   })
+   */
+
+}
 export default {
-  add, enable, disable, update, queryList, getOne, dels
+  add, enable, disable, update, queryList, getOne, del,updateShowStatus
 };

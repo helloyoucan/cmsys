@@ -8,7 +8,8 @@ import {
   submitTask,
   update,
   viewHisComment,
-  viewTaskFrom
+  viewTaskFrom,
+  updateShowStatus
 } from '../../services/club/article';
 import {routerRedux} from 'dva/router';
 export default {
@@ -124,6 +125,17 @@ export default {
     },
     *viewTaskFrom({payload, callback}, {call, put}) {
       const response = yield call(viewTaskFrom, payload);
+      /* if (response.ret) {
+       yield put({
+       payload: {
+       taskId: payload.taskId
+       }
+       });
+       }*/
+      if (callback) callback(response);
+    },
+    *updateShowStatus({payload, callback}, {call, put}) {
+      const response = yield call(updateShowStatus, payload);
       /* if (response.ret) {
        yield put({
        payload: {

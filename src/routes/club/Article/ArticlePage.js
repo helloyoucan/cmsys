@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'dva';
+import fetch from 'dva/fetch';
 import {
   message, Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Upload,
 } from 'antd';
@@ -31,7 +32,7 @@ export default class ArticlePage extends PureComponent {
     formData: {
       title: '',//文章标题
       type: 'YUGAO',//文章类型// 1推文，2预告
-      showStatus: 1,//展示状态，1为展示，0为不展示
+      // showStatus: 1,//展示状态，1为展示，0为不展示
       content: '',//文章内容
     },
     tweetType: [],//推文类型
@@ -142,6 +143,30 @@ export default class ArticlePage extends PureComponent {
     }
   }
 
+  uploadCallback(file) {
+    return new Promise((resolve, reject) => {
+      let formData = new FormData()
+      formData.append('fileName', file)
+      fetch(`/sys/file/uploadActArtFile`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      }).then(res => {
+        return res.text()//后端返回字符串
+      }).then(res => {
+        if (typeof res == 'string') {
+          message.success('图片上传成功')
+          resolve({data: {link: res}})
+        } else {
+          reject(res)
+          message.error('图片上传失败')
+        }
+      }).catch(res => {
+        reject(res)
+        message.error('图片上传失败')
+      })
+    })
+  }
 
   render() {
     const {getFieldDecorator} = this.props.form;
@@ -224,6 +249,9 @@ export default class ArticlePage extends PureComponent {
       'border': '1px solid #d9d9d9',
       padding: '5px'
     }
+    const config = {
+      image: {uploadCallback: this.uploadCallback.bind(this), previewImage: true}
+    }
 
     return (
       <PageHeaderLayout title="社团推文" content="">
@@ -267,21 +295,21 @@ export default class ArticlePage extends PureComponent {
                 </RadioGroup>
               )}
             </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="展示状态"
-            >
-              {getFieldDecorator('showStatus', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.showStatus
-              })(
-                <RadioGroup disabled={formData.editStatus == 0}>
-                  <Radio value={1}>展示</Radio>
-                  <Radio value={0}>不展示</Radio>
-                </RadioGroup>
-              )}
-            </FormItem>
+            {/*  <FormItem
+             {...formItemLayout}
+             label="展示状态"
+             >
+             {getFieldDecorator('showStatus', {
+             rules: [{
+             required: true, message: '请输入',
+             }], initialValue: formData.showStatus
+             })(
+             <RadioGroup disabled={formData.editStatus == 0}>
+             <Radio value={1}>展示</Radio>
+             <Radio value={0}>不展示</Radio>
+             </RadioGroup>
+             )}
+             </FormItem>*/}
             {/*<FormItem
              {...formItemLayout}
              label="文章内容"
@@ -308,6 +336,8 @@ export default class ArticlePage extends PureComponent {
               <Editor
                 readOnly={ formData.editStatus == 0}
                 editorState={editorState}
+                localization={{locale: 'zh'}}
+                toolbar={ config }
                 onEditorStateChange={this.onEditorStateChange.bind(this)}
               />
               {/* <textarea
