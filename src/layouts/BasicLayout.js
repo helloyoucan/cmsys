@@ -344,7 +344,7 @@ class BasicLayout extends React.PureComponent {
               onClick={this.toggle}
             />
             <div className={styles.right}>
-              <NoticeIcon
+              {/*<NoticeIcon
                 className={styles.action}
                 count={10}
                 onItemClick={(item, tabProps) => {
@@ -373,7 +373,7 @@ class BasicLayout extends React.PureComponent {
                   emptyText="你已完成所有待办"
                   emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
                 />
-              </NoticeIcon>
+              </NoticeIcon>*/}
               {!!currentUser && currentUser.id ? (
                 <Dropdown overlay={menu}>
                   <span className={`${styles.action} ${styles.account}`}>

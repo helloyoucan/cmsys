@@ -29,7 +29,7 @@ export default class UserForm extends PureComponent {
 
   handleSearch = (e) => {
     e.preventDefault();
-    const { form} = this.props;
+    const {form} = this.props;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
       const values = {
@@ -45,6 +45,7 @@ export default class UserForm extends PureComponent {
     let userCategorys = this.props.userCategory.map((item) => {
       return (<RadioButton key={item.pmname} value={item.pmname}>{item.pmvalue}</RadioButton>)
     })
+    userCategorys.unshift(<RadioButton key="0" value={''}>全部</RadioButton>)
     return (
       <Form onSubmit={this.handleSearch} layout="inline" style={{
         lineHeight: '40px',
@@ -52,7 +53,7 @@ export default class UserForm extends PureComponent {
       }}>
 
         <FormItem label="用户类型">
-          {getFieldDecorator('categoryId')(
+          {getFieldDecorator('categoryId', {initialValue: ''})(
             < RadioGroup >
               {userCategorys.length > 0 ? userCategorys : <Spin spinning={true} size="small"></Spin>}
             </RadioGroup>

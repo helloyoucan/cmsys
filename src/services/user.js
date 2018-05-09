@@ -35,7 +35,7 @@ export async function queryList(params) {
   return request(`/sys/user/getPage?${stringify(params)}`);
 }
 export async function resetPs(params) {
-  return request(`/sys/user/resetPs?id=${params.id}`, {
+  return request(`/sys/user/resetPsw?id=${params.id}`, {
     method: 'PUT'
   });
 }

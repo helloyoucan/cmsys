@@ -345,15 +345,18 @@ export default class YearbookTable extends PureComponent {
         <Card bordered={false}>
           <div className="tableList">
             <div className="tableListForm">
-              <YearbookForm
+            {/*  <YearbookForm
                 handleSearch={this.handleSearch.bind(this)}
                 formReset={this.handleFormReset.bind(this)}
                 dispatch={this.props.dispatch}
-              />
+              />*/}
             </div>
             <div className="tableListOperator">
               <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add', null)}>
                 新建
+              </Button>
+              <Button type="primary" onClick={this.getData.bind(this, {})}>
+                刷新
               </Button>
             </div>
             <StandardTable

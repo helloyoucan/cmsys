@@ -22,6 +22,7 @@ export default class InfoPage extends PureComponent {
     confirmLoading: false,
     uploadLoading: false,
     association: [],
+    hideSaveBtn: false,
     formData: {
       id: '',
       name: '',//名称
@@ -60,7 +61,7 @@ export default class InfoPage extends PureComponent {
           leadTeacherSituation: JSON.stringify(values.leadTeacherSituation),
           assFilename: null
         }
-        if (this.props.location.data != undefined && this.props.location.data.id != null) {
+        if (this.props.currentUser.assId != -1 || (this.props.location.data != undefined && this.props.location.data.id != null)) {
           this.props.dispatch({
             type: 'info/update',
             payload: {
@@ -71,7 +72,12 @@ export default class InfoPage extends PureComponent {
         } else {
           this.props.dispatch({
             type: 'info/add',
-            payload: values
+            payload: values,
+            callback: (res) => {
+              this.setState({
+                hideSaveBtn: true
+              })
+            }
           });
         }
       }
@@ -98,6 +104,7 @@ export default class InfoPage extends PureComponent {
         id = this.props.location.data.id
       }
     }
+    if (id == -1) return
     this.props.dispatch({
       type: 'info/getOne',
       payload: {
@@ -126,8 +133,7 @@ export default class InfoPage extends PureComponent {
   render() {
     const {info, currentUser} = this.props;
     const {getFieldDecorator} = this.props.form;
-    console.log(currentUser)
-    const {formData, association} = this.state
+    const {formData, association, hideSaveBtn} = this.state
     const uploadSetting = {
       //showUploadList: false,
       fileList: formData.assFile,
@@ -200,187 +206,188 @@ export default class InfoPage extends PureComponent {
     return (
       <PageHeaderLayout title="社团信息填写" content="">
         <Card bordered={false}>
-          <Form
-            onSubmit={this.handleSubmit}
-            hideRequiredMark
-            style={{marginTop: 8}}
+
+          <FormItem
+            {...formItemLayout}
+            label="社团名称"
           >
-            <FormItem
-              {...formItemLayout}
-              label="社团名称"
-            >
-              {getFieldDecorator('name', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.name
-              })(
-                <Input/>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="社团类型"
-            >
-              {getFieldDecorator('category', {
-                rules: [{
-                  required: true, message: '请选择',
-                }], initialValue: formData.category
-              })(
-                <Select >
-                  {association.map(item => {
-                    return ( <Option value={item.pmname} key={item.id}>{item.pmvalue}</Option>)
-                  })}
-                </Select>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="社团宗旨"
-            >
-              {getFieldDecorator('purpose', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.purpose
-              })(
-                <TextArea rows="4"/>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="社团简介"
-            >
-              {getFieldDecorator('profile', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.profile
-              })(
-                <TextArea rows="4"/>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="活动领域"
-            >
-              {getFieldDecorator('actField', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.name
-              })(
-                <TextArea rows="2"/>
-              )}
-            </FormItem>
+            {getFieldDecorator('name', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.name
+            })(
+              <Input/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="社团类型"
+          >
+            {getFieldDecorator('category', {
+              rules: [{
+                required: true, message: '请选择',
+              }], initialValue: formData.category
+            })(
+              <Select style={{width: '100%'}}>
+                {association.map(item => {
+                  return ( <Option value={item.pmname} key={item.id}>{item.pmvalue}</Option>)
+                })}
+              </Select>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="社团宗旨"
+          >
+            {getFieldDecorator('purpose', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.purpose
+            })(
+              <TextArea rows="4"/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="社团简介"
+          >
+            {getFieldDecorator('profile', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.profile
+            })(
+              <TextArea rows="4"/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="活动领域"
+          >
+            {getFieldDecorator('actField', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.name
+            })(
+              <TextArea rows="2"/>
+            )}
+          </FormItem>
 
-            <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>发起人资料</p>
-            <FormItem
-              {...formItemLayout}
-              label="姓名"
-            >
-              {getFieldDecorator('initSituation.name', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.initSituation.name
-              })(
-                <Input/>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="联系电话"
-            >
-              {getFieldDecorator('initSituation.phone', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.initSituation.phone
-              })(
-                <Input/>
-              )}
-            </FormItem>
-            <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>现任负责人资料</p>
-            <FormItem
-              {...formItemLayout}
-              label="姓名"
-            >
-              {getFieldDecorator('leadSituation.name', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.leadSituation.name
-              })(
-                <Input/>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="联系电话"
-            >
-              {getFieldDecorator('leadSituation.phone', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.leadSituation.phone
-              })(
-                <Input/>
-              )}
-            </FormItem>
-            <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>指导老师资料</p>
-            <FormItem
-              {...formItemLayout}
-              label="姓名"
-            >
-              {getFieldDecorator('leadTeacherSituation.name', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.leadTeacherSituation.name
-              })(
-                <Input/>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="联系电话"
-            >
-              {getFieldDecorator('leadTeacherSituation.phone', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.leadTeacherSituation.phone
-              })(
-                <Input/>
-              )}
-            </FormItem>
-            <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>社团成立资料</p>
-            <FormItem
-              {...formItemLayout}
-              label="社团成立资料"
-            >
-              <Upload {...uploadSetting}>
-                <Button>
-                  <Icon type="upload"/> 点击上传
-                </Button>
-              </Upload>
-              <p>提示：社团成立资料包括申请表、业务指导部门意见、社团章程等</p>
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="备注"
-            >
-              {getFieldDecorator('remarks', {
-                rules: [{}], initialValue: formData.remarks
-              })(
-                <TextArea rows="4"/>
-              )}
-            </FormItem>
-            <FormItem {...submitFormLayout} style={{marginTop: 32}}>
-              <Button type="primary" htmlType="submit" loading={this.state.confirmLoading}>
-                保存
+          <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>发起人资料</p>
+          <FormItem
+            {...formItemLayout}
+            label="姓名"
+          >
+            {getFieldDecorator('initSituation.name', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.initSituation.name
+            })(
+              <Input/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="联系电话"
+          >
+            {getFieldDecorator('initSituation.phone', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.initSituation.phone
+            })(
+              <Input/>
+            )}
+          </FormItem>
+          <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>现任负责人资料</p>
+          <FormItem
+            {...formItemLayout}
+            label="姓名"
+          >
+            {getFieldDecorator('leadSituation.name', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.leadSituation.name
+            })(
+              <Input/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="联系电话"
+          >
+            {getFieldDecorator('leadSituation.phone', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.leadSituation.phone
+            })(
+              <Input/>
+            )}
+          </FormItem>
+          <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>指导老师资料</p>
+          <FormItem
+            {...formItemLayout}
+            label="姓名"
+          >
+            {getFieldDecorator('leadTeacherSituation.name', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.leadTeacherSituation.name
+            })(
+              <Input/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="联系电话"
+          >
+            {getFieldDecorator('leadTeacherSituation.phone', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.leadTeacherSituation.phone
+            })(
+              <Input/>
+            )}
+          </FormItem>
+          <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>社团成立资料</p>
+          <FormItem
+            {...formItemLayout}
+            label="社团成立资料"
+          >
+            <Upload {...uploadSetting}>
+              <Button>
+                <Icon type="upload"/> 点击上传
               </Button>
-              {
-                currentUser.assId != -1 ? '' : ( <Button>
-                  <Link to={{
-                    pathname: '/clubManagement/cinfoList',
-                  }
-                  }> 返回列表</Link> </Button>)
-              }
+            </Upload>
+            <p>提示：社团成立资料包括申请表、业务指导部门意见、社团章程等</p>
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="备注"
+          >
+            {getFieldDecorator('remarks', {
+              rules: [{}], initialValue: formData.remarks
+            })(
+              <TextArea rows="4"/>
+            )}
+          </FormItem>
+          <FormItem {...submitFormLayout} style={{marginTop: 32}}>
+            <Button
+              onClick={this.handleSubmit.bind(this)}
+              style={{
+                display: hideSaveBtn && currentUser.assId == -1 ?
+                  'none' : 'inline-block'
+              }} type="primary" htmlType="submit"
+              loading={this.state.confirmLoading}>
+              保存
+            </Button>
+            {
+              currentUser.assId != -1 ? '' : ( <Button>
+                <Link to={{
+                  pathname: '/clubManagement/cinfoList',
+                }
+                }> 返回列表</Link> </Button>)
+            }
 
-            </FormItem>
-          </Form>
+          </FormItem>
         </Card>
       </PageHeaderLayout>
     );

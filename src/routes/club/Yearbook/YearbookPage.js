@@ -208,7 +208,7 @@ export default class YearbookPage extends PureComponent {
 
       },
       onRemove: (file) => {
-        if(this.state.formData.editStatus == 0) return false
+        if (this.state.formData.editStatus == 0) return false
         let annFile = this.state.formData.annFile.filter(item => {
           return item.response != file.response
         })
@@ -241,103 +241,100 @@ export default class YearbookPage extends PureComponent {
     return (
       <PageHeaderLayout title="社团年审资料提交" content="">
         <Card bordered={false}>
-          <Form
-            onSubmit={this.handleSubmit}
-            hideRequiredMark
-            style={{marginTop: 8}}
+          <FormItem
+            {...formItemLayout}
+            label="社团名称"
           >
-            <FormItem
-              {...formItemLayout}
-              label="社团名称"
-            >
-              {clubName}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="社团规模"
-            >
-              {getFieldDecorator('assSize', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.assSize
-              })(
-                <TextArea rows="4" disabled={formData.editStatus == 0}/>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="会员组成"
-            >
-              {getFieldDecorator('assMemberComp', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.assMemberComp
-              })(
-                <TextArea rows="4" disabled={formData.editStatus == 0}/>
-              )}
-            </FormItem>
+            {clubName}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="社团规模"
+          >
+            {getFieldDecorator('assSize', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.assSize
+            })(
+              <TextArea rows="4" disabled={formData.editStatus == 0}/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="会员组成"
+          >
+            {getFieldDecorator('assMemberComp', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.assMemberComp
+            })(
+              <TextArea rows="4" disabled={formData.editStatus == 0}/>
+            )}
+          </FormItem>
 
-            <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>指导老师基本情况</p>
-            <FormItem
-              {...formItemLayout}
-              label="姓名"
-            >
-              {getFieldDecorator('instructSituation.name', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.instructSituation.name
-              })(
-                <Input disabled={formData.editStatus == 0}/>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="联系电话"
-            >
-              {getFieldDecorator('instructSituation.phone', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.instructSituation.phone
-              })(
-                <Input disabled={formData.editStatus == 0}/>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="年审资料"
-            >
-              <Upload {...uploadSetting}
-                      disabled={formData.editStatus == 0}>
-                <Button>
-                  <Icon type="upload"/> 点击上传
-                </Button>
-              </Upload>
-            </FormItem>
-            {/*<FormItem
-             {...formItemLayout}
-             label="备注"
-             >
-             {getFieldDecorator('remarks', {
-             rules: [{}], initialValue: formData.remarks
-             })(
-             <TextArea rows="4"/>
-             )}
-             </FormItem>*/}
-            <FormItem {...submitFormLayout} style={{marginTop: 32}}>
-              {
-                formData.editStatus == 0 ? '' : (
-                  <Button type="primary" htmlType="submit" loading={this.state.confirmLoading}>
-                    保存
-                  </Button>
-                )
-              }
+          <p style={{'paddingLeft': '20%', 'fontSize': '20px'}}>指导老师基本情况</p>
+          <FormItem
+            {...formItemLayout}
+            label="姓名"
+          >
+            {getFieldDecorator('instructSituation.name', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.instructSituation.name
+            })(
+              <Input disabled={formData.editStatus == 0}/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="联系电话"
+          >
+            {getFieldDecorator('instructSituation.phone', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.instructSituation.phone
+            })(
+              <Input disabled={formData.editStatus == 0}/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="年审资料"
+          >
+            <Upload {...uploadSetting}
+                    disabled={formData.editStatus == 0}>
               <Button>
-                <Link to={{
-                  pathname: '/clubManagement/clubApproval/ybList',
-                }
-                }> 返回列表</Link> </Button>
-            </FormItem>
-          </Form>
+                <Icon type="upload"/> 点击上传
+              </Button>
+            </Upload>
+          </FormItem>
+          {/*<FormItem
+           {...formItemLayout}
+           label="备注"
+           >
+           {getFieldDecorator('remarks', {
+           rules: [{}], initialValue: formData.remarks
+           })(
+           <TextArea rows="4"/>
+           )}
+           </FormItem>*/}
+          <FormItem {...submitFormLayout} style={{marginTop: 32}}>
+            {
+              formData.editStatus == 0 ? '' : (
+                <Button onClick={this.handleSubmit.bind(this)}
+                        type="primary"
+                        htmlType="submit"
+                        loading={this.state.confirmLoading}>
+                  保存
+                </Button>
+              )
+            }
+            <Button>
+              <Link to={{
+                pathname: '/clubManagement/clubApproval/ybList',
+              }
+              }> 返回列表</Link> </Button>
+          </FormItem>
         </Card>
       </PageHeaderLayout>
     );

@@ -41,7 +41,16 @@ export default class ArticlePage extends PureComponent {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      const content = draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()));
       if (!err) {
+        if (content
+            .replace(/<[^>]+>/g, "")//html标签
+            .replace(/&[a-zA-Z]{1,10};/, '')//转义字符
+            .replace(/[\r\n]/g, "")//换行符
+          == '') {
+          message.warning('请输入文章内容再保存哦~')
+          return
+        }
         values = {
           ...values,
           content: draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
@@ -256,124 +265,121 @@ export default class ArticlePage extends PureComponent {
     return (
       <PageHeaderLayout title="社团推文" content="">
         <Card bordered={false}>
-          <Form
-            onSubmit={this.handleSubmit}
-            hideRequiredMark
-            style={{marginTop: 8}}
-          >
-            <FormItem
-              {...formItemLayout}
-              label="社团名称"
-            >
-              {clubName}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="文章标题"
-            >
-              {getFieldDecorator('title', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.title
-              })(
-                <Input disabled={formData.editStatus == 0}/>
-              )}
-            </FormItem>
-            <FormItem
-              {...formItemLayout}
-              label="文章类型"
-            >
-              {getFieldDecorator('type', {
-                rules: [{
-                  required: true, message: '请输入',
-                }], initialValue: formData.type
-              })(
-                <RadioGroup disabled={formData.editStatus == 0}>
-                  {tweetType.map((item, index) => {
-                    return (<Radio key={index} value={item.pmname}>{item.pmvalue}</Radio>)
-                  })}
-                </RadioGroup>
-              )}
-            </FormItem>
-            {/*  <FormItem
-             {...formItemLayout}
-             label="展示状态"
-             >
-             {getFieldDecorator('showStatus', {
-             rules: [{
-             required: true, message: '请输入',
-             }], initialValue: formData.showStatus
-             })(
-             <RadioGroup disabled={formData.editStatus == 0}>
-             <Radio value={1}>展示</Radio>
-             <Radio value={0}>不展示</Radio>
-             </RadioGroup>
-             )}
-             </FormItem>*/}
-            {/*<FormItem
-             {...formItemLayout}
-             label="文章内容"
-             >
-             {getFieldDecorator('content', {
-             rules: [{
-             required: true, message: '请输入',
-             }], initialValue: formData.content
-             })(
-             <TextArea rows={4}/>
-             )}
-             </FormItem>*/}
-            {/*  <div
-             dangerouslySetInnerHTML={{__html: formData.content}}
-             style={{
-             display: formData.editStatus == 0 ? 'block' : 'none',
-             ...contentStyle
-             }}>
-             </div>*/}
-            <div style={{
-              // display: formData.editStatus == 0? 'block' : 'block',
-              ...contentStyle
-            }}>
-              <Editor
-                readOnly={ formData.editStatus == 0}
-                editorState={editorState}
-                localization={{locale: 'zh'}}
-                toolbar={ config }
-                onEditorStateChange={this.onEditorStateChange.bind(this)}
-              />
-              {/* <textarea
-               disabled
-               value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
-               />*/}
-            </div>
 
-            {/*<FormItem
-             {...formItemLayout}
-             label="备注"
-             >
-             {getFieldDecorator('remarks', {
-             rules: [{}], initialValue: formData.remarks
-             })(
-             <TextArea rows="4"/>
-             )}
-             </FormItem>*/}
-            <FormItem {...submitFormLayout} style={{marginTop: 32, textAlign: 'center'}}>
-              {
-                formData.editStatus == 0 ? '' : (
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    loading={this.state.confirmLoading}>
-                    保存
-                  </Button>
-                )
+          <FormItem
+            {...formItemLayout}
+            label="社团名称"
+          >
+            {clubName}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="文章标题"
+          >
+            {getFieldDecorator('title', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.title
+            })(
+              <Input disabled={formData.editStatus == 0}/>
+            )}
+          </FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="文章类型"
+          >
+            {getFieldDecorator('type', {
+              rules: [{
+                required: true, message: '请输入',
+              }], initialValue: formData.type
+            })(
+              <RadioGroup disabled={formData.editStatus == 0}>
+                {tweetType.map((item, index) => {
+                  return (<Radio key={index} value={item.pmname}>{item.pmvalue}</Radio>)
+                })}
+              </RadioGroup>
+            )}
+          </FormItem>
+          {/*  <FormItem
+           {...formItemLayout}
+           label="展示状态"
+           >
+           {getFieldDecorator('showStatus', {
+           rules: [{
+           required: true, message: '请输入',
+           }], initialValue: formData.showStatus
+           })(
+           <RadioGroup disabled={formData.editStatus == 0}>
+           <Radio value={1}>展示</Radio>
+           <Radio value={0}>不展示</Radio>
+           </RadioGroup>
+           )}
+           </FormItem>*/}
+          {/*<FormItem
+           {...formItemLayout}
+           label="文章内容"
+           >
+           {getFieldDecorator('content', {
+           rules: [{
+           required: true, message: '请输入',
+           }], initialValue: formData.content
+           })(
+           <TextArea rows={4}/>
+           )}
+           </FormItem>*/}
+          {/*  <div
+           dangerouslySetInnerHTML={{__html: formData.content}}
+           style={{
+           display: formData.editStatus == 0 ? 'block' : 'none',
+           ...contentStyle
+           }}>
+           </div>*/}
+          <div style={{
+            // display: formData.editStatus == 0? 'block' : 'block',
+            ...contentStyle
+          }}>
+            <Editor
+              readOnly={ formData.editStatus == 0}
+              editorState={editorState}
+              localization={{locale: 'zh'}}
+              toolbar={ config }
+              onEditorStateChange={this.onEditorStateChange.bind(this)}
+            />
+            {/* <textarea
+             disabled
+             value={draftToHtml(convertToRaw(editorState.getCurrentContent()))}
+             />*/}
+          </div>
+
+          {/*<FormItem
+           {...formItemLayout}
+           label="备注"
+           >
+           {getFieldDecorator('remarks', {
+           rules: [{}], initialValue: formData.remarks
+           })(
+           <TextArea rows="4"/>
+           )}
+           </FormItem>*/}
+          <FormItem {...submitFormLayout} style={{marginTop: 32, textAlign: 'center'}}>
+            {
+              formData.editStatus == 0 ? '' : (
+                <Button
+                  onClick={this.handleSubmit.bind(this)}
+                  type="primary"
+                  htmlType="submit"
+                  loading={this.state.confirmLoading}>
+                  保存
+                </Button>
+              )
+            }
+            <Button>
+              <Link to={{
+                pathname: '/clubManagement/clubApproval/artList',
               }
-              <Button>
-                <Link to={{
-                  pathname: '/clubManagement/clubApproval/artList',
-                }
-                }> 返回列表</Link> </Button>
-            </FormItem>
-          </Form>
+              }> 返回列表</Link> </Button>
+          </FormItem>
+
         </Card>
       </PageHeaderLayout>
     );

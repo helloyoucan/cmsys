@@ -5,6 +5,7 @@ import {
   Modal,
   Radio
 } from 'antd';
+import md5 from 'js-md5';
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 @Form.create()
@@ -28,7 +29,7 @@ export default class updatePsw extends PureComponent {
         this.props.dispatch({
           type: 'user/updatePsw',
           payload: {
-            newPwd: values.password
+            newPwd: md5(values.password).toUpperCase()
           },
           callback: (res) => {
             if (res.ret) {

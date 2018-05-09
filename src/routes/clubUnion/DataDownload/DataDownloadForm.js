@@ -43,7 +43,7 @@ export default class dataDownloadForm extends PureComponent {
         marginBottom: '10px'
       }}>
 
-        <FormItem label="关键词">
+        <FormItem label="文件名">
           {getFieldDecorator('keyword')(
             <Input/>
           )}

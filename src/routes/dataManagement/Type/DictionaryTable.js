@@ -235,20 +235,16 @@ export default class DictionaryTable extends PureComponent {
         <Card bordered={false}>
           <div className="tableList">
             <div className="tableListForm">
-              <DictionaryForm
+              {/*<DictionaryForm
                 handleSearch={this.handleSearch.bind(this)}
                 formReset={this.handleFormReset.bind(this)}
-              />
+              />*/}
             </div>
             <div className="tableListOperator">
               <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add')}>新建</Button>
-              {
-                // selectedRows.length > 0 && (
-                //   <span>
-                //     <Button onClick={this.handelDelete.bind(this)}>删除</Button>
-                //   </span>
-                // )
-              }
+              <Button type="primary" onClick={this.getData.bind(this, {})}>
+                刷新
+              </Button>
             </div>
             <StandardTable
               selectedRows={selectedRows}

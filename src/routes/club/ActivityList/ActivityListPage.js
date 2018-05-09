@@ -192,7 +192,7 @@ export default class ActivityListPage extends PureComponent {
 
       },
       onRemove: (file) => {
-        if(this.state.formData.editStatus == 0) return false
+        if (this.state.formData.editStatus == 0) return false
         let actPlan = this.state.formData.actPlan.filter(item => {
           return item.response != file.response
         })
@@ -224,11 +224,6 @@ export default class ActivityListPage extends PureComponent {
     return (
       <PageHeaderLayout title="社团活动资料" content="">
         <Card bordered={false}>
-          <Form
-            onSubmit={this.handleSubmit}
-            hideRequiredMark
-            style={{marginTop: 8}}
-          >
             <FormItem
               {...formItemLayout}
               label="社团名称"
@@ -421,7 +416,11 @@ export default class ActivityListPage extends PureComponent {
             <FormItem {...submitFormLayout} style={{marginTop: 32}}>
               {
                 formData.editStatus == 0 ? '' : (
-                  <Button type="primary" htmlType="submit" loading={this.state.confirmLoading}>
+                  <Button
+                    onClick={this.handleSubmit.bind(this)}
+                    type="primary"
+                    htmlType="submit"
+                    loading={this.state.confirmLoading}>
                     保存
                   </Button>
                 )
@@ -432,7 +431,6 @@ export default class ActivityListPage extends PureComponent {
                 }
                 }> 返回列表</Link> </Button>
             </FormItem>
-          </Form>
         </Card>
       </PageHeaderLayout>
     );

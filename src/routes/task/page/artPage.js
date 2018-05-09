@@ -194,7 +194,11 @@ export default class logoutPage extends PureComponent {
               {...formItemLayout}
               label="文章内容"
             >
-              {taskData && taskData.businessData.content}
+              <div
+                dangerouslySetInnerHTML={{__html: taskData && taskData.businessData.content}}>
+
+              </div>
+              {/*{taskData && taskData.businessData.content}*/}
 
             </FormItem>
             {

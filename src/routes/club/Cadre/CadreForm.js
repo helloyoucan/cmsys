@@ -43,7 +43,7 @@ export default class CadreForm extends PureComponent {
         marginBottom: '10px'
       }}>
 
-        <FormItem label="关键字">
+        <FormItem label="姓名">
           {getFieldDecorator('keyword')(
             <Input/>
           )}

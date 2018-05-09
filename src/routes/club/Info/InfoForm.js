@@ -43,7 +43,7 @@ export default class InfoForm extends PureComponent {
         marginBottom: '10px'
       }}>
 
-        <FormItem label="关键词">
+        <FormItem label="社团名称">
           {getFieldDecorator('keyword')(
             <Input/>
           )}
