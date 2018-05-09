@@ -1,6 +1,6 @@
 import fetch from 'dva/fetch';
 import {notification} from 'antd';
-
+import {routerRedux} from 'dva/router';
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
@@ -42,20 +42,33 @@ export default function request(url, options) {
 
   return fetch(url, newOptions)
     .then(checkStatus)
-    .then(response => (response.json()))
+    .then(response => {
+      return response.json()
+    })
     .then(function (data) {
       let results = data;
+      if (!results.ret && !results.data && results.msg == 'false') {
+        /* notification.error({
+         message: "提示",
+         description: '用户未登录',
+         });*/
+        if (window.sessionStorage) {
+          sessionStorage.removeItem('currentUser');
+        }
+        window.location.reload()
+        return {}
+      }
       if (results.ret) {
-        if (results.data == null) {
+        if (results.data == null) {//获取page以外的接口返回的data都是null
           notification.success({
             message: "提示",
-            description: results.msg,
+            description: results.msg || '操作成功',
           });
         }
       } else {
         notification.error({
           message: "提示",
-          description: results.msg,
+          description: results.msg || (results.msg != "false" && '操作失败'),
         });
       }
       return results;
@@ -69,8 +82,10 @@ export default function request(url, options) {
       }
       if ('stack' in error && 'message' in error) {
         notification.error({
-          message: `请求错误: ${url}`,
-          description: error.message,
+          //message: `请求错误: ${url}`,
+          message: `请求失败`,
+          //description: error.message || '操作失败',
+          description: '请检查服务器是否有错误',
         });
       }
       return error;

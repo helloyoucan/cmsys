@@ -90,7 +90,7 @@ export default class TaskResult extends Component {
       },
     };
     return (
-      <PageHeaderLayout title="社团活动审批结果" content="">
+      <PageHeaderLayout title="社团文章审批结果" content="">
         <Card bordered={false}>
           <Form
             onSubmit={this.handleSubmit}
@@ -129,7 +129,11 @@ export default class TaskResult extends Component {
               {...formItemLayout}
               label="文章内容"
             >
-              {taskData && taskData.businessData.content}
+              <div
+                dangerouslySetInnerHTML={{__html: taskData && taskData.businessData.content}}>
+
+              </div>
+              {/*{taskData && taskData.businessData.content}*/}
 
             </FormItem>
             {

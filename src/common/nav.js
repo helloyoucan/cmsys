@@ -136,6 +136,8 @@ export const getNavData = app => [{
         {
           name: '社团审批',
           path: 'clubApproval',
+          isShow: true,
+          insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
           children: [
             {
               name: '年审列表',
