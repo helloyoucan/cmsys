@@ -21,7 +21,7 @@ const {TextArea} = Input;
   info: state.info
 }))
 @Form.create()
-export default class logoutPage extends PureComponent {
+export default class AlPage extends PureComponent {
   state = {
     confirmLoading: false,
     uploadLoading: false,
