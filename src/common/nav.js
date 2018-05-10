@@ -80,7 +80,7 @@ export const getNavData = app => [{
           insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
           component: dynamicWrapper(app,
             ['workflow', 'club/logout', 'club/article', 'dataManagement'],
-            () => import('../routes/task/page/ArtPage')),
+            () => import('../routes/task/page/ArtIclePage')),
         },
         {
           name: '进度查看',
