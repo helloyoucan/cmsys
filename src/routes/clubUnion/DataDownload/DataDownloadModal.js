@@ -36,7 +36,13 @@ export default class DataDownloadModal extends PureComponent {
   };
 
   componentDidMount() {
+    this.setState({
+      ...this.state.formData,
+      formData: {
+        name: ''
 
+      }
+    })
   }
 
 
@@ -105,7 +111,12 @@ export default class DataDownloadModal extends PureComponent {
       default:
         break;
     }
-
+    this.setState({
+      formData: {
+        ...this.state.formData,
+        name: '',
+      }
+    })
 
   }
 

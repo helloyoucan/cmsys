@@ -220,7 +220,9 @@ export default class DataDownloadTable extends PureComponent {
       {
         title: '文件路径',
         dataIndex: 'path',
-      },
+        render: (val) => (<a target="_blank" href={val}>{val}</a>)
+      }
+      ,
       {
         title: '状态',
         dataIndex: 'status',
@@ -278,7 +280,7 @@ export default class DataDownloadTable extends PureComponent {
         <DataDownloadModal modalVisible={this.state.modalVisible}
                            modalLoading={this.state.modalLoading}
                            data={this.state.modalData}
-                           getData ={this.getData.bind(this)}
+                           getData={this.getData.bind(this)}
                            dispatch={this.props.dispatch}
                            handleModalVisible={this.handleModalVisible.bind(this)}
         />
