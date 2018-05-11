@@ -41,6 +41,17 @@ export default class TaskResult extends Component {
             id
           },
           callback: (res) => {
+            let actPlan = res.data.businessData.actPlan == '' ? [] : res.data.businessData.actPlan.split('$')
+            actPlan = actPlan.map(item => {
+              return JSON.parse(item)
+            })
+            res.data.businessData = {
+              ...res.data.businessData,
+              actPlan,
+              actLead: JSON.parse(res.data.businessData.actLead),
+              actLeadTeacher: JSON.parse(res.data.businessData.actLeadTeacher),
+              actTime: moment(res.data.businessData.actTime)
+            }
             this.setState({
               taskData: res.data
             })

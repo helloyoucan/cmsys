@@ -16,7 +16,7 @@ export const getNavData = app => [{
     name: '首页',
     path: 'home',
     icon: 'home',
-    isShow: false,
+    isShow: false,//是否显示在菜单
     insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
     component: dynamicWrapper(app, [], () => import('../routes/new/test')),
   },
@@ -143,21 +143,21 @@ export const getNavData = app => [{
               name: '年审列表',
               path: 'ybList',
               isShow: true,
-              insert_man: ['shetuanguanliyuan'], // 权限控制
+              insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
               component: dynamicWrapper(app, ['login', 'club/yearbook', 'club/info'], () => import('../routes/club/Yearbook/YearbookTable')),
             },
             {
               name: '年审申请',
               path: 'ybPage',
               isShow: false,
-              insert_man: ['shetuanguanliyuan'], // 权限控制
+              insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
               component: dynamicWrapper(app, ['login', 'club/yearbook', 'club/info'], () => import('../routes/club/Yearbook/YearbookPage')),
             },
             {
               name: '年审申请结果查看',
               path: 'ybResult',
               isShow: false,
-              insert_man: ['shetuanguanliyuan'], // 权限控制
+              insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
               component: dynamicWrapper(app, ['club/info', 'club/yearbook'], () => import('../routes/club/Yearbook/TaskResult')),
             },
             {
@@ -178,42 +178,42 @@ export const getNavData = app => [{
               name: '活动列表',
               path: 'alList',
               isShow: true,
-              insert_man: ['shetuanguanliyuan'], // 权限控制
+              insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
               component: dynamicWrapper(app, ['login', 'club/activityList', 'club/info'], () => import('../routes/club/ActivityList/ActivityListTable')),
             },
             {
               name: '活动申请',
               path: 'alPage',
               isShow: false,
-              insert_man: ['shetuanguanliyuan'], // 权限控制
+              insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
               component: dynamicWrapper(app, ['login', 'club/activityList', 'club/info'], () => import('../routes/club/ActivityList/ActivityListPage')),
             },
             {
               name: '活动申请结果查看',
               path: 'alResult',
               isShow: false,
-              insert_man: ['shetuanguanliyuan'], // 权限控制
+              insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
               component: dynamicWrapper(app, ['club/info', 'club/activityList'], () => import('../routes/club/ActivityList/TaskResult')),
             },
             {
               name: '推文列表',
               path: 'artList',
               isShow: true,
-              insert_man: ['shetuanguanliyuan'], // 权限控制
+              insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
               component: dynamicWrapper(app, ['login', 'club/article', 'club/info', 'dataManagement'], () => import('../routes/club/Article/ArticleTable')),
             },
             {
               name: '推文发布申请',
               path: 'artPage',
               isShow: false,
-              insert_man: ['shetuanguanliyuan'], // 权限控制
+              insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
               component: dynamicWrapper(app, ['login', 'club/article', 'club/info', 'dataManagement'], () => import('../routes/club/Article/ArticlePage')),
             },
             {
               name: '推文发布申请结果查看',
               path: 'artResult',
               isShow: false,
-              insert_man: ['shetuanguanliyuan'], // 权限控制
+              insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
               component: dynamicWrapper(app, ['club/info', 'club/article', 'dataManagement'], () => import('../routes/club/Article/TaskResult')),
             },
           ]

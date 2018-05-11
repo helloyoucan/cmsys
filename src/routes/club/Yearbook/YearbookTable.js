@@ -262,13 +262,12 @@ export default class YearbookTable extends PureComponent {
             ...res.data
           }
         })
-        console.log(res)
       }
     })
   }
 
   render() {
-    const {yearbook: {loading: userLoading, data}} = this.props;
+    const {currentUser, yearbook: {loading: userLoading, data}} = this.props;
     const {selectedRows, clubList} = this.state;
     const columns = [
       {
@@ -314,7 +313,7 @@ export default class YearbookTable extends PureComponent {
             return item.id == val
           })).status
           return ( <div>
-            {row.auditStatus == 1 ? (
+            {row.auditStatus == 1 && currentUser.assId != -1 ? (
               <span>
                 <Button disabled={status == 1} size="small" onClick={this.startProcess.bind(this, 'edit', val)}
                         type="danger">启动审批流程</Button>
@@ -326,11 +325,15 @@ export default class YearbookTable extends PureComponent {
               <span>
                  <Divider type="vertical"/>
                 <Link to={{pathname: '/clubManagement/clubApproval/ybResult', data: {id: val}}}> 查看审批信息</Link>
+                {currentUser.assId == -1 ? '' : (
+                  <span>
                 <Divider type="vertical"/>
                <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
+                      </span>
+                )}
             </span>
             ) : '' }
-            {row.auditStatus == 1 ? (
+            {row.auditStatus == 1 && currentUser.assId != -1 ? (
               <span>
                <Divider type="vertical"/>
                <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
@@ -345,16 +348,18 @@ export default class YearbookTable extends PureComponent {
         <Card bordered={false}>
           <div className="tableList">
             <div className="tableListForm">
-            {/*  <YearbookForm
-                handleSearch={this.handleSearch.bind(this)}
-                formReset={this.handleFormReset.bind(this)}
-                dispatch={this.props.dispatch}
-              />*/}
+              {/*  <YearbookForm
+               handleSearch={this.handleSearch.bind(this)}
+               formReset={this.handleFormReset.bind(this)}
+               dispatch={this.props.dispatch}
+               />*/}
             </div>
             <div className="tableListOperator">
-              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add', null)}>
-                新建
-              </Button>
+              {currentUser.assId == -1 ? '' : (
+                <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add', null)}>
+                  新建
+                </Button>
+              )}
               <Button type="primary" onClick={this.getData.bind(this, {})}>
                 刷新
               </Button>
