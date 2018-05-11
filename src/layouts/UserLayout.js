@@ -7,16 +7,17 @@ import GlobalFooter from '../components/GlobalFooter';
 import styles from './UserLayout.less';
 import logo from '../assets/logo.png';
 
-const links = [{
-  title: '帮助',
-  href: '',
-}, {
-  title: '隐私',
-  href: '',
-}, {
-  title: '条款',
-  href: '',
-}];
+const links = []
+/*[{
+ title: '帮助',
+ href: '',
+ }, {
+ title: '隐私',
+ href: '',
+ }, {
+ title: '条款',
+ href: '',
+ }];*/
 
 const copyright = <div>Copyright <Icon type="copyright"/> 2018 14商业软件1班</div>;
 
@@ -33,10 +34,10 @@ class UserLayout extends React.PureComponent {
   getPageTitle() {
     const {getRouteData, location} = this.props;
     const {pathname} = location;
-    let title = '社团管理系统';
+    let title = '社团管理平台';
     getRouteData('UserLayout').forEach((item) => {
       if (item.path === pathname) {
-        title = `登录页面 - 社团管理系统`;
+        title = `登录 - 社团管理平台`;
         // title = `${item.name} - 社团管理系统`;
       }
     });
@@ -53,10 +54,10 @@ class UserLayout extends React.PureComponent {
             <div className={styles.header}>
               <Link to="/">
                 <img alt="logo" className={styles.logo} src={logo}/>
-                <span className={styles.title}>广州商学院社团管理系统</span>
+                <span className={styles.title}>广州商学院社团管理平台</span>
               </Link>
             </div>
-            <div className={styles.desc}>一个社团管理系统</div>
+            <div className={styles.desc}>一个社团管理平台</div>
           </div>
           {
             getRouteData('UserLayout').map(item =>
@@ -70,7 +71,8 @@ class UserLayout extends React.PureComponent {
               )
             )
           }
-          <GlobalFooter className={styles.footer} links={links} copyright={copyright}/>
+          <GlobalFooter
+            className={styles.footer} links={links} copyright={copyright}/>
         </div>
       </DocumentTitle>
     );

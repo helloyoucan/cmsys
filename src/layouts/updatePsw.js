@@ -3,7 +3,8 @@ import {
   Form,
   Input,
   Modal,
-  Radio
+  Radio,
+  message
 } from 'antd';
 import md5 from 'js-md5';
 const RadioGroup = Radio.Group;
@@ -33,6 +34,7 @@ export default class updatePsw extends PureComponent {
           },
           callback: (res) => {
             if (res.ret) {
+              message.success('请重新登录')
               this.props.onCancel();
               this.props.form.resetFields();
             }

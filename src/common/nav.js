@@ -16,7 +16,7 @@ export const getNavData = app => [{
     name: '首页',
     path: 'home',
     icon: 'home',
-    isShow: true,
+    isShow: false,
     insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
     component: dynamicWrapper(app, [], () => import('../routes/new/test')),
   },
@@ -285,9 +285,9 @@ export const getNavData = app => [{
       ]
     },
     /*{
-      path: 'success',
-      component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),
-    },*/
+     path: 'success',
+     component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),
+     },*/
   ],
 },
   {

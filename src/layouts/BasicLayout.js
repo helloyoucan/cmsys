@@ -323,7 +323,7 @@ class BasicLayout extends React.PureComponent {
           <div className={styles.logo}>
             <Link to="/">
               <img src={logo} alt="logo"/>
-              <h1>社团管理系统</h1>
+              <h1>社团管理平台</h1>
             </Link>
           </div>
           <Menu
