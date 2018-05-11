@@ -20,7 +20,8 @@ import MemberModal from './MemberModal';
 @connect(state => ({
   clubMember: state.clubMember,
   dataManagement: state.dataManagement,
-  currentUser: state.login.currentUser
+  currentUser: state.login.currentUser,
+  info: state.login.info
 }))
 export default class MemberTable extends PureComponent {
   state = {
@@ -35,15 +36,25 @@ export default class MemberTable extends PureComponent {
     expandForm: false,
     selectedRows: [],
     formValues: {
-      keyword: ""
+      keyword: "",
+      assId: ''
     },
-    SwitchLoadingId: ''
-
+    SwitchLoadingId: '',
+    clubList: []
 
   };
 
   componentDidMount() {
     const {dispatch} = this.props;
+    dispatch({
+      type: 'info/getAll',
+      payload: {},
+      callback: (res) => {
+        this.setState({
+          clubList: res.data
+        });
+      }
+    });
     dispatch({
       type: 'dataManagement/queryCollegeName'
     });
@@ -52,8 +63,10 @@ export default class MemberTable extends PureComponent {
 
   handleStandardTableChange = (pagination) => {
     const {formValues} = this.state;
+    const {currentUser} = this.props;
     this.getData({
       keyword: formValues.keyword,
+      assId: currentUser.assId == -1 ? formValues.assId : currentUser.assId,
       pageNo: pagination.current,
       pageSize: pagination.pageSize,
     });
@@ -126,8 +139,9 @@ export default class MemberTable extends PureComponent {
       },
       selectedRows: [],
     });
-    const {dispatch} = this.props;
+    const {currentUser} = this.props;
     this.getData({
+      assId: currentUser.assId == -1 ? value.assId : currentUser.assId,
       keyword: value.keyword,
     })
   }
@@ -136,6 +150,7 @@ export default class MemberTable extends PureComponent {
     const {dispatch, currentUser} = this.props;
     if (isRefresh) {
       params = {
+        assId: currentUser.assId == -1 ? '' : currentUser.assId,
         keyword: '',
         pageNo: 1,
         pageSize: 10,
@@ -208,6 +223,7 @@ export default class MemberTable extends PureComponent {
 
   render() {
     const {currentUser, clubMember: {loading: userLoading, data}, dataManagement: {collegeName}} = this.props;
+    const {clubList} = this.state
     let collegeName_obj = {};
     collegeName.forEach((item) => {
       collegeName_obj[item.pmname] = item.pmvalue;
@@ -269,6 +285,8 @@ export default class MemberTable extends PureComponent {
           <div className="tableList">
             <div className="tableListForm">
               <MemberForm
+                currentUser={currentUser}
+                clubList={clubList}
                 handleSearch={this.handleSearch.bind(this)}
                 formReset={this.handleFormReset.bind(this)}
                 dispatch={this.props.dispatch}

@@ -20,7 +20,8 @@ import CadreModal from './CadreModal';
 @connect(state => ({
   clubCadre: state.clubCadre,
   dataManagement: state.dataManagement,
-  currentUser: state.login.currentUser
+  currentUser: state.login.currentUser,
+  info: state.login.info
 }))
 export default class CadreTable extends PureComponent {
   state = {
@@ -35,15 +36,26 @@ export default class CadreTable extends PureComponent {
     expandForm: false,
     selectedRows: [],
     formValues: {
-      keyword: ""
+      keyword: "",
+      assId: ""
     },
-    SwitchLoadingId: ''
-
+    SwitchLoadingId: '',
+    clubList: []
 
   };
 
   componentDidMount() {
+
     const {dispatch} = this.props;
+    this.props.dispatch({
+      type: 'info/getAll',
+      payload: {},
+      callback: (res) => {
+        this.setState({
+          clubList: res.data
+        });
+      }
+    });
     dispatch({
       type: 'dataManagement/queryCollegeName'
     });
@@ -52,7 +64,9 @@ export default class CadreTable extends PureComponent {
 
   handleStandardTableChange = (pagination) => {
     const {formValues} = this.state;
+    const {currentUser} = this.props;
     const params = {
+      assId: currentUser.assId == -1 ? formValues.assId : currentUser.assId,
       keyword: formValues.keyword,
       pageNo: pagination.current,
       pageSize: pagination.pageSize,
@@ -124,6 +138,7 @@ export default class CadreTable extends PureComponent {
     const {dispatch, currentUser} = this.props;
     if (isRefresh) {
       params = {
+        assId: currentUser.assId == -1 ? '' : currentUser.assId,
         keyword: '',
         pageNo: 1,
         pageSize: 10,
@@ -280,6 +295,7 @@ export default class CadreTable extends PureComponent {
 
   render() {
     const {currentUser, clubCadre: {loading: userLoading, data}, dataManagement: {collegeName}} = this.props;
+    const {clubList} = this.state
     let collegeName_obj = {};
     collegeName.forEach((item) => {
       collegeName_obj[item.pmname] = item.pmvalue;
@@ -375,6 +391,8 @@ export default class CadreTable extends PureComponent {
           <div className="tableList">
             <div className="tableListForm">
               <CadreForm
+                clubList={clubList}
+                currentUser={currentUser}
                 handleSearch={this.handleSearch.bind(this)}
                 formReset={this.handleFormReset.bind(this)}
                 dispatch={this.props.dispatch}
