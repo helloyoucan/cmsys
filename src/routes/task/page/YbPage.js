@@ -27,7 +27,7 @@ export default class YbPage extends PureComponent {
     uploadLoading: false,
     taskData: {
       "outcomeList": [],
-      "commentVoList": null,
+      "commentVoList": [],
       "businessData": {
         "editStatus": 0,
         "formKey": "",
@@ -36,9 +36,9 @@ export default class YbPage extends PureComponent {
         "auditStatus": 0,
         "id": 0,
         /*----*/
-        annFile: '',//文件信息
+        annFile: [],//文件信息
         annFilename: '',
-        instructSituation: '',//指导老师
+        instructSituation: [],//指导老师
         assMemberComp: '',//会员组成
         assSize: '',//社团规模
       },
@@ -75,7 +75,7 @@ export default class YbPage extends PureComponent {
             taskId: taskId
           },
           callback: (res) => {
-            let annFile = res.data.businessData.assFile == '' ? [] : res.data.businessData.annFile.split('$')
+            let annFile = res.data.businessData.annFile == '' ? [] : res.data.businessData.annFile.split('$')
             annFile = annFile.map(item => {
               return JSON.parse(item)
             })

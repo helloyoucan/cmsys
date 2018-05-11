@@ -26,6 +26,7 @@
     "core-js": "^2.5.1",
     "draftjs-to-html": "^0.8.3",
     "dva": "^2.0.3",
+    "js-md5": "^0.7.3",
     "lodash": "^4.17.4",
     "lodash-decorators": "^4.4.1",
     "lodash.clonedeep": "^4.5.0",
@@ -36,6 +37,7 @@
     "react-container-query": "^0.9.1",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.0.0",
+    "react-draft-wysiwyg": "^1.12.13",
     "react-fittext": "^1.0.0"
   },
   "devDependencies": {

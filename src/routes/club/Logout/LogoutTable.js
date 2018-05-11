@@ -297,7 +297,7 @@ export default class LogoutTable extends PureComponent {
         title: '状态',
         dataIndex: 'auditStatus',
         render: (val, row) => {
-          const status = ['', '初始录入', '审核中', '审核完成', '审核不通过']
+          const status = ['', '初始录入', '审核中', '审核通过', '审核不通过']
           return status[val]
         },
       },
