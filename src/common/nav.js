@@ -266,20 +266,20 @@ export const getNavData = app => [{
       path: 'dataManagement',
       icon: 'database',
       isShow: true,
-      insert_man: ['chaojiguanliyuan'], // 权限控制
+      insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan'], // 权限控制
       children: [
         {
           name: '字典表管理',
           path: 'dictionary',
           isShow: true,
-          insert_man: ['chaojiguanliyuan'], // 权限控制
+          insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan'], // 权限控制
           component: dynamicWrapper(app, ['dataManagement'], () => import('../routes/dataManagement/Dictionary/DictionaryTable')),
         },
         {
           name: '字典类型管理',
           path: 'type',
           isShow: true,
-          insert_man: ['chaojiguanliyuan'], // 权限控制
+          insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan'], // 权限控制
           component: dynamicWrapper(app, ['dataManagement'], () => import('../routes/dataManagement/Type/DictionaryTable')),
         }
       ]
