@@ -132,7 +132,7 @@ export default class CadreTable extends PureComponent {
     dispatch({
       type: 'clubCadre/queryList',
       payload: {
-        assId: currentUser.assId,
+        assId: currentUser.assId == -1 ? '' : currentUser.assId,
         keyword: '',
         pageNo: 1,
         pageSize: 10,
@@ -279,7 +279,7 @@ export default class CadreTable extends PureComponent {
 
 
   render() {
-    const {clubCadre: {loading: userLoading, data}, dataManagement: {collegeName}} = this.props;
+    const {currentUser, clubCadre: {loading: userLoading, data}, dataManagement: {collegeName}} = this.props;
     let collegeName_obj = {};
     collegeName.forEach((item) => {
       collegeName_obj[item.pmname] = item.pmvalue;
@@ -296,6 +296,11 @@ export default class CadreTable extends PureComponent {
         title: '学号',
         dataIndex: 'stuNum',
         key: 'stuNum',
+      },
+      {
+        title: '所属社团',
+        dataIndex: 'assName',
+        key: 'assName',
       },
       {
         title: '所属学院',
@@ -315,6 +320,9 @@ export default class CadreTable extends PureComponent {
         dataIndex: 'status',
         key: 'status',
         render: (val, record) => {
+          if (currentUser.assId == -1) {
+            return val == 1 ? '在职' : '离职'
+          }
           return (
             <Switch
               loading={record.id === this.state.SwitchLoadingId}
@@ -343,10 +351,14 @@ export default class CadreTable extends PureComponent {
         render: (val) => (
           <div>
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
-            <Divider type="vertical"/>
-            <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
-            <Divider type="vertical"/>
-            <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
+            {currentUser.assId == -1 ? '' : (
+              <span>
+                 <Divider type="vertical"/>
+                <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
+                <Divider type="vertical"/>
+                <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
+              </span>
+            )}
           </div>
         ),
       },
@@ -369,7 +381,9 @@ export default class CadreTable extends PureComponent {
               />
             </div>
             <div className="tableListOperator">
-              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add')}>新建</Button>
+              {currentUser.assId == -1 ? '' : (
+                <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add')}>新建</Button>
+              )}
               {
                 selectedRows.length > 0 && (
                   <span>

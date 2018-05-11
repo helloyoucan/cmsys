@@ -144,7 +144,7 @@ export default class MemberTable extends PureComponent {
     dispatch({
       type: 'clubMember/queryList',
       payload: {
-        assId: currentUser.assId,
+        assId: currentUser.assId == -1 ? '' : currentUser.assId,
         keyword: '',
         pageNo: 1,
         pageSize: 10,
@@ -207,7 +207,7 @@ export default class MemberTable extends PureComponent {
   }
 
   render() {
-    const {clubMember: {loading: userLoading, data}, dataManagement: {collegeName}} = this.props;
+    const {currentUser, clubMember: {loading: userLoading, data}, dataManagement: {collegeName}} = this.props;
     let collegeName_obj = {};
     collegeName.forEach((item) => {
       collegeName_obj[item.pmname] = item.pmvalue;
@@ -241,15 +241,24 @@ export default class MemberTable extends PureComponent {
         dataIndex: 'major',
       },
       {
+        title: '所属社团',
+        dataIndex: 'assName',
+        key: 'assName',
+      },
+      {
         title: '操作',
         dataIndex: 'id',
         render: (val) => (
           <div>
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'read', val)}>查看详细</a>
-            <Divider type="vertical"/>
+            {currentUser.assId == -1 ? '' : (
+              <span>
+              <Divider type="vertical"/>
             <a href="javascript:;" onClick={this.handelModal.bind(this, 'edit', val)}>修改</a>
             <Divider type="vertical"/>
             <a href="javascript:;" onClick={this.handleDelete.bind(this, val)}>删除</a>
+            </span>
+            )}
           </div>
         ),
       },
@@ -266,7 +275,9 @@ export default class MemberTable extends PureComponent {
               />
             </div>
             <div className="tableListOperator">
-              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add')}>新建</Button>
+              {currentUser.assId == -1 ? '' : (
+                <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add')}>新建</Button>
+              )}
               {
                 selectedRows.length > 0 && (
                   <span>

@@ -123,14 +123,14 @@ export const getNavData = app => [{
           name: '干部管理',
           path: 'ccadre',
           isShow: true,
-          insert_man: ['shetuanguanliyuan'], // 权限控制
+          insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
           component: dynamicWrapper(app, ['login', 'club/cadre', 'dataManagement'], () => import('../routes/club/Cadre/CadreTable')),
         },
         {
           name: '会员管理',
           path: 'member',
           isShow: true,
-          insert_man: ['shetuanguanliyuan'], // 权限控制
+          insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
           component: dynamicWrapper(app, ['login', 'club/member', 'dataManagement'], () => import('../routes/club/Member/MemberTable')),
         },
         {
@@ -285,9 +285,9 @@ export const getNavData = app => [{
       ]
     },
     /*{
-     path: 'success',
-     component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),
-     },*/
+      path: 'success',
+      component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),
+    },*/
   ],
 },
   {
