@@ -263,7 +263,7 @@ export default class LogoutTable extends PureComponent {
   }
 
   render() {
-    const {clubLogout: {loading: userLoading, data}} = this.props;
+    const {clubLogout: {loading: userLoading, data}, currentUser} = this.props;
     const {selectedRows, clubList} = this.state;
     const columns = [
       {
@@ -343,15 +343,19 @@ export default class LogoutTable extends PureComponent {
           <div className="tableList">
             <div className="tableListForm">
               {/*<LogoutForm
-                handleSearch={this.handleSearch.bind(this)}
-                formReset={this.handleFormReset.bind(this)}
-                dispatch={this.props.dispatch}
-              />*/}
+               handleSearch={this.handleSearch.bind(this)}
+               formReset={this.handleFormReset.bind(this)}
+               dispatch={this.props.dispatch}
+               />*/}
             </div>
             <div className="tableListOperator">
-              <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add', null)}>
-                新建
-              </Button>
+              {
+                currentUser.categoryId == 'shelianguanliyuan' ? (
+                  <Button icon="plus" type="primary" onClick={this.handelModal.bind(this, 'add', null)}>
+                    新建
+                  </Button>
+                ) : ''
+              }
               <Button type="primary" onClick={this.getData.bind(this, {})}>
                 刷新
               </Button>
