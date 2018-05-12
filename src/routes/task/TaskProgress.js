@@ -44,6 +44,12 @@ export default class TaskProgress extends PureComponent {
                 for (let key in res.data.acs) {
                   res.data.acs[key] = res.data.acs[key] * this.refs.img.height / Img.height
                 }
+                res.data.acs={
+                  x: res.data.acs.x-5,
+                  width: res.data.acs.width+10,
+                  y: res.data.acs.y-5,
+                  height: res.data.acs.height+10,
+                }
                 this.setState({
                   imgUrl: res.data.url,
                   span: {
@@ -71,7 +77,7 @@ export default class TaskProgress extends PureComponent {
           <span
             style={{
               position: 'absolute',
-              border: '2px solid red',
+              border: '4px solid red',
               borderRadius: '5px',
               left: span.x,
               top: span.y,

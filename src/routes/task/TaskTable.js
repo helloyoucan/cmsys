@@ -195,6 +195,26 @@ export default class TaskTable extends PureComponent {
     const {selectedRows} = this.state;
     const columns = [
       {
+        title: '任务类型',
+        dataIndex: 'processDefinitionKey',
+        render: (val) => {
+          switch (val) {
+            case 'ass-cancel'://注销
+           return '社团注销'
+              break;
+            case 'ass-act'://活动
+              return '社团活动'
+              break;
+            case 'ass-ann'://年审
+              return '社团年审'
+              break;
+            case 'act-art'://推文
+              return '推文发布'
+              break;
+          }
+        }
+      },
+      {
         title: '任务名称',
         dataIndex: 'name',
       },
