@@ -44,13 +44,13 @@ npm run build
 
 > ```
 > 1、chaojiguanliyuan
-> 超级管理员，在moch中可用（admin，123456）登陆
+> 超级管理员，在mock中可用（admin，123456）登陆
 > 2、tuanweiguanliyuan
-> 团委管理员，在moch中可用（tuanwei，123456）登陆
+> 团委管理员，在mock中可用（tuanwei，123456）登陆
 > 3、shelianguanliyuan
-> 社联管理员，在moch中可用（shelian，123456）登陆
+> 社联管理员，在mock中可用（shelian，123456）登陆
 > 4、shetuanguanliyuan
-> 社团管理员，在moch中可用（shetuan，123456）登陆
+> 社团管理员，在mock中可用（shetuan，123456）登陆
 > ```
 
 
