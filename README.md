@@ -65,9 +65,8 @@ npm run build
 
 <img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/3.png" style="width=400px" alt="系统截图"/>
 
-><img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/4.png" style="width=400px" alt="系统截图"/>
->
-><img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/5.png" style="width=400px" alt="系统截图"/>
->
-><img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/6.png" style="width=400px" alt="系统截图"/>
->
+<img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/4.png" style="width=400px" alt="系统截图"/>
+
+<img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/5.png" style="width=400px" alt="系统截图"/>
+
+<img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/6.png" style="width=400px" alt="系统截图"/>
