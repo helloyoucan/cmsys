@@ -20,13 +20,13 @@ export function login(req, res) {
     case 'admin':
       data.categoryId = 'chaojiguanliyuan';
       break;
-    case 'tuanwei01':
+    case 'tuanwei':
       data.categoryId = 'tuanweiguanliyuan';
       break;
-    case 'shelian01':
+    case 'shelian':
       data.categoryId = 'shelianguanliyuan';
       break;
-    case 'shetuan1':
+    case 'shetuan':
       data.assId = 1
       data.categoryId = 'shetuanguanliyuan';
       break;
