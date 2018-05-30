@@ -1,5 +1,5 @@
 import {getUrlParams} from './utils';
-export function deleteDicType(req, res) {
+function deleteDicType(req, res) {
   res.send(
     {
       "ret": true,
@@ -8,7 +8,7 @@ export function deleteDicType(req, res) {
     }
   );
 }
-export function getDicParamsForPage(req, res) {
+function getDicParamsForPage(req, res) {
   let list = new Array();
   for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
     list.push(
@@ -51,7 +51,7 @@ export function getDicParamsForPage(req, res) {
    // 错误返回信息包括：用户权限不足，请重新登录
    );*/
 }
-export function getDicTypeForPage(req, res) {
+function getDicTypeForPage(req, res) {
   let list = new Array();
   for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
     list.push(
@@ -94,7 +94,7 @@ export function getDicTypeForPage(req, res) {
    // 错误返回信息包括：用户权限不足，请重新登录
    );*/
 }
-export function getOne(req, res) {
+function getOne(req, res) {
   res.send(
     {
       "ret": true, "msg": "获取信息成功",
@@ -124,42 +124,42 @@ export function getOne(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
    */
 }
-export function saveDicParams(req, res) {
+function saveDicParams(req, res) {
   res.send(
     {
       "ret": true, "msg": "添加成功", "data": null
     }
   );
 }
-export function saveDicType(req, res) {
+function saveDicType(req, res) {
   res.send(
     {
       "ret": true, "msg": "添加成功", "data": null
     }
   );
 }
-export function setDicParamsIsDisable(req, res) {
+function setDicParamsIsDisable(req, res) {
   res.send(
     {
       "ret": true, "msg": "禁用成功", "data": null
     }
   );
 }
-export function setDicParamsIsEnable(req, res) {
+function setDicParamsIsEnable(req, res) {
   res.send(
     {
       "ret": true, "msg": "启用成功", "data": null
     }
   );
 }
-export function updateDicParams(req, res) {
+function updateDicParams(req, res) {
   res.send(
     {
       "ret": true, "msg": "修改成功", "data": null
     }
   );
 }
-export function updateDicType(req, res) {
+function updateDicType(req, res) {
   res.send(
     {
       "ret": true, "msg": "修改成功", "data": null
@@ -450,8 +450,8 @@ function queryCategory(req, res, u) {
         },
         {
           "pmappname": "TWEETS_CATEGORY",
-          "pmname": "预告",
-          "pmvalue": "女",
+          "pmname": "YUGAO",
+          "pmvalue": "预告",
           "pmv2": null,
           "pmv3": null,
           "pmv4": null,
@@ -546,7 +546,7 @@ function queryCategory(req, res, u) {
    //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
    */
 }
-export function getAllDicType(req, res) {
+function getAllDicType(req, res) {
   res.send(
     {
       "ret": true,

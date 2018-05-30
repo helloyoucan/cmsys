@@ -3,9 +3,9 @@
  */
 export function login(req, res) {
   console.log(req.query)
-  const {username} = req.query;
+  const { username } = req.query;
   let data = {
-    "assId": 1,
+    "assId": -1,
     "insertTime": 1513064417000,
     "insertMan": "admin",
     "lastupdMan": "admin",
@@ -18,7 +18,6 @@ export function login(req, res) {
   };
   switch (username) {
     case 'admin':
-
       data.categoryId = 'chaojiguanliyuan';
       break;
     case 'tuanwei01':
@@ -28,6 +27,7 @@ export function login(req, res) {
       data.categoryId = 'shelianguanliyuan';
       break;
     case 'shetuan1':
+      data.assId = 1
       data.categoryId = 'shetuanguanliyuan';
       break;
     default :
@@ -54,11 +54,11 @@ export function login(req, res) {
 }
 export function logout(req, res) {
   res.send(
-    {"ret": true, "msg": "注销成功", data: null}
+    { "ret": true, "msg": "注销成功", data: null }
   )
 }
-
-
-export default {
-  login,
-};
+export function checkLogin(req, res) {
+  res.send(
+    { "ret": true, "msg": "已登录", data: null }
+  )
+}

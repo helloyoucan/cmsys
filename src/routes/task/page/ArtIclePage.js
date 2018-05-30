@@ -1,16 +1,16 @@
-import React, {PureComponent} from 'react';
-import {connect} from 'dva';
+import React, { PureComponent } from 'react';
+import { connect } from 'dva';
 import {
   message, Form, Input, DatePicker, Select, Button, Card, InputNumber, Radio, Icon, Upload, Timeline
 } from 'antd';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 
 import moment from 'moment';
-import {Link} from 'dva/router';
+import { Link } from 'dva/router';
 const FormItem = Form.Item;
-const {Option} = Select;
-const {RangePicker} = DatePicker;
-const {TextArea} = Input;
+const { Option } = Select;
+const { RangePicker } = DatePicker;
+const { TextArea } = Input;
 
 @connect(state => ({
   article: state.article,
@@ -73,7 +73,7 @@ export default class artPage extends PureComponent {
 
   getData() {
     if (this.props.location.data != undefined) {
-      const {taskId, type} = this.props.location.data;
+      const { taskId, type } = this.props.location.data;
       if (taskId != null) {
         this.props.dispatch({
           type: type,
@@ -125,37 +125,42 @@ export default class artPage extends PureComponent {
   }
 
   render() {
-    const {taskData, clubList, tweetType} = this.state
+    const { taskData, clubList, tweetType } = this.state
     let clubList_obj = {}
     clubList.forEach(item => {
       clubList_obj[item.id] = item.name
     })
-    const {getFieldDecorator} = this.props.form;
-    const {formData} = this.state;
+    const { getFieldDecorator } = this.props.form;
+    const { formData } = this.state;
     const formItemLayout = {
       labelCol: {
-        xs: {span: 24},
-        sm: {span: 7},
+        xs: { span: 24 },
+        sm: { span: 7 },
       },
       wrapperCol: {
-        xs: {span: 24},
-        sm: {span: 12},
-        md: {span: 10},
+        xs: { span: 24 },
+        sm: { span: 12 },
+        md: { span: 10 },
       },
     };
     const submitFormLayout = {
       wrapperCol: {
-        xs: {span: 24, offset: 0},
-        sm: {span: 10, offset: 7},
+        xs: { span: 24, offset: 0 },
+        sm: { span: 10, offset: 7 },
       },
     };
+    let tweetTypeVal = tweetType.length == 0 ? ''
+      : tweetType.find(item => {
+        return taskData.businessData.type == item.pmname
+      })
+    tweetTypeVal = tweetTypeVal !== undefined ? tweetTypeVal.pmvalue : ''
     return (
       <PageHeaderLayout title="社团推文审批" content="">
         <Card bordered={false}>
           <Form
             onSubmit={this.handleSubmit}
             hideRequiredMark
-            style={{marginTop: 8}}
+            style={{ marginTop: 8 }}
           >
             <FormItem
               {...formItemLayout}
@@ -175,12 +180,7 @@ export default class artPage extends PureComponent {
               {...formItemLayout}
               label="文章类型"
             >
-              {taskData &&
-              tweetType.length == 0 ?
-                ''
-                : tweetType.find(item => {
-                  return taskData.businessData.type == item.pmname
-                }).pmvalue }
+              {taskData && tweetTypeVal}
 
             </FormItem>
             <FormItem
@@ -195,7 +195,7 @@ export default class artPage extends PureComponent {
               label="文章内容"
             >
               <div
-                dangerouslySetInnerHTML={{__html: taskData && taskData.businessData.content}}>
+                dangerouslySetInnerHTML={{ __html: taskData && taskData.businessData.content }}>
 
               </div>
               {/*{taskData && taskData.businessData.content}*/}
@@ -240,7 +240,7 @@ export default class artPage extends PureComponent {
                   required: true, message: '请选择',
                 }], initialValue: formData.outcome
               })(
-                <Select style={{width: '100%'}}>
+                <Select style={{ width: '100%' }}>
                   {
                     taskData.outcomeList.map((item) => {
                       return <Option value={item} key={item}>{item}</Option>
@@ -249,7 +249,7 @@ export default class artPage extends PureComponent {
                 </Select>
               )}
             </FormItem>
-            <FormItem {...submitFormLayout} style={{marginTop: 32}}>
+            <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" onClick={this.handleSubmit.bind(this)} htmlType="submit"
                       loading={this.state.confirmLoading}>
                 提交

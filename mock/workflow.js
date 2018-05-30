@@ -122,6 +122,7 @@ export function getTaskList(req, res) {
     list.push(
       {
         "id": "id" + i,
+        "processDefinitionKey": ['ass-cancel', 'ass-act', 'ass-ann', 'act-art'][i % 4],
         "name": `任务名称` + i,
         "createTime": new Date(),
         "assignee": "任务办理人",

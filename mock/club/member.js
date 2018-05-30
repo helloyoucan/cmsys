@@ -1,5 +1,5 @@
 import {getUrlParams} from '../utils';
-export function add(req, res) {
+function add(req, res) {
   /*
    stuNum：学号
    name：姓名
@@ -27,7 +27,7 @@ export function add(req, res) {
    */
 
 }
-export function update(req, res) {
+function update(req, res) {
   /*  id：会员id
    stuNum：学号
    name：姓名
@@ -54,7 +54,7 @@ export function update(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
    */
 }
-export function queryList(req, res) {
+function queryList(req, res) {
 
   let list = new Array();
   for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
@@ -68,6 +68,7 @@ export function queryList(req, res) {
         "remarks": "",
         "sanction": "无",
         "id": i,
+        assName: '社团名',
         "insertTime": 1513156716000,
         "name": "小王" + i,
         "dept": "主席团",
@@ -99,7 +100,7 @@ export function queryList(req, res) {
    // 错误返回信息包括：用户权限不足，请重新登录
    );*/
 }
-export function getOne(req, res) {
+function getOne(req, res) {
   /*id：会员id
    stuNum：学号
    name：姓名
@@ -148,7 +149,7 @@ export function getOne(req, res) {
    */
 }
 
-export function dels(req, res) {
+function dels(req, res) {
   /* ids：会员id数组*/
   res.send(
     {

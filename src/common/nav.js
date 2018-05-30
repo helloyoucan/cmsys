@@ -18,20 +18,8 @@ export const getNavData = app => [{
     icon: 'home',
     isShow: false,//是否显示在菜单
     insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan', 'shetuanguanliyuan'], // 权限控制
-    component: dynamicWrapper(app, [], () => import('../routes/new/test')),
+    component: dynamicWrapper(app, [], () => import('../routes/welcome/index')),
   },
-    /* {
-     name: '前台管理',
-     path: 'frontDeskManagement',
-     icon: 'ie',
-     children: [
-     {
-     name: '页面管理',
-     path: 'page',
-     component: dynamicWrapper(app, [], () => import('../routes/new/test')),
-     },
-     ]
-     },*/
     {
       name: '任务管理',
       path: 'task',
@@ -227,11 +215,6 @@ export const getNavData = app => [{
       isShow: true,
       insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan'], // 权限控制
       children: [
-        /*{
-         name: '基本信息',
-         path: 'cuinfo',
-         component: dynamicWrapper(app, ['clubUnion/info'], () => import('../routes/clubUnion/Info/InfoPage')),
-         },*/
         {
           name: '社联干部管理',
           path: 'cucadre',
@@ -239,11 +222,6 @@ export const getNavData = app => [{
           insert_man: ['chaojiguanliyuan', 'tuanweiguanliyuan', 'shelianguanliyuan'], // 权限控制
           component: dynamicWrapper(app, ['clubUnion/cadre', 'dataManagement'], () => import('../routes/clubUnion/Cadre/CadreTable')),
         },
-        /*{
-         name: '部门管理',
-         path: 'department',
-         component: dynamicWrapper(app, ['clubUnion/department'], () => import('../routes/clubUnion/Department/DepartmentTable')),
-         },*/
         {
           name: '资料下载管理',
           path: 'dataDownload',
@@ -284,10 +262,6 @@ export const getNavData = app => [{
         }
       ]
     },
-    /*{
-     path: 'success',
-     component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),
-     },*/
   ],
 },
   {

@@ -41,7 +41,6 @@ export default class TaskResult extends Component {
             id
           },
           callback: (res) => {
-            console.log(res)
             this.setState({
               taskData: res.data
             })

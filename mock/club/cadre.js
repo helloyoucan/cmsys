@@ -1,5 +1,5 @@
-import {getUrlParams} from '../utils';
-export function dels(req, res) {
+import { getUrlParams } from '../utils';
+function dels(req, res) {
   /* ids：干部id数组*/
   res.send(
     {
@@ -16,7 +16,7 @@ export function dels(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
    */
 }
-export function getOne(req, res) {
+function getOne(req, res) {
   /*id：干部id
    stuNum：学号
    name：姓名
@@ -64,7 +64,7 @@ export function getOne(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
    */
 }
-export function queryList(req, res) {
+function queryList(req, res) {
 
   let list = new Array();
   for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
@@ -78,6 +78,7 @@ export function queryList(req, res) {
         "remarks": "",
         "sanction": "无",
         "id": i,
+        assName: '社团名',
         "insertTime": 1513156716000,
         "name": "小王" + i,
         "dept": "主席团",
@@ -109,7 +110,7 @@ export function queryList(req, res) {
    // 错误返回信息包括：用户权限不足，请重新登录
    );*/
 }
-export function enable(req, res) {
+function enable(req, res) {
   /* ids：干部id数组*/
   res.send(
     {
@@ -124,7 +125,7 @@ export function enable(req, res) {
    }
    );*/
 }
-export function disable(req, res) {
+function disable(req, res) {
   res.send(
     {
       "ret": true,
@@ -138,7 +139,7 @@ export function disable(req, res) {
    }
    );*/
 }
-export function add(req, res) {
+function add(req, res) {
   /*
    stuNum：学号
    name：姓名
@@ -166,7 +167,7 @@ export function add(req, res) {
    */
 
 }
-export function update(req, res) {
+function update(req, res) {
   /*  id：干部id
    stuNum：学号
    name：姓名
@@ -195,7 +196,6 @@ export function update(req, res) {
 }
 
 
-
 export default {
-  dels,getOne,queryList,enable,disable,add,update
+  dels, getOne, queryList, enable, disable, add, update
 };

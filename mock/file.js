@@ -1,4 +1,4 @@
-export function uploadFile(req, res) {
+function uploadFile(req, res) {
   console.log(req.body.toString());
   res.send(
     {

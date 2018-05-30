@@ -1,5 +1,5 @@
-import {getUrlParams} from '../utils';
-export function del(req, res) {
+import { getUrlParams } from '../utils';
+function del(req, res) {
   /* ids：id数组*/
   res.send(
     {
@@ -16,7 +16,7 @@ export function del(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
    */
 }
-export function getOne(req, res) {
+function getOne(req, res) {
   res.send(
     {
       "ret": true, "msg": "获取用户信息成功",
@@ -38,7 +38,7 @@ export function getOne(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
    */
 }
-export function queryList(req, res) {
+function queryList(req, res) {
   /**
    *@param
    * auditStatus
@@ -82,7 +82,7 @@ export function queryList(req, res) {
    // 错误返回信息包括：用户权限不足，请重新登录
    );*/
 }
-export function getTaskList(req, res) {
+function getTaskList(req, res) {
   let list = new Array();
   for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
     list.push(
@@ -116,7 +116,7 @@ export function getTaskList(req, res) {
    // 错误返回信息包括：用户权限不足，请重新登录
    );*/
 }
-export function add(req, res) {
+function add(req, res) {
   res.send(
     {
       "ret": true,
@@ -133,7 +133,7 @@ export function add(req, res) {
    */
 
 }
-export function startProcess(req, res) {
+function startProcess(req, res) {
   res.send(
     {
       "ret": true,
@@ -150,7 +150,7 @@ export function startProcess(req, res) {
    */
 
 }
-export function submitTask(req, res) {
+function submitTask(req, res) {
   res.send(
     {
       "ret": true,
@@ -167,7 +167,7 @@ export function submitTask(req, res) {
    */
 
 }
-export function update(req, res) {
+function update(req, res) {
   res.send(
     {
       "ret": true,
@@ -183,33 +183,23 @@ export function update(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
    */
 }
-export function viewHisComment(req, res) {
-
-  let list = new Array();
-  for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
-    list.push(
-      {
-        "sysAssCancel": "id" + i,
-        "commentVoList": {
-          time: new Date(),
-          userId: 'id' + i,
-          fullMessage: '信息'
-        },
-      }
-    );
-  }
+function viewHisComment(req, res) {
   res.send(
     {
       "ret": true,
       "msg": "获取信息成功",
       "data": {
-        "list": list,
-        pagination: {
-          "total": 100,
-          "currentPage": parseInt(req.query.pageNo),
-          "pageSize": parseInt(req.query.pageSize)
-        }
-
+        businessData: {
+          id: 1,
+          assId: 1,
+          cancelReasons: '注销理由',
+          assSituation: '社团情况',
+        },
+        commentVoList: [{
+          time: new Date(),
+          userId: 'userId',
+          fullMessage: '历史审批信息'
+        }],
       }
     }
   );
@@ -221,19 +211,26 @@ export function viewHisComment(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
    */
 }
-export function viewTaskFrom(req, res) {
+function viewTaskFrom(req, res) {
   res.send(
     {
       "ret": true, "msg": "获取用户信息成功",
       "data": {
-        "sysAssCancel": "id1",
-        "commentVoList": {
+        taskId: '1',
+        businessData: {
+          id: 1,
+          assId: 1,
+          cancelReasons: '注销理由',
+          assSituation: '社团情况',
+        },
+        commentVoList: [{
           time: new Date(),
           userId: 'userId',
-          fullMessage: '信息'
-        },
-        outcomeList: 'outcomeList',
-        taskId: 'taskId'
+          fullMessage: '历史审批信息'
+        }],
+        outcomeList: [
+          '初次录入', '审批不通过'
+        ]
       }
     }
   );

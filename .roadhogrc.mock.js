@@ -1,26 +1,18 @@
-import {getRule, postRule} from './mock/rule';
-import {getNotices} from './mock/notices';
 import {delay} from 'roadhog-api-doc';
-import {login, logout} from './mock/login';
+import {login, logout,checkLogin} from './mock/login';
 import File from './mock/file';
 import Workflow from './mock/workflow';
-
 import dataManagement from './mock/dataManagement';
 import User from './mock/user';
 import clubUnionCadre from './mock/clubUnion/cadre';
-import clubUnionDepartment from './mock/clubUnion/department';
 import clubUnionDataDownload from './mock/clubUnion/dataDownload';
-import clubUnionInfo from './mock/clubUnion/info';
-
 import clubMember from './mock/club/member';
 import clubYearbook from './mock/club/yearbook';
 import clubCadre from './mock/club/cadre';
-import clubSetUpList from './mock/club/setUpList';
 import clubLogout from './mock/club/logout';
 import clubActivityList from './mock/club/activityList';
 import clubArticle from './mock/club/article';
 import clubInfo from './mock/club/info';
-import clubClass from './mock/clubClass';
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
 
@@ -29,7 +21,7 @@ const proxy = {
   'GET /login': login,//系统用户登录接口
   // 'GET /api/currentUser': login,
   'GET /logout': logout,//系统用户注销登录接口
-
+  'GET /checkLogin': checkLogin,//判断是否登录
   //社联干部管理(完成接口对接-页面修改完成)
   'DELETE /sys/saucadre/delete': clubUnionCadre.dels,//删除社联干部接口
   'GET /sys/saucadre/getOne': clubUnionCadre.getOne,//根据id获取社联干部信息接口
@@ -168,119 +160,13 @@ const proxy = {
   'PUT /sys/datadow/update': clubUnionDataDownload.update,
   //上传下载资源文件接口(常用资料管理)
   'POST /sys/file/uploadDataDowFile': File.uploadFile,
-
-  /*---------------上面是已确定的----------*/
-
-  //社团推文
-  'POST /sys/article/save': clubArticle.add,
-  'GET /sys/article/enable': clubArticle.enable,
-  'GET /sys/article/disable': clubArticle.disable,
-  'POST /sys/article/update': clubArticle.update,
-  'POST /sys/article/page': clubArticle.queryList,
-  'GET /sys/article/getOne': clubArticle.getOne,
-  'GET /sys/article/delete': clubArticle.dels,
-
-  //社团成立/列表
-  'POST /sys/setUpList/save': clubSetUpList.add,
-  'GET /sys/setUpList/enable': clubSetUpList.enable,
-  'GET /sys/setUpList/disable': clubSetUpList.disable,
-  'POST /sys/setUpList/update': clubSetUpList.update,
-  'POST /sys/setUpList/page': clubSetUpList.queryList,
-  'GET /sys/setUpList/getOne': clubSetUpList.getOne,
-  'GET /sys/setUpList/delete': clubSetUpList.dels,
-
-
-  //社团年审管理
-  'POST /sys/clubMember/save': clubYearbook.add,
-  'GET /sys/clubMember/enable': clubYearbook.enable,
-  'GET /sys/clubMember/disable': clubYearbook.disable,
-  'POST /sys/clubMember/update': clubYearbook.update,
-  'POST /sys/clubMember/page': clubYearbook.queryList,
-  'GET /sys/clubMember/getOne': clubYearbook.getOne,
-  'GET /sys/clubMember/delete': clubYearbook.dels,
-
-  //社团类别管理
-  'POST /sys/clubClass/save': clubClass.add,
-  'GET /sys/clubClass/enable': clubClass.enable,
-  'GET /sys/clubClass/disable': clubClass.disable,
-  'POST /sys/clubClass/update': clubClass.update,
-  'POST /sys/clubClass/page': clubClass.queryList,
-  'GET /sys/clubClass/getOne': clubClass.getOne,
-  'GET /sys/clubClass/delete': clubClass.dels,
-
-
-  //社联信息
-  'POST /sys/clubUnionInfo/save': clubUnionInfo.add,
-  'GET /sys/clubUnionInfo/enable': clubUnionInfo.enable,
-  'GET /sys/clubUnionInfo/disable': clubUnionInfo.disable,
-  'PUT /sys/clubUnionInfo/update': clubUnionInfo.update,
-  'POST /sys/clubUnionInfo/page': clubUnionInfo.queryList,
-  'GET /sys/clubUnionInfo/getOne': clubUnionInfo.getOne,
-  'GET /sys/clubUnionInfo/delete': clubUnionInfo.dels,
-
-
-//社联部门管理
-  'POST /sys/clubUnionDepartment/save': clubUnionDepartment.add,
-  'GET /sys/clubUnionDepartment/enable': clubUnionDepartment.enable,
-  'GET /sys/clubUnionDepartment/disable': clubUnionDepartment.disable,
-  'POST /sys/clubUnionDepartment/update': clubUnionDepartment.update,
-  'POST /sys/clubUnionDepartment/page': clubUnionDepartment.queryList,
-  'GET /sys/clubUnionDepartment/getOne': clubUnionDepartment.getOne,
-  'GET /sys/clubUnionDepartment/delete': clubUnionDepartment.dels,
-
-
-// 支持值为 Object 和 Array
-  // 'GET /api/currentUser': {
-  //   $desc: "获取当前用户接口",
-  //   $params: {
-  //     pageSize: {
-  //       desc: '分页',
-  //       exp: 2,
-  //     },
-  //   },
-  //   $body: {
-  //     name: 'Serati Ma',
-  //     avatar: 'https://gw.alipayobjects.com/zos/rmsportal/dRFVcIqZOYPcSNrlJsqQ.png',
-  //     userid: '00000001',
-  //     notifyCount: 12,
-  //   },
-  // },
-  // GET POST 可省略
-  'GET /api/users': [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    }, {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-    }, {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-    }],
-  'GET /api/rule': getRule,
-  'POST /api/rule': {
-    $params: {
-      pageSize: {
-        desc: '分页',
-        exp: 2,
-      },
-    },
-    $body: postRule,
-  },
-  'GET /api/notices': getNotices,
 };
 
 export default noProxy ?
   {} :
   delay(proxy, 500);
 /*
- ,"proxy": {
+*  "proxy": {
  "/": {
  "target": "http://localhost:8085/",
  "changeOrigin": true,

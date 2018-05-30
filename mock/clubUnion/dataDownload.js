@@ -1,5 +1,5 @@
 import {getUrlParams} from '../utils';
-export function add(req, res) {
+function add(req, res) {
   res.send(
     {
       "ret": true,
@@ -8,7 +8,7 @@ export function add(req, res) {
     }
   );
 }
-export function enable(req, res) {
+function enable(req, res) {
   res.send(
     {
       "ret": true,
@@ -17,7 +17,7 @@ export function enable(req, res) {
     }
   );
 }
-export function disable(req, res) {
+function disable(req, res) {
   res.send(
     {
       "ret": true,
@@ -26,7 +26,7 @@ export function disable(req, res) {
     }
   );
 }
-export function update(req, res) {
+function update(req, res) {
   res.send(
     {
       "ret": true,
@@ -35,7 +35,7 @@ export function update(req, res) {
     }
   );
 }
-export function queryList(req, res, u) {
+function queryList(req, res, u) {
   /**
    * id (integer, optional): 资料编号 ,
    name (string, optional): 资料名称 ,
@@ -77,7 +77,7 @@ export function queryList(req, res, u) {
    // 错误返回信息包括：用户权限不足，请重新登录
    );*/
 }
-export function getOne(req, res) {
+function getOne(req, res) {
   res.send(
     {
       "ret": true, "msg": "获取用户信息成功",
@@ -98,7 +98,7 @@ export function getOne(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
    */
 }
-export function del(req, res) {
+function del(req, res) {
   res.send(
     {
       "ret": true,

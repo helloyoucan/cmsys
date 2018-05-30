@@ -1,6 +1,6 @@
-import {getUrlParams} from '../utils';
+import { getUrlParams } from '../utils';
 
-export function getAll(req, res) {
+function getAll(req, res) {
   res.send(
     {
       "ret": true,
@@ -30,7 +30,7 @@ export function getAll(req, res) {
     }
   );
 }
-export function getOne(req, res) {
+function getOne(req, res) {
   /*
    * actField :'',//活动领域 ,
    applicationFile :'',//申请表（文件路径） ,
@@ -52,28 +52,15 @@ export function getOne(req, res) {
       "ret": true, "msg": "获取用户信息成功",
       "data": {
         actField: '第一教学楼105',// 活动领域 ,
-        applicationFile: 'url申请表.doc',//申请表（文件路径） ,
-        applicationFilename: '申请表',//申请表（文件名称） ,
-        busDeptAdviceFile: 'url业务指导部门意见.doc',//业务指导部门意见（文件路径） ,
-        busDeptAdviceFilename: '业务指导部门意见.doc',//业务指导部门意见（文件名称） ,
-        category: '123',//社团类型 ,
-        constitutionFile: 'url社团章程.doc',//社团章程（文件路径） ,
-        constitutionFilename: '社团章程.doc',//社团章程（文件名称） ,
+        category: 'OTHER',//社团类型 ,
+        assFile: [],
         id: '1',//社团id,
-        initSituation: {
-          name: '发起人姓名',
-          phone: '15603011304'
-        },//发起人基本情况（json串） ,
-        leadSituation: {
-          name: '现任负责人姓名',
-          phone: '15603011304'
-        },//现任负责人基本情况（json串） ,
-        leadTeacherSituation: {
-          name: '指导老师姓名',
-          phone: '15603011304'
-        },//指导老师基本情况（json串） , ,
+        initSituation: '{ "name": "发起人姓名", "phone": "15603011304" }',//发起人基本情况（json串） ,
+        leadSituation: '{ "name": "现任负责人基本情况", "phone": "15603011304" }',//现任负责人基本情况（json串） ,
+        leadTeacherSituation: '{ "name": "指导老师基本情况", "phone": "15603011304" }',//指导老师基本情况（json串） , ,
         name: '社团名称',//社团名称 ,
         purpose: '社团宗旨',//社团宗旨 ,
+        profile: '简介',//简介
         remarks: '备注'//备注
       }
     }
@@ -86,34 +73,20 @@ export function getOne(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、获取用户信息失败等
    */
 }
-export function queryList(req, res) {
+function queryList(req, res) {
 
   let list = new Array();
   for (let i = (req.query.pageNo - 1) * req.query.pageSize; i < req.query.pageNo * req.query.pageSize; i++) {
     list.push(
       {
         actField: '第一教学楼105',// 活动领域 ,
-        applicationFile: 'url申请表.doc',//申请表（文件路径） ,
-        applicationFilename: '申请表',//申请表（文件名称） ,
-        busDeptAdviceFile: 'url业务指导部门意见.doc',//业务指导部门意见（文件路径） ,
-        busDeptAdviceFilename: '业务指导部门意见.doc',//业务指导部门意见（文件名称） ,
-        category: '123',//社团类型 ,
-        constitutionFile: 'url社团章程.doc',//社团章程（文件路径） ,
-        constitutionFilename: '社团章程.doc',//社团章程（文件名称） ,
-        id: i,//社团id,
-        initSituation: {
-          name: '发起人姓名',
-          phone: '15603011304'
-        },//发起人基本情况（json串） ,
-        leadSituation: {
-          name: '现任负责人姓名',
-          phone: '15603011304'
-        },//现任负责人基本情况（json串） ,
-        leadTeacherSituation: {
-          name: '指导老师姓名',
-          phone: '15603011304'
-        },//指导老师基本情况（json串） ,
-        name: '社团名称' + i,//社团名称 ,
+        category: 'OTHER',//社团类型 ,
+        assFile: [],
+        id: i,
+        initSituation: '{ "name": "发起人姓名", "phone": "15603011304" }',//发起人基本情况（json串） ,
+        leadSituation: '{ "name": "现任负责人基本情况", "phone": "15603011304" }',//现任负责人基本情况（json串） ,
+        leadTeacherSituation: '{ "name": "指导老师基本情况", "phone": "15603011304" }',//指导老师基本情况（json串） , ,
+        name: '社团名称',//社团名称 ,
         purpose: '社团宗旨',//社团宗旨 ,
         remarks: '备注'//备注
       }
@@ -141,7 +114,7 @@ export function queryList(req, res) {
    // 错误返回信息包括：用户权限不足，请重新登录
    );*/
 }
-export function add(req, res) {
+function add(req, res) {
   res.send(
     {
       "ret": true,
@@ -150,7 +123,7 @@ export function add(req, res) {
     }
   );
 }
-export function update(req, res) {
+function update(req, res) {
   /*  id：会员id
    stuNum：学号
    name：姓名

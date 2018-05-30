@@ -137,7 +137,7 @@ export async function updateDicType(params) {
 }
 /*-----------------------------------------------------*/
 export async function queryforPmappname(params) {
-  return request(`/sys/dic/getDicParamsByType?pmappname=${params.type}`);
+  return request(`/sys/dic/getDic?pmappname=${params.type}`);
 }
 export async function getAllDicType(params) {
   return request(`/sys/dic/getAllDicType`);

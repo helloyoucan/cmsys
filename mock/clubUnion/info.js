@@ -1,5 +1,5 @@
 import {getUrlParams} from '../utils';
-export function add(req, res) {
+function add(req, res) {
   /*
    stuNum：学号
    name：姓名
@@ -27,7 +27,7 @@ export function add(req, res) {
    */
 
 }
-export function enable(req, res) {
+function enable(req, res) {
   /* ids：会员id数组*/
   res.send(
     {
@@ -42,7 +42,7 @@ export function enable(req, res) {
    }
    );*/
 }
-export function disable(req, res) {
+function disable(req, res) {
   res.send(
     {
       "ret": true,
@@ -56,7 +56,7 @@ export function disable(req, res) {
    }
    );*/
 }
-export function update(req, res) {
+function update(req, res) {
   /*  id：会员id
    stuNum：学号
    name：姓名
@@ -83,7 +83,7 @@ export function update(req, res) {
    //错误返回信息包括：用户权限不足，请重新登录、用户名已存在、待更新的用户不存在、创建社团管理员，需要关联社团等
    */
 }
-export function queryList(req, res, u) {
+function queryList(req, res, u) {
 
   let list = new Array();
   for (let i = (req.body.pageNo - 1) * req.body.pageSize; i < req.body.pageNo * req.body.pageSize; i++) {
@@ -128,7 +128,7 @@ export function queryList(req, res, u) {
    // 错误返回信息包括：用户权限不足，请重新登录
    );*/
 }
-export function getOne(req, res) {
+function getOne(req, res) {
   /*id：会员id
    stuNum：学号
    name：姓名
@@ -177,7 +177,7 @@ export function getOne(req, res) {
    */
 }
 
-export function dels(req, res) {
+function dels(req, res) {
   /* ids：会员id数组*/
   res.send(
     {

@@ -19,12 +19,5 @@
     "g2-plugin-slider": "G2.Plugin.slider"
   },
   "ignoreMomentLocale": true,
-  "theme": "./src/theme.js",
-  "proxy": {
-      "/": {
-        "target": "http://localhost:8085/",
-        "changeOrigin": true,
-        "pathRewrite": { "^/" : "" }
-      }
-  }
+  "theme": "./src/theme.js"
 }

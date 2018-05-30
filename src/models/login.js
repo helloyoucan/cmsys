@@ -1,5 +1,5 @@
-import {login, logout, checkLogin} from '../services/login';
-import {routerRedux} from 'dva/router';
+import { login, logout, checkLogin } from '../services/login';
+import { routerRedux } from 'dva/router';
 export default {
   namespace: 'login',
 
@@ -10,13 +10,13 @@ export default {
   },
 
   effects: {
-    *login({payload}, {call, put}){
+    *login({ payload }, { call, put }){
       yield put({
         type: 'changeLoginBtnSubmiting',
         payload: true,
       });
       const response = yield call(login, payload);
-      if (response.ret) {
+      if (response.ret && response.data != null) {
         yield put({
           type: 'saveCurrentUser',
           payload: response.data,
@@ -33,7 +33,7 @@ export default {
         payload: false,
       });
     },
-    *logout(_, {call, put}){
+    *logout(_, { call, put }){
       const response = yield call(logout);
       if (response.ret) {
         yield put(routerRedux.push('/user/login'));
@@ -51,17 +51,19 @@ export default {
         });
       }
     },
-    *checkLogin({payload}, {call, put}){
+    *checkLogin({ payload }, { call, put }){
       const response = yield call(checkLogin, payload);
       if (response.ret) {
-        yield put({
-          type: 'saveCurrentUser',
-          payload: response.data,
-        });
-        if (window.sessionStorage) {
-          sessionStorage.setItem('currentUser', JSON.stringify(response.data));
+        if (response.data != null) {
+          yield put({
+            type: 'saveCurrentUser',
+            payload: response.data,
+          });
+          if (window.sessionStorage) {
+            sessionStorage.setItem('currentUser', JSON.stringify(response.data));
+          }
+          yield put(routerRedux.push('/'));
         }
-        yield put(routerRedux.push('/'));
       } else {
         yield put(routerRedux.push('/user/login'));
         if (window.sessionStorage) {
@@ -72,19 +74,19 @@ export default {
   },
 
   reducers: {
-    changeLoginBtnSubmiting(state, {payload}){
+    changeLoginBtnSubmiting(state, { payload }){
       return {
         ...state,
         loginBtnSubmiting: payload
       };
     },
-    saveCurrentUser(state, {payload}) {
+    saveCurrentUser(state, { payload }) {
       return {
         ...state,
         currentUser: payload,
       };
     },
-    clearCurrentUser(state, {payload}) {
+    clearCurrentUser(state, { payload }) {
       return {
         ...state,
         currentUser: {},
