@@ -57,16 +57,19 @@ npm run build
 
 #### 系统截图
 
-<img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/login.png" style="width=400px" alt="系统截图"/>
+![](http://upload-images.jianshu.io/upload_images/3345526-98f6054daf419106.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-<img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/1.png" style="width=400px" alt="系统截图"/>
 
-<img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/2.png" style="width=400px" alt="系统截图"/>
+![](http://upload-images.jianshu.io/upload_images/3345526-73dcaafa299b3f7c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-<img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/3.png" style="width=400px" alt="系统截图"/>
+![](http://upload-images.jianshu.io/upload_images/3345526-5cf46260b468ac26.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-<img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/4.png" style="width=400px" alt="系统截图"/>
+![](http://upload-images.jianshu.io/upload_images/3345526-1bee017100c4357c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-<img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/5.png" style="width=400px" alt="系统截图"/>
 
-<img src="http://opok8iwaa.bkt.clouddn.com/image/github/cmsys/6.png" style="width=400px" alt="系统截图"/>
+![](http://upload-images.jianshu.io/upload_images/3345526-7ce4d55240a073fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![](http://upload-images.jianshu.io/upload_images/3345526-cb07183a8f8c803d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+![](http://upload-images.jianshu.io/upload_images/3345526-bee4d1abf998df1b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
