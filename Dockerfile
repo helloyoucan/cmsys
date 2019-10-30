@@ -1,4 +1,3 @@
 FROM node
-RUN npm install \
-	npm run start
-EXPOSE 8080
+RUN npm run start
+EXPOSE 8000
