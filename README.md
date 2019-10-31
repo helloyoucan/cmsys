@@ -1,5 +1,7 @@
 ### 基于ant-design-pro的社团管理管理系统
 
+预览地址：http://www.helloyoucan.com:8000 （1M带宽，访问较慢）
+
 本项目github地址：https://github.com/helloyoucan/cmsys
 
 本项目是后端管理平台，前台展示网站的项目在
